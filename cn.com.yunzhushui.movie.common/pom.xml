@@ -5,5 +5,13 @@
     <artifactId>cn.com.yunzhushui.movie</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
+  <groupId>cn.com.yunzhushui.movie.common</groupId>
   <artifactId>cn.com.yunzhushui.movie.common</artifactId>
+  <dependencies>
+  	<dependency>
+  		<groupId>cn.com.yunzhushui.movie.client</groupId>
+		<artifactId>cn.com.yunzhushui.movie.client</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>  
 </project>

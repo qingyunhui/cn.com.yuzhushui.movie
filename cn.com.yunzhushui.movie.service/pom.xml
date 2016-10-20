@@ -5,5 +5,29 @@
     <artifactId>cn.com.yunzhushui.movie</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
+  <groupId>cn.com.yunzhushui.movie.service</groupId>
   <artifactId>cn.com.yunzhushui.movie.service</artifactId>
+  <dependencies>
+  	<dependency>
+	   <groupId>org.springframework</groupId>
+	   <artifactId>spring-web</artifactId>
+	   <version>${spring.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-context</artifactId>
+		<version>${spring.version}</version>
+	</dependency>
+  	<dependency>
+  		<groupId>cn.com.yunzhushui.movie.common</groupId>
+		<artifactId>cn.com.yunzhushui.movie.common</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  	<dependency>
+  	    <groupId>qing.yun.hui.mailtool</groupId>
+		<artifactId>qing.yun.hui.mailtool</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
+  
 </project>
