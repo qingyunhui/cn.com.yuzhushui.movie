@@ -13,5 +13,10 @@
 		<artifactId>cn.com.yunzhushui.movie.client</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
+	<dependency>
+	    <groupId>commons-codec</groupId>
+	    <artifactId>commons-codec</artifactId>
+	    <version>1.3</version>
+	</dependency>
   </dependencies>  
 </project>

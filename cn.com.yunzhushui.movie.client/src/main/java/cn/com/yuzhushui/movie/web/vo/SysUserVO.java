@@ -2,7 +2,7 @@ package cn.com.yuzhushui.movie.web.vo;
 
 import java.util.Date;
 
-import lombok.Data;
+import javax.annotation.Generated;
 
 /**
  * @author qing.yunhui 
@@ -10,7 +10,7 @@ import lombok.Data;
  * @create 2016-10-19 23:42:51
  * @history
  */
-@Data
+
 public class SysUserVO {
 
 	//columns START
