@@ -2,8 +2,9 @@ package cn.com.yunzhushui.movie.apply;
 
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 
@@ -26,15 +27,16 @@ public class CipherPropertyConfigurer extends PropertyPlaceholderConfigurer{
 	
 	//继承PropertyPlaceholderConfigurer类重写convertProperty方法..>>>>
 	
+	Logger logger=LoggerFactory.getLogger(CipherPropertyConfigurer.class);
+	
 	@Override
 	protected void processProperties(ConfigurableListableBeanFactory beanFactoryToProcess, Properties props)throws BeansException {
 		 try {
-			 resetData(props, PropertyConstant.PRIVATE_KEY);
-           super.processProperties(beanFactoryToProcess, props);
-       } catch (Exception e) {
-           e.printStackTrace();
-           throw new BeanInitializationException(e.getMessage());
-       }
+			resetData(props, PropertyConstant.PRIVATE_KEY);
+		} catch (Exception e) {
+			logger.error(""+e);
+		}
+         super.processProperties(beanFactoryToProcess, props);
 	}
 	
 	/**
@@ -51,9 +53,9 @@ public class CipherPropertyConfigurer extends PropertyPlaceholderConfigurer{
 				String encryptionData= props.getProperty(key);
 				if(!StringUtil.isEmpty(encryptionData)){
 					try {
-						props.setProperty(key, RSAUtil.decryptionByPrivateKey(privateKey, encryptionData));
+						props.setProperty(key, RSAUtil.decryptionByPrivateKey(privateKey, encryptionData.trim()));
 					} catch (Exception e) {
-						//TODO 如果解密出现错误，那么忽略继续下一步..
+						logger.error("=========>key={},value={}<==========",new Object[]{key,encryptionData.trim()});
 						continue;
 					}
 				}
