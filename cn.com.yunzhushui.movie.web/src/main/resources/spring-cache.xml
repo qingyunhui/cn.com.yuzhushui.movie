@@ -21,7 +21,6 @@
 
 	<!-- 启用缓存注解功能，这个是必须的，否则注解不会生效,redis的实现是 redisCacheManager    集群模式注释这个配置 -->
 	<!-- <cache:annotation-driven cache-manager="cacheManager" /> -->
-	
 	<!-- spring自己的缓存管理器，这里定义了两个缓存位置名称 ，既注解中的value   集群模式注释这个配置 
 	<bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
 		<property name="caches">
@@ -37,19 +36,23 @@
 			</set>
 		</property>
 	</bean>-->
-	
 	<!-- 集群模式 解开这个配置 -->
-	<cache:annotation-driven cache-manager="redisCacheManager" />
-
+	<!-- <cache:annotation-driven cache-manager="redisCacheManager" /> -->
 	<!--redisCacheManager 用于spring 缓存, redisCached 为redis的工具类,用于业务的缓存. 基于redis分布的session共享也是基于这个redisCached, 集群模式解开这个配置,并注意修改config.properties 中redis的连接参数 -->
+	<!-- <bean id="redisCacheManager" class="org.springframework.data.redis.cache.RedisCacheManager" c:template-ref="redisTemplate" /> -->
 
-	<bean id="redisCacheManager" class="org.springframework.data.redis.cache.RedisCacheManager" c:template-ref="redisTemplate" />
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxTotal" value="${redis.maxTotal}" />
+		<property name="maxIdle" value="${redis.maxIdle}" />
+		<property name="maxWaitMillis" value="${redis.maxWaitMillis}" />
+		<property name="testOnBorrow" value="${redis.testOnBorrow}" />
+	</bean>
 
 	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
 		<property name="connectionFactory" ref="jedisConnectionFactory" />
 	</bean>
 
-	<bean id="redisCached" class="cn.com.liangdian.diaoyu.cached.RedisCachedImpl">
+	<bean id="redisCached" class="XXXXXX.cached.RedisCachedImpl">
 		<property name="redisTemplate" ref="redisTemplate" />
 		<property name="expire" value="1800000" />
 	</bean>
@@ -61,11 +64,4 @@
 		<property name="poolConfig"   ref="jedisPoolConfig" />
 	</bean>
 
-	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
-		<property name="maxTotal" value="${redis.maxTotal}" />
-		<property name="maxIdle" value="${redis.maxIdle}" />
-		<property name="maxWaitMillis" value="${redis.maxWaitMillis}" />
-		<property name="testOnBorrow" value="${redis.testOnBorrow}" />
-	</bean>
-	
 </beans>
