@@ -7,6 +7,15 @@ http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
 http://www.springframework.org/schema/aop 
 http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
 
+	 <!-- 对JDBC配置进行解密  --> 
+    <bean id="propertyConfigurer" class="cn.com.yunzhushui.movie.apply.CipherPropertyConfigurer">  
+            <property name="locations">
+                <list>
+                    <value>classpath:/jdbc.properties</value>
+                    <value>classpath:/redis.properties</value>
+                </list>
+            </property>
+    </bean>
 	<!-- 配置数据源 -->
 	<bean name="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
 	<property name="url" value="${jdbc_url}" />
@@ -103,7 +112,7 @@ http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
 	<bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut" scope="prototype">
 		<property name="patterns">
 			<list>
-				<value>cn.com.yuzhushui.smiles8.*.biz.service.*</value>
+				<value>cn.com.yunzhushui.movie.*.biz.service.*</value>
 			</list>
 		</property>
 	</bean>
