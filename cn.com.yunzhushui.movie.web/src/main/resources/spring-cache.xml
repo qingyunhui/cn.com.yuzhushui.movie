@@ -41,7 +41,9 @@
 	<!--redisCacheManager 用于spring 缓存, redisCached 为redis的工具类,用于业务的缓存. 基于redis分布的session共享也是基于这个redisCached, 集群模式解开这个配置,并注意修改config.properties 中redis的连接参数 -->
 	<!-- <bean id="redisCacheManager" class="org.springframework.data.redis.cache.RedisCacheManager" c:template-ref="redisTemplate" /> -->
 
-	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+	<!-- 适合单机情况下 -->
+
+	<!-- <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
 		<property name="maxTotal" value="${redis.maxTotal}" />
 		<property name="maxIdle" value="${redis.maxIdle}" />
 		<property name="maxWaitMillis" value="${redis.maxWaitMillis}" />
@@ -62,6 +64,32 @@
 		<property name="port" 		  value="${redis.port}" />
 		<property name="password"     value="${redis.password}" />
 		<property name="poolConfig"   ref="jedisPoolConfig" />
-	</bean>
+	</bean> -->
 
+	<!-- 适合集群、可以连接主从rebdis服务 -->
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxTotal" 		value="${redis.pool.maxTotal}" />
+        <property name="maxIdle" 	    value="${redis.pool.maxIdle}" />
+        <property name="maxWaitMillis"  value="${redis.pool.maxWaitMillis}" />
+        <property name="testOnBorrow"   value="${redis.pool.testOnBorrow}" />
+        <property name="testOnReturn"   value="${redis.pool.testOnReturn}" />
+    </bean>
+    
+    <bean id="shardedJedisPool" class="redis.clients.jedis.ShardedJedisPool"  scope="singleton">
+        <constructor-arg index="0" ref="jedisPoolConfig"/>
+        <constructor-arg index="1">
+            <list>
+                <bean class="redis.clients.jedis.JedisShardInfo">
+                    <constructor-arg name="host" 	value="${redis.ip}"/>
+                    <constructor-arg name="port" 	value="${redis.port}"/>
+                    <constructor-arg name="timeout" value="${redis.timeout}"/>
+                    <constructor-arg name="weight"  value="1"/>
+                </bean>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <bean id="redisComponent" class="XXXXX.cache.RedisComponent" destroy-method="destory">
+        <property name="pool" ref="shardedJedisPool"/>
+    </bean>
 </beans>

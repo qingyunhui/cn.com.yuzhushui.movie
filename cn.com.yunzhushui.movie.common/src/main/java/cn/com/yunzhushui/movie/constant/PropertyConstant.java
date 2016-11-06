@@ -9,9 +9,9 @@ public class PropertyConstant {
 	
 	//JDBC config ===>>begin
 	
-    public static final String JDBC_DRUID_USER = "jdbc.druid.user";				 //jdbc.user
+    public static final String JDBC_DRUID_USER = "jdbc_username";				 //jdbc.user
     
-    public static final String JDBC_DRUID_PASSWORD = "jdbc.druid.password";		//jdbc.password
+    public static final String JDBC_DRUID_PASSWORD = "jdbc_password";		//jdbc.password
     
     
     //Redis config ===>begin
