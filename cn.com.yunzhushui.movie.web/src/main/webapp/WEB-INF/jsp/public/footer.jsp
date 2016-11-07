@@ -1,12 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
-</head>
-<body>
-
-</body>
-</html>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<div id="nav-footer">
+	<ul>
+		<li style="width:25%" class="on"><a href="index.html"><i class="icon-home"></i></a></li>
+		<li style="width:25%"><a href="class.html"><i class="icon-reorder"></i></a></li>
+		<li style="width:25%"><a href="cart.html"><i class="icon-shopping-cart"></i></a></li>
+		<li style="width:25%"><a href="index.html"><i class="icon-info-sign"></i></a></li>
+	</ul>
+</div>
