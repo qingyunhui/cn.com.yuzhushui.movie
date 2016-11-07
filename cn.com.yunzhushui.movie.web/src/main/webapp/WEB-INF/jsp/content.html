@@ -1,0 +1,122 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="keywords" content="微信,微信公众平台" />
+<meta name="description" content="微信公众平台自助引擎" />
+<title>商品详情</title>
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<link rel="stylesheet" type="text/css" href="css/buttons.css">
+<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="js/jquery.accordion.js"></script>
+<script type="text/javascript" src="js/unslider.min.js"></script>
+</head>
+
+<body ondragstart="return false;" onselectstart="return false;" oncontextmenu="return false" onselectstart="return false" 
+ondragstart="return false" onbeforecopy="return false" oncopy=document.selection.empty() onselect=document.selection.empty()> 
+<div id="page">
+	<div class="banners">
+		<a href="javascript:history.go(-1);"><img src="images/bg_info2.jpg"></a>
+	</div>
+	<div id="content">
+		<div class="box_exp info_light">
+			<div class="info_integral">
+				<span class="title"><i class="icon-bookmark-empty"></i>商品信息</span>
+			</div>
+			<div style="display: block; overflow: hidden; opacity: 1;">
+				<div class="info_child">
+					<p>vivo X3以5.75mm成就全球最薄的Hi-Fi智能手机；5.0英寸HD屏幕、极速4核CPU、800W像素背照式摄像头、500W 88度的广角前置摄像头... ...集万千宠爱于一身，却依然极致纤薄。</p>
+				</div>
+				<div class="info_child_txt">
+					<a href="cart.html" class="left fb f14 red">￥2980.00</a>
+					<a href="cart.html" class="button button-rounded button-flat-caution right"><i class="icon-shopping-cart"></i> 加入购物车</a>
+				</div>
+			</div>
+		</div>
+	
+	
+		<div class="box_exp info_light">
+			<div class="info_integral">
+				<span class="title"><i class="icon-bookmark-empty"></i>商品图片</span>
+			</div>
+			<div style="display: block; overflow: hidden; opacity: 1;">
+				<div class="info_child">
+					<img src="images/1.jpg">
+				</div>
+			</div>
+		</div>
+		<div class="box_exp info_light">
+			<div class="info_integral">
+				<span class="title"><i class="icon-time"></i><font color="#FF3300">促销信息</font></span>
+			</div>
+			<div style="display: block; overflow: hidden; opacity: 1;">
+				<div class="info_child">
+					<p>已经优惠：100元</p>
+				</div>
+			</div>
+		</div>
+		
+		
+		<div class="box_exp info_light">
+			<div class="info_integral">
+				<span class="title"><i class="icon-bookmark-empty"></i>热销商品</span>
+			</div>
+			<div style="display: block; overflow: hidden; opacity: 1;">
+				<div class="info_child">
+					<ul>
+						<li style="width:33%"><div class="line3"><a href="cart.html"><i><img src="images/7.jpg"></i><span>小熊真皮箱包</span><em>198.00</em></a></div></li>
+						<li style="width:33%"><div class="line3"><a href="cart.html"><i><img src="images/5.jpg"></i><span>三星NOTE3</span><em>198.00</em></a></div></li>
+						<li style="width:33%"><a href="cart.html"><i><img src="images/6.jpg"></i><span>索尼T808-9</span><em>198.00</em></a></li>
+						<li style="width:33%"><div class="line3"><a href="cart.html"><i><img src="images/7.jpg"></i><span>小熊真皮箱包</span><em>198.00</em></a></div></li>
+						<li style="width:33%"><div class="line3"><a href="cart.html"><i><img src="images/5.jpg"></i><span>三星NOTE3</span><em>198.00</em></a></div></li>
+						<li style="width:33%"><a href="cart.html"><i><img src="images/6.jpg"></i><span>索尼T808-9</span><em>198.00</em></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+		
+		<div style="margin:8px 0;"><a href="cart.html" class="button button-block button-rounded button-caution button-large"><i class="icon-shopping-cart"></i>&nbsp;&nbsp;加入购物车</a></div>
+		
+		
+		<div style="padding:15px;"></div>
+	</div>
+	<div id="nav-footer">
+		<ul>
+			<li style="width:25%" class="on"><a href="index.html"><i class="icon-home"></i></a></li>
+			<li style="width:25%"><a href="class.html"><i class="icon-reorder"></i></a></li>
+			<li style="width:25%"><a href="cart.html"><i class="icon-shopping-cart"></i></a></li>
+			<li style="width:25%"><a href="index.html"><i class="icon-info-sign"></i></a></li>
+		</ul>
+	</div>
+</div>
+
+
+
+
+
+
+
+<script>
+$(document).ready(function() {
+	$('.banner').unslider({
+		arrows: true,
+		fluid: true,
+		dots: true
+	});
+
+	$("#content").accordion({
+		alwaysOpen: false,
+		autoheight: false,
+		header: '.info_integral',
+		clearStyle: true
+	});
+});
+</script>
+</body>
+</html>
