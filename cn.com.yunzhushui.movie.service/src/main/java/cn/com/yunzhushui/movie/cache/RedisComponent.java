@@ -1,4 +1,4 @@
-package cn.com.yunzhushui.movie.cache;
+/*package cn.com.yunzhushui.movie.cache;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,23 +35,23 @@ public class RedisComponent {
 		this.pool = pool;
 	}
 	
-	/**
+	*//**
 	 * 获取一个锁
 	 * 
 	 * @param lock
 	 * @return
-	 */
+	 *//*
 	public boolean acquireLock(String lock) {
 		return acquireLock(lock, LOCK_EXPIRED_TIME);
 	}
 	
-	/**
+	*//**
 	 * 获取一个锁 必须保证分布式环境的多个主机的时钟是一致的
 	 * 
 	 * @param lockKey
 	 * @expired 锁的失效时间（毫秒）
 	 * @return
-	 */
+	 *//*
 	public boolean acquireLock(String lockKey, long expired) {
 		ShardedJedis jedis = null;
 		boolean success = false;
@@ -91,12 +91,12 @@ public class RedisComponent {
 		return success;
 	}
 	
-	/**
+	*//**
 	 * 释放锁
 	 * 
 	 * @param lockKey
 	 *            key
-	 */
+	 *//*
 	public void releaseLock(String lockKey) {
 		ShardedJedis jedis = null;
 		try {
@@ -115,9 +115,9 @@ public class RedisComponent {
 		}
 	}
 	
-	/**
+	*//**
 	 * 执行有返回结果的action。
-	 */
+	 *//*
 	public <T> T execute(JedisAction<T> jedisAction) throws JedisException {
 		ShardedJedis jedis = null;
 		try {
@@ -138,9 +138,9 @@ public class RedisComponent {
 		return null;
 	}
 	
-	/**
+	*//**
 	 * 执行有返回结果,并且返回结果是List的action。
-	 */
+	 *//*
 	public <T> List<T> executeForList(JedisActionForList<T> jedisAction) throws JedisException {
 		ShardedJedis jedis = null;
 		try {
@@ -161,9 +161,9 @@ public class RedisComponent {
 		return null;
 	}
 	
-	/**
+	*//**
 	 * 执行无返回结果的action。
-	 */
+	 *//*
 	public void execute(JedisActionNoResult jedisAction) throws JedisException {
 		ShardedJedis jedis = null;
 		try {
@@ -183,35 +183,35 @@ public class RedisComponent {
 		}
 	}
 	
-	/**
+	*//**
 	 * 有返回结果的回调接口定义。
-	 */
+	 *//*
 	public interface JedisAction<T> {
 		
 		T action(ShardedJedis jedis);
 	}
 	
-	/**
+	*//**
 	 * 有返回结果的回调接口定义。
-	 */
+	 *//*
 	public interface JedisActionForList<T> {
 		
 		List<T> action(ShardedJedis jedis);
 	}
 	
-	/**
+	*//**
 	 * 无返回结果的回调接口定义。
-	 */
+	 *//*
 	public interface JedisActionNoResult {
 		
 		void action(ShardedJedis jedis);
 	}
 	
-	/****************** 常用方法 *******************/
+	*//****************** 常用方法 *******************//*
 	
-	/**
+	*//**
 	 * 获取 key-value 的 value
-	 */
+	 *//*
 	public <T> T get(final String key, final Class<T> c) {
 		return this.execute(new JedisAction<T>() {
 			
@@ -223,10 +223,10 @@ public class RedisComponent {
 		});
 	}
 	
-	/**
+	*//**
 	 * 获取 key-value 的 value. <br>
 	 * 如果 value 是一个 list, 请使用此方法.
-	 */
+	 *//*
 	public <T> List<T> getList(final String key, final Class<T> c) {
 		return this.executeForList(new JedisActionForList<T>() {
 			
@@ -238,9 +238,9 @@ public class RedisComponent {
 		});
 	}
 	
-	/**
+	*//**
 	 * 缓存 key-value
-	 */
+	 *//*
 	public void set(final String key, final Object value) {
 		this.execute(new JedisActionNoResult() {
 			
@@ -251,9 +251,9 @@ public class RedisComponent {
 		});
 	}
 	
-	/**
+	*//**
 	 * 缓存 key-value , seconds 过期时间,单位为秒.
-	 */
+	 *//*
 	public void set(final String key, final Object value, final int seconds) {
 		this.execute(new JedisActionNoResult() {
 			
@@ -264,9 +264,9 @@ public class RedisComponent {
 		});
 	}
 	
-	/**
+	*//**
 	 * 获取 key mapKey mapValue 中的 mapValue 列表.
-	 */
+	 *//*
 	public <T> List<T> hvals(final String key, final Class<T> c) {
 		return this.executeForList(new JedisActionForList<T>() {
 			
@@ -282,9 +282,9 @@ public class RedisComponent {
 		});
 	}
 	
-	/**
+	*//**
 	 * 获取 key mapKey mapValue 中指定的 mapValue.
-	 */
+	 *//*
 	public <T> T hget(final String key, final Object mapKey, final Class<T> c) {
 		return this.execute(new JedisAction<T>() {
 			
@@ -296,10 +296,10 @@ public class RedisComponent {
 		});
 	}
 	
-	/**
+	*//**
 	 * 获取 key mapKey mapValue 中指定的 mapValue.<br>
 	 * 如果 mapValue 是一个 list, 请使用此方法.
-	 */
+	 *//*
 	public <T> List<T> hgetList(final String key, final Object mapKey, final Class<T> c) {
 		return this.executeForList(new JedisActionForList<T>() {
 			
@@ -311,9 +311,9 @@ public class RedisComponent {
 		});
 	}
 	
-	/**
+	*//**
 	 * 缓存 key mapKey mapValue.
-	 */
+	 *//*
 	public void hset(final String key, final Object mapKey, final Object mapValue) {
 		this.execute(new JedisActionNoResult() {
 			
@@ -335,9 +335,9 @@ public class RedisComponent {
 		});
 	}
 	
-	/**
+	*//**
 	 * 删除集合中对应的key/value
-	 */
+	 *//*
 	public void hdel(final String key, final Object mapKey) {
 		this.execute(new JedisActionNoResult() {
 			
@@ -348,9 +348,9 @@ public class RedisComponent {
 		});
 	}
 	
-	/**
+	*//**
 	 * 缓存 key map<mapKey,mapValue>.
-	 */
+	 *//*
 	public void hmset(final String key, final Map<Object, Object> map) {
 		this.execute(new JedisActionNoResult() {
 			
@@ -370,9 +370,9 @@ public class RedisComponent {
 		});
 	}
 	
-	/**
+	*//**
 	 * 删除一个 Key.
-	 */
+	 *//*
 	public Long del(final String key) {
 		return this.execute(new JedisAction<Long>() {
 			
@@ -383,9 +383,9 @@ public class RedisComponent {
 		});
 	}
 	
-	/**
+	*//**
 	 * redis zadd command.
-	 */
+	 *//*
 	public Long zadd(final String key, final double score, final Object member) {
 		return this.execute(new JedisAction<Long>() {
 			
@@ -396,9 +396,9 @@ public class RedisComponent {
 		});
 	}
 	
-	/**
+	*//**
 	 * redis zrange command.
-	 */
+	 *//*
 	public <T> List<T> zrange(final String key, final long start, final long end, final Class<T> clazz) {
 		return this.executeForList(new JedisActionForList<T>() {
 			
@@ -414,9 +414,9 @@ public class RedisComponent {
 		});
 	}
 	
-	/**
+	*//**
 	 * redis zrangeByScore command.
-	 */
+	 *//*
 	public <T> List<T> zrangeByScore(final String key, final double min, final double max, final Class<T> clazz) {
 		return this.executeForList(new JedisActionForList<T>() {
 			
@@ -432,9 +432,9 @@ public class RedisComponent {
 		});
 	}
 	
-	/**
+	*//**
 	 * redis zremrangeByScore command.
-	 */
+	 *//*
 	public Long zremrangeByScore(final String key, final double start, final double end) {
 		return this.execute(new JedisAction<Long>() {
 			
@@ -445,9 +445,9 @@ public class RedisComponent {
 		});
 	}
 	
-	/**
+	*//**
 	 * redis incr command.
-	 */
+	 *//*
 	public Long incr(final String key) {
 		return this.execute(new JedisAction<Long>() {
 			
@@ -458,9 +458,9 @@ public class RedisComponent {
 		});
 	}
 	
-	/**
+	*//**
 	 * redis incrby command.
-	 */
+	 *//*
 	public Long incrBy(final String key, final long integer) {
 		return this.execute(new JedisAction<Long>() {
 			
@@ -471,9 +471,9 @@ public class RedisComponent {
 		});
 	}
 	
-	/**
+	*//**
 	 * redis expire command.
-	 */
+	 *//*
 	public Long expire(final String key, final int seconds) {
 		return this.execute(new JedisAction<Long>() {
 			
@@ -547,3 +547,4 @@ public class RedisComponent {
 		}
 	}
 }
+*/

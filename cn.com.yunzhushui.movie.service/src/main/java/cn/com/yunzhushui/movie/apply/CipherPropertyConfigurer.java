@@ -55,7 +55,7 @@ public class CipherPropertyConfigurer extends PropertyPlaceholderConfigurer{
 					try {
 						props.setProperty(key, RSAUtil.decryptionByPrivateKey(privateKey, encryptionData.trim()));
 					} catch (Exception e) {
-						logger.error("=========>key={},value={}<==========",new Object[]{key,encryptionData.trim()});
+						logger.error("=========>key={},value={},异常信息:{}<==========",new Object[]{key,encryptionData.trim(),e});
 						continue;
 					}
 				}
