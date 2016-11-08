@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.ScanParams;
@@ -22,6 +23,7 @@ import redis.clients.jedis.ShardedJedisPool;
  ** @email: 280672161@qq.com
  ** @createTime: 2016年11月8日下午10:33:37
  **/
+@Service
 public class ShardedJedisCached {
 	
 	@Resource

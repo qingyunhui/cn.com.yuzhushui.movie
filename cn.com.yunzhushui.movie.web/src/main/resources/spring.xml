@@ -15,5 +15,6 @@ http://www.springframework.org/schema/util/spring-util-4.1.xsd">
 	<util:properties id="properties" location="classpath:redis.properties"/>
 	<!-- 自动扫描(自动注入) -->
 	<context:component-scan base-package="cn.com.yunzhushui.movie.**.biz.service" />
+	<context:component-scan base-package="cn.com.yunzhushui.movie.cache" />
 	<context:component-scan base-package="cn.com.yunzhushui.movie.common.util" />
 </beans>

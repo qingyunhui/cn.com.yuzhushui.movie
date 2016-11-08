@@ -25,7 +25,7 @@ public class SysUserAction {
 	protected Logger logger=LoggerFactory.getLogger(SysUserAction.class);
 	
 	@Autowired
-	private ShardedJedisCached redisCached;
+	private ShardedJedisCached shardedJedisCached;
 	
 	@RequestMapping(value="list", method = {RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView list(){
