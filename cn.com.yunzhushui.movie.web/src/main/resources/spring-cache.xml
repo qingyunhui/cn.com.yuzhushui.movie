@@ -89,7 +89,7 @@
         </constructor-arg>
     </bean>
 
-    <bean id="redisComponent" class="XXXXX.cache.RedisComponent" destroy-method="destory">
+    <bean id="shardedJedisCached" class="cn.com.yunzhushui.movie.cache.ShardedJedisCached" destroy-method="destory">
         <property name="pool" ref="shardedJedisPool"/>
     </bean>
 </beans>

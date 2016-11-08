@@ -22,12 +22,12 @@ import redis.clients.jedis.ShardedJedisPool;
  ** @email: 280672161@qq.com
  ** @createTime: 2016年11月8日下午10:33:37
  **/
-public class RedisCached {
+public class ShardedJedisCached {
 	
 	@Resource
 	private ShardedJedisPool shardedJedisPool;
 	
-	private Logger logger=LoggerFactory.getLogger(RedisCached.class);
+	private Logger logger=LoggerFactory.getLogger(ShardedJedisCached.class);
 
 	/**
 	 * 设置一个key的过期时间（单位：秒）
