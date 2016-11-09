@@ -8,13 +8,13 @@ http://www.springframework.org/schema/aop
 http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
 
 	 <!-- 对JDBC配置进行解密  --> 
-    <bean id="propertyConfigurer" class="cn.com.yunzhushui.movie.apply.CipherPropertyConfigurer">  
-            <property name="locations">
-                <list>
-                    <value>classpath:/jdbc.properties</value>
-                    <value>classpath:/redis.properties</value>
-                </list>
-            </property>
+	<bean id="cipherPropertyConfigurer" class="cn.com.yunzhushui.movie.apply.CipherPropertyConfigurer">  
+        <property name="locations">
+            <list>
+            	<value>classpath:/jdbc.properties</value>
+                <value>classpath:/redis.properties</value>
+            </list>
+        </property>
     </bean>
 	<!-- 配置数据源 -->
 	<bean name="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
@@ -119,4 +119,5 @@ http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
 	<aop:config>
 		<aop:advisor advice-ref="druid-stat-interceptor" pointcut-ref="druid-stat-pointcut" />
 	</aop:config>
+	
 </beans>

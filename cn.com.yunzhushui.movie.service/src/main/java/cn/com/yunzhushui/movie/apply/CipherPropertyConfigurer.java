@@ -53,7 +53,9 @@ public class CipherPropertyConfigurer extends PropertyPlaceholderConfigurer{
 				String encryptionData= props.getProperty(key);
 				if(!StringUtil.isEmpty(encryptionData)){
 					try {
+						logger.info("==================>berfor-key:{}-value:{}==================>",new Object[]{key,encryptionData});
 						props.setProperty(key, RSAUtil.decryptionByPrivateKey(privateKey, encryptionData.trim()));
+						logger.info("==================>end-key:{}==================>",new Object[]{props.get(key)});
 					} catch (Exception e) {
 						logger.error("=========>key={},value={},异常信息:{}<==========",new Object[]{key,encryptionData.trim(),e});
 						continue;

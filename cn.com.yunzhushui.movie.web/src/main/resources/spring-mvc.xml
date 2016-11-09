@@ -14,6 +14,17 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 	<mvc:resources mapping="/css/**" location="/css/" cache-period="31556926" />
 	<!-- 自动扫描controller包下的所有类，使其认为spring mvc的控制器 -->
 	<context:component-scan base-package="cn.com.yunzhushui.movie.**.web.action" />
+	
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreResourceNotFound" value="true" />
+		<property name="locations">
+			<list>
+                <value>classpath:jdbc.properties</value>
+                <value>classpath:redis.properties</value>
+			</list>
+		</property>
+	</bean>
+	
 	<!-- <mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
