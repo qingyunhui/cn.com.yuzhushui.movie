@@ -1,7 +1,5 @@
 package cn.com.yunzhushui.movie.sys.web.action;
 
-import java.util.Random;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +29,9 @@ public class SysUserAction {
 	
 	@RequestMapping(value="list", method = {RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView list(){
-		ModelAndView modelAndView = new ModelAndView(ACTION_PATH+"/list");
+		ModelAndView modelAndView = new ModelAndView("list");
 		
-		shardedJedisCached.set("admin"+new Random().nextInt(100), "2016-11-09"+new Random().nextInt(100));
-		logger.info("==============>进入action<==============");
+		
 		
 		return modelAndView;
 	}

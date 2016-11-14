@@ -9,9 +9,10 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 	<mvc:annotation-driven />
 	
 	<!-- 对静态资源文件的访问 -->
-	<mvc:resources mapping="/images/**" location="/images/" cache-period="31556926" />
+	<mvc:resources mapping="/image/**" location="/image/" cache-period="31556926" />
 	<mvc:resources mapping="/js/**" location="/js/" cache-period="31556926" />
 	<mvc:resources mapping="/css/**" location="/css/" cache-period="31556926" />
+	<mvc:resources mapping="/fonts/**" location="/fonts/" cache-period="31556926" />
 	<!-- 自动扫描controller包下的所有类，使其认为spring mvc的控制器 -->
 	<context:component-scan base-package="cn.com.yunzhushui.movie.**.web.action" />
 	

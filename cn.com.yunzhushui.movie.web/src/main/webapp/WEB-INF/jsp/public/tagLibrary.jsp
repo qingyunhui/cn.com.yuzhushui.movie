@@ -5,8 +5,9 @@
 <%@ taglib prefix="s"      uri="http://www.springframework.org/tags" %>
 <%-- <%@ taglib prefix="yzsTld" uri="/yzsTldFunction" %> --%>
 <%
-  String path = request.getContextPath();
-  String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
+  String path = request.getContextPath();// 形如:/movie
+  String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";	//形如:http://localhost:8010/movie/
   pageContext.setAttribute("path", path+"/");
   pageContext.setAttribute("basePath", basePath);
 %>
+
