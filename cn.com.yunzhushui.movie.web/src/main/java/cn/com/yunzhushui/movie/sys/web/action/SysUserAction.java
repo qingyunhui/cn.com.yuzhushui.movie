@@ -32,7 +32,6 @@ public class SysUserAction {
 		ModelAndView modelAndView = new ModelAndView("list");
 		
 		
-		
 		return modelAndView;
 	}
 }

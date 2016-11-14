@@ -26,24 +26,24 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 		</property>
 	</bean>
 	
-	<!-- <mvc:interceptors>
+	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
 			<bean class="cn.com.yunzhushui.movie.common.web.interceptor.SessionInterceptor">
-			    拦截的路径
+			    <!-- 拦截的路径 -->
 				<property name="interceptPath">
 					<list>
 						<value>/app/appMain/</value>
 						<value>/xxxxxxxx/</value>
 					</list>
 				</property>
-				开放时间 每天的9点到12点
+				<!-- 开放时间 每天的9点到12点 -->
 				<property name="openTime" value="8"/>
 				<property name="closeTime" value="10"/>
 				<property name="interceptURL" value=".*/message.htm.*" /> 指定要拦截的url
 			</bean>
 		</mvc:interceptor>
-	</mvc:interceptors> -->
+	</mvc:interceptors>
 	
 	<!-- 配置JSP视图 -->
 	<bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
