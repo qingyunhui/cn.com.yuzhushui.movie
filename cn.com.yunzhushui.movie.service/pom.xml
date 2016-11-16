@@ -1,12 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>cn.com.yunzhushui.movie</groupId>
-    <artifactId>cn.com.yunzhushui.movie</artifactId>
+    <groupId>cn.com.yuzhushui.movie</groupId>
+    <artifactId>cn.com.yuzhushui.movie</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <groupId>cn.com.yunzhushui.movie.service</groupId>
-  <artifactId>cn.com.yunzhushui.movie.service</artifactId>
+  <groupId>cn.com.yuzhushui.movie.service</groupId>
+  <artifactId>cn.com.yuzhushui.movie.service</artifactId>
   <dependencies>
   	<dependency>
 	   <groupId>org.springframework</groupId>
@@ -19,8 +19,8 @@
 		<version>${spring.version}</version>
 	</dependency>
   	<dependency>
-  		<groupId>cn.com.yunzhushui.movie.common</groupId>
-		<artifactId>cn.com.yunzhushui.movie.common</artifactId>
+  		<groupId>cn.com.yuzhushui.movie.common</groupId>
+		<artifactId>cn.com.yuzhushui.movie.common</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
   	<dependency>

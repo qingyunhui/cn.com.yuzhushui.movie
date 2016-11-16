@@ -1,4 +1,4 @@
-package cn.com.yunzhushui.movie.apply;
+package cn.com.yuzhushui.movie.apply;
 
 import org.springframework.beans.factory.FactoryBean;
 

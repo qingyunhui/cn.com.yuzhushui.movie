@@ -1,5 +1,5 @@
 
-package cn.com.yunzhushui.movie.sys.web.action;
+package cn.com.yuzhushui.movie.sys.web.action;
 
 /**
  * Description: <p>账号控制类</p>

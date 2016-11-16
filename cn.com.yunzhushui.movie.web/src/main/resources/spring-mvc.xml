@@ -14,7 +14,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 	<mvc:resources mapping="/css/**" location="/css/" cache-period="31556926" />
 	<mvc:resources mapping="/fonts/**" location="/fonts/" cache-period="31556926" />
 	<!-- 自动扫描controller包下的所有类，使其认为spring mvc的控制器 -->
-	<context:component-scan base-package="cn.com.yunzhushui.movie.**.web.action" />
+	<context:component-scan base-package="cn.com.yuzhushui.movie.**.web.action" />
 	
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="ignoreResourceNotFound" value="true" />
@@ -29,7 +29,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 	<!-- <mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
-			<bean class="cn.com.yunzhushui.movie.common.web.interceptor.SessionInterceptor">
+			<bean class="cn.com.yuzhushui.movie.common.web.interceptor.SessionInterceptor">
 			    拦截的路径
 				<property name="interceptPath">
 					<list>

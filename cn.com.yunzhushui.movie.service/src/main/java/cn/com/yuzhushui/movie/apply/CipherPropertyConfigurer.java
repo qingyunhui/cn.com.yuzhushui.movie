@@ -1,4 +1,4 @@
-package cn.com.yunzhushui.movie.apply;
+package cn.com.yuzhushui.movie.apply;
 
 import java.util.Properties;
 
@@ -8,7 +8,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 
-import cn.com.yunzhushui.movie.constant.PropertyConstant;
+import cn.com.yuzhushui.movie.constant.PropertyConstant;
 import qing.yun.hui.common.enums.ICommonEnum;
 import qing.yun.hui.common.enums.PropertiesEnum;
 import qing.yun.hui.common.utils.EnumUtil;

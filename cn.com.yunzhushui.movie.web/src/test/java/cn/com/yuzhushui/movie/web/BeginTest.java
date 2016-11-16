@@ -1,4 +1,4 @@
-package cn.com.yunzhushui.movie.web;
+package cn.com.yuzhushui.movie.web;
 
 import org.junit.Before;
 import org.junit.Test;

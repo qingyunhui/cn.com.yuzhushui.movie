@@ -1,4 +1,4 @@
-package cn.com.yunzhushui.movie.app.web;
+package cn.com.yuzhushui.movie.app.web.action;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

@@ -8,7 +8,7 @@ http://www.springframework.org/schema/aop
 http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
 
 	 <!-- 对JDBC配置进行解密  --> 
-	<bean id="cipherPropertyConfigurer" class="cn.com.yunzhushui.movie.apply.CipherPropertyConfigurer">  
+	<bean id="cipherPropertyConfigurer" class="cn.com.yuzhushui.movie.apply.CipherPropertyConfigurer">  
         <property name="locations">
             <list>
             	<value>classpath:/jdbc.properties</value>
@@ -112,7 +112,7 @@ http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
 	<bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut" scope="prototype">
 		<property name="patterns">
 			<list>
-				<value>cn.com.yunzhushui.movie.*.biz.service.*</value>
+				<value>cn.com.yuzhushui.movie.*.biz.service.*</value>
 			</list>
 		</property>
 	</bean>

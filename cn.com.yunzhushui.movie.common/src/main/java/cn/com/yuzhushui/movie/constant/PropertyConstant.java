@@ -1,4 +1,4 @@
-package cn.com.yunzhushui.movie.constant;
+package cn.com.yuzhushui.movie.constant;
 /***
  ** @category 请用一句话来描述其用途...
  ** @author qing.yunhui

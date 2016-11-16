@@ -1,4 +1,4 @@
-package cn.com.yunzhushui.movie.cache;
+package cn.com.yuzhushui.movie.cache;
 
 import java.util.ArrayList;
 import java.util.List;

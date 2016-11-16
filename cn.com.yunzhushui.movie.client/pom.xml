@@ -1,10 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>cn.com.yunzhushui.movie</groupId>
-    <artifactId>cn.com.yunzhushui.movie</artifactId>
+    <groupId>cn.com.yuzhushui.movie</groupId>
+    <artifactId>cn.com.yuzhushui.movie</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <groupId>cn.com.yunzhushui.movie.client</groupId>
-  <artifactId>cn.com.yunzhushui.movie.client</artifactId>
+  <groupId>cn.com.yuzhushui.movie.client</groupId>
+  <artifactId>cn.com.yuzhushui.movie.client</artifactId>
 </project>

@@ -1,4 +1,4 @@
-package cn.com.yunzhushui.movie.sys.web.action;
+package cn.com.yuzhushui.movie.sys.web.action;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import cn.com.yunzhushui.movie.cache.ShardedJedisCached;
+import cn.com.yuzhushui.movie.cache.ShardedJedisCached;
 
 /**
  * @author qing.yunhui 

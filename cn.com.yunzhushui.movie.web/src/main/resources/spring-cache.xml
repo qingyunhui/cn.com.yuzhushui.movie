@@ -19,7 +19,7 @@
 	    >
 
 	<!-- ：扫描指定包下的类、以完成Bean创建和自动依赖注入的功能 -->  
-	<!-- <context:component-scan base-package="cn.com.yunzhushui.movie.cache" /> -->
+	<!-- <context:component-scan base-package="cn.com.yuzhushui.movie.cache" /> -->
 	<!-- 启用缓存注解功能，这个是必须的，否则注解不会生效,redis的实现是 redisCacheManager    集群模式注释这个配置 -->
 	<!-- <cache:annotation-driven cache-manager="cacheManager" /> -->
 	<!-- spring自己的缓存管理器，这里定义了两个缓存位置名称 ，既注解中的value   集群模式注释这个配置 
@@ -89,7 +89,7 @@
         </constructor-arg>
     </bean>
 
-    <bean id="shardedJedisCached" class="cn.com.yunzhushui.movie.cache.ShardedJedisCached">
+    <bean id="shardedJedisCached" class="cn.com.yuzhushui.movie.cache.ShardedJedisCached">
         <property name="jedisPool" ref="shardedJedisPool"/>
     </bean>
 </beans>

@@ -1,5 +1,5 @@
 
-package cn.com.yunzhushui.movie.sys.web.interceptor;
+package cn.com.yuzhushui.movie.sys.web.interceptor;
 
 import java.util.Calendar;
 import java.util.Date;
