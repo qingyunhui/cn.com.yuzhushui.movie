@@ -9,16 +9,6 @@
   <artifactId>cn.com.yuzhushui.movie.service</artifactId>
   <dependencies>
   	<dependency>
-	   <groupId>org.springframework</groupId>
-	   <artifactId>spring-web</artifactId>
-	   <version>${spring.version}</version>
-	</dependency>
-	<dependency>
-		<groupId>org.springframework</groupId>
-		<artifactId>spring-context</artifactId>
-		<version>${spring.version}</version>
-	</dependency>
-  	<dependency>
   		<groupId>cn.com.yuzhushui.movie.common</groupId>
 		<artifactId>cn.com.yuzhushui.movie.common</artifactId>
 		<version>0.0.1-SNAPSHOT</version>

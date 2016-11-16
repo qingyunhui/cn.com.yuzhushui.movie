@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.guangduo.iface.dao.EmpDao">
+	<resultMap type="cn.com.guangduo.iface.po.Emp" id="BaseResultMap">
+        <result property="empId" column="emp_id" javaType="Integer"/>
+        <result property="companyId" column="company_id" javaType="Integer"/>
+        <result property="empName" column="emp_name" javaType="String"/>
+        <result property="empNumber" column="emp_number" javaType="String"/>
+        <result property="empCardNumber" column="emp_card_number" javaType="String"/>
+        <result property="empSex" column="emp_sex" javaType="Integer"/>
+        <result property="empPhone" column="emp_phone" javaType="String"/>
+        <result property="empType" column="emp_type" javaType="Integer"/>
+        <result property="empDegree" column="emp_degree" javaType="Integer"/>
+        <result property="isChecking" column="is_checking" javaType="Integer"/>
+        <result property="checkingStartTime" column="checking_start_time" javaType="Date"/>
+        <result property="phoneInfo" column="phone_info" javaType="byte[]"/>
+        <result property="fingerprintInfo" column="fingerprint_info" javaType="String"/>
+        <result property="empStatus" column="emp_status" javaType="Integer"/>
+        <result property="dimissionTime" column="dimission_time" javaType="Date"/>
+        <result property="leaveReason" column="leave_reason" javaType="String"/>
+        <result property="ctime" column="ctime" javaType="Date"/>
+        <result property="creater" column="creater" javaType="String"/>
+        <result property="createrId" column="creater_id" javaType="Integer"/>
+        <result property="etime" column="etime" javaType="Date"/>
+        <result property="editor" column="editor" javaType="String"/>
+        <result property="editorId" column="editor_id" javaType="Integer"/>
+        <result property="deleted" column="deleted" javaType="Integer"/>
+        <!-- other -->
+       <result property="companyName" column="company_name" javaType="String"/>
+       <result property="checkingDay" column="checking_day" javaType="Integer"/>
+       <result property="empEquipmentRelId" column="emp_equipment_rel_id" javaType="Integer"/>
+	</resultMap>
+	
+	<sql id="full-columns" >
+        t.emp_id,
+        t.company_id,
+        t.emp_name,
+        t.emp_number,
+        t.emp_card_number,
+        t.emp_sex,
+        t.emp_phone,
+        t.emp_type,
+        t.emp_degree,
+        t.is_checking,
+        t.checking_start_time,
+        t.phone_info,
+        t.fingerprint_info,
+        t.emp_status,
+        t.dimission_time,
+        t.leave_reason,
+        t.ctime,
+        t.creater,
+        t.creater_id,
+        t.etime,
+        t.editor,
+        t.editor_id,
+        t.deleted
+	</sql>
+
+	<!-- 如果主键为非自增的，需要将selectKey删除  -->
+	<insert id="insertOne" parameterType="cn.com.guangduo.iface.po.Emp" >
+        INSERT INTO emp (
+        
+        <if test="@OGNL@isNotEmpty(empId)">
+       		emp_id,
+        </if>
+            company_id ,
+            emp_name ,
+            emp_number ,
+            emp_card_number ,
+            emp_sex ,
+            emp_phone ,
+            emp_type ,
+            emp_degree ,
+            is_checking ,
+            checking_start_time ,
+            phone_info ,
+            fingerprint_info ,
+            emp_status ,
+            dimission_time ,
+            leave_reason ,
+            ctime ,
+            creater ,
+            creater_id ,
+            etime ,
+            editor ,
+            editor_id ,
+            deleted 
+        ) VALUES (
+        <if test="@OGNL@isNotEmpty(empId)">
+       		#{empId},
+        </if>
+        	#{companyId},
+        	#{empName},
+        	#{empNumber},
+        	#{empCardNumber},
+        	#{empSex},
+        	#{empPhone},
+        	#{empType},
+        	#{empDegree},
+        	#{isChecking},
+        	#{checkingStartTime},
+        	#{phoneInfo},
+        	#{fingerprintInfo},
+        	0,
+        	#{dimissionTime},
+        	#{leaveReason},
+        	now(),
+        	#{creater},
+        	#{createrId},
+        	#{etime},
+        	#{editor},
+        	#{editorId},
+        	0
+        )
+    	<selectKey resultType="java.lang.Integer" keyProperty="empId">
+			SELECT LAST_INSERT_ID() AS emp_id
+        </selectKey>
+	</insert>
+	
+	<insert id="insertBatch" parameterType="java.util.List" >
+        INSERT INTO emp (
+            company_id ,
+            emp_name ,
+            emp_number ,
+            emp_card_number ,
+            emp_sex ,
+            emp_phone ,
+            emp_type ,
+            emp_degree ,
+            is_checking ,
+            checking_start_time ,
+            phone_info ,
+            fingerprint_info ,
+            emp_status ,
+            dimission_time ,
+            leave_reason ,
+            ctime ,
+            creater ,
+            creater_id ,
+            etime ,
+            editor ,
+            editor_id ,
+            deleted 
+        ) VALUES 
+        <foreach collection="list" item="item" index="index" separator=",">
+        (
+        	#{item.companyId},
+        	#{item.empName},
+        	#{item.empNumber},
+        	#{item.empCardNumber},
+        	#{item.empSex},
+        	#{item.empPhone},
+        	#{item.empType},
+        	#{item.empDegree},
+        	#{item.isChecking},
+        	#{item.checkingStartTime},
+        	#{item.phoneInfo},
+        	#{item.fingerprintInfo},
+        	#{item.empStatus},
+        	#{item.dimissionTime},
+        	#{item.leaveReason},
+        	now(),
+        	#{item.creater},
+        	#{item.createrId},
+        	#{item.etime},
+        	#{item.editor},
+        	#{item.editorId},
+        	0
+        )
+        </foreach>
+	</insert>
+	
+	<update id="update" parameterType="cn.com.guangduo.iface.po.Emp">
+        UPDATE emp 
+        <set>
+       		<if test="@OGNL@isNotEmpty(companyId)">
+       			company_id = #{companyId},
+	        </if>
+       		<if test="@OGNL@isNotEmpty(empName)">
+       			emp_name = #{empName},
+	        </if>
+       		<if test="@OGNL@isNotEmpty(empNumber)">
+       			emp_number = #{empNumber},
+	        </if>
+       		<if test="@OGNL@isNotEmpty(empCardNumber)">
+       			emp_card_number = #{empCardNumber},
+	        </if>
+       		<if test="@OGNL@isNotEmpty(empSex)">
+       			emp_sex = #{empSex},
+	        </if>
+       		<if test="@OGNL@isNotEmpty(empPhone)">
+       			emp_phone = #{empPhone},
+	        </if>
+       		<if test="@OGNL@isNotEmpty(empType)">
+       			emp_type = #{empType},
+	        </if>
+       		<if test="@OGNL@isNotEmpty(empDegree)">
+       			emp_degree = #{empDegree},
+	        </if>
+       		<if test="@OGNL@isNotEmpty(isChecking)">
+       			is_checking = #{isChecking},
+	        </if>
+       		<if test="@OGNL@isNotEmpty(checkingStartTime)">
+       			checking_start_time = #{checkingStartTime},
+	        </if>
+       		<if test="@OGNL@isNotEmpty(phoneInfo)">
+       			phone_info = #{phoneInfo},
+	        </if>
+       		<if test="@OGNL@isNotEmpty(fingerprintInfo)">
+       			fingerprint_info = #{fingerprintInfo},
+	        </if>
+       		<if test="@OGNL@isNotEmpty(empStatus)">
+       			emp_status = #{empStatus},
+	        </if>
+       		<if test="@OGNL@isNotEmpty(dimissionTime)">
+       			dimission_time = #{dimissionTime},
+	        </if>
+       		<if test="@OGNL@isNotEmpty(leaveReason)">
+       			leave_reason = #{leaveReason},
+	        </if>
+       		<if test="@OGNL@isNotEmpty(ctime)">
+       			ctime = #{ctime},
+	        </if>
+       		<if test="@OGNL@isNotEmpty(creater)">
+       			creater = #{creater},
+	        </if>
+       		<if test="@OGNL@isNotEmpty(createrId)">
+       			creater_id = #{createrId},
+	        </if>
+   				etime = now(),
+       		<if test="@OGNL@isNotEmpty(editor)">
+       			editor = #{editor},
+	        </if>
+       		<if test="@OGNL@isNotEmpty(editorId)">
+       			editor_id = #{editorId},
+	        </if>
+       		<if test="@OGNL@isNotEmpty(deleted)">
+       			deleted = #{deleted},
+	        </if>
+        </set>
+        WHERE deleted=0
+        	AND emp_id = #{empId}
+	</update>
+	
+	<update id="updateBatch" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" open="" close="" separator="">
+	        UPDATE emp 
+	        <set>
+	        	<if test="@OGNL@isNotEmpty(item.companyId)">
+	        		company_id = #{item.companyId},
+		        </if>
+	        	<if test="@OGNL@isNotEmpty(item.empName)">
+	        		emp_name = #{item.empName},
+		        </if>
+	        	<if test="@OGNL@isNotEmpty(item.empNumber)">
+	        		emp_number = #{item.empNumber},
+		        </if>
+	        	<if test="@OGNL@isNotEmpty(item.empCardNumber)">
+	        		emp_card_number = #{item.empCardNumber},
+		        </if>
+	        	<if test="@OGNL@isNotEmpty(item.empSex)">
+	        		emp_sex = #{item.empSex},
+		        </if>
+	        	<if test="@OGNL@isNotEmpty(item.empPhone)">
+	        		emp_phone = #{item.empPhone},
+		        </if>
+	        	<if test="@OGNL@isNotEmpty(item.empType)">
+	        		emp_type = #{item.empType},
+		        </if>
+	        	<if test="@OGNL@isNotEmpty(item.empDegree)">
+	        		emp_degree = #{item.empDegree},
+		        </if>
+	        	<if test="@OGNL@isNotEmpty(item.isChecking)">
+	        		is_checking = #{item.isChecking},
+		        </if>
+	        	<if test="@OGNL@isNotEmpty(item.checkingStartTime)">
+	        		checking_start_time = #{item.checkingStartTime},
+		        </if>
+	        	<if test="@OGNL@isNotEmpty(item.phoneInfo)">
+	        		phone_info = #{item.phoneInfo},
+		        </if>
+	        	<if test="@OGNL@isNotEmpty(item.fingerprintInfo)">
+	        		fingerprint_info = #{item.fingerprintInfo},
+		        </if>
+	        	<if test="@OGNL@isNotEmpty(item.empStatus)">
+	        		emp_status = #{item.empStatus},
+		        </if>
+	        	<if test="@OGNL@isNotEmpty(item.dimissionTime)">
+	        		dimission_time = #{item.dimissionTime},
+		        </if>
+	        	<if test="@OGNL@isNotEmpty(item.leaveReason)">
+	        		leave_reason = #{item.leaveReason},
+		        </if>
+	        	<if test="@OGNL@isNotEmpty(item.ctime)">
+	        		ctime = #{item.ctime},
+		        </if>
+	        	<if test="@OGNL@isNotEmpty(item.creater)">
+	        		creater = #{item.creater},
+		        </if>
+	        	<if test="@OGNL@isNotEmpty(item.createrId)">
+	        		creater_id = #{item.createrId},
+		        </if>
+        			etime = now(),
+	        	<if test="@OGNL@isNotEmpty(item.editor)">
+	        		editor = #{item.editor},
+		        </if>
+	        	<if test="@OGNL@isNotEmpty(item.editorId)">
+	        		editor_id = #{item.editorId},
+		        </if>
+	        	<if test="@OGNL@isNotEmpty(item.deleted)">
+	        		deleted = #{item.deleted},
+		        </if>
+	        </set>
+	        WHERE deleted = 0
+	        	AND emp_id = #{item.empId};
+        </foreach>
+	</update>
+	
+	<update id="delete" parameterType="java.lang.Integer">
+        UPDATE emp SET deleted = 1 
+        WHERE deleted = 0 AND emp_id = #{value}
+	</update>
+	<update id="deleteBatch" parameterType="java.util.List" >
+        UPDATE emp SET deleted = 1 
+        WHERE deleted = 0 AND emp_id IN 
+        <foreach collection="list" item = "id" open="(" separator="," close=")">
+        	#{id}
+		</foreach>
+	</update>
+	
+	<select id="queryById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+	   	SELECT  <include refid="full-columns" />,empEqRel.checking_day,empEqRel.emp_equipment_rel_id,g.group_name as company_name
+       	FROM emp t
+       	LEFT JOIN emp_equipment_rel empEqRel ON t.emp_id=empEqRel.emp_id AND empEqRel.deleted=0
+       	LEFT JOIN rbac.sys_group g  ON t.company_id =g.group_id AND g.deleted=0  AND g.<include refid="cn.com.guangduo.iface.dao.common.sysIdParm"/> 
+       	WHERE t.emp_id = #{value}
+    </select>
+	
+	<select id="query" parameterType="map" resultMap="BaseResultMap">
+		SELECT 
+			<include refid="full-columns" />,g.group_name as company_name
+	    FROM emp t
+	    LEFT JOIN rbac.sys_group g  ON t.company_id =g.group_id AND g.deleted=0  AND g.<include refid="cn.com.guangduo.iface.dao.common.sysIdParm"/>
+		<where>
+			<if test="@OGNL@isNotEmpty(empId)">
+	            AND t.emp_id = #{empId}
+	        </if>
+	        <!-- 工程设备关联id -->
+	        <if test="@OGNL@isNotEmpty(batchEquipmentRelId)">
+	        	AND t.emp_id IN(SELECT empEqRel.emp_id FROM emp_equipment_rel empEqRel WHERE empEqRel.deleted=0 AND empEqRel.batch_equipment_rel_id=#{batchEquipmentRelId})
+	        </if>
+	        <!-- 请假单管理 -->
+	        <if test="@OGNL@isNotEmpty(empForLeave) and empForLeave =='true'">
+	        	AND t.emp_id IN(SELECT empLeave.emp_id FROM emp_for_leave empLeave WHERE empLeave.deleted=0 )
+	        </if>
+	        <!-- end -->
+			<if test="@OGNL@isNotEmpty(companyId)">
+	            AND t.company_id = #{companyId}
+	        </if>
+			<if test="@OGNL@isNotEmpty(empName)">
+	            AND t.emp_name LIKE concat('%',#{empName},'%')
+	        </if>
+			<if test="@OGNL@isNotEmpty(empNumber)">
+	            AND t.emp_number = #{empNumber}
+	        </if>
+			<if test="@OGNL@isNotEmpty(empCardNumber)">
+	            AND t.emp_card_number = #{empCardNumber}
+	        </if>
+			<if test="@OGNL@isNotEmpty(empSex)">
+	            AND t.emp_sex = #{empSex}
+	        </if>
+			<if test="@OGNL@isNotEmpty(empPhone)">
+	            AND t.emp_phone = #{empPhone}
+	        </if>
+			<if test="@OGNL@isNotEmpty(empType)">
+	            AND t.emp_type = #{empType}
+	        </if>
+			<if test="@OGNL@isNotEmpty(empDegree)">
+	            AND t.emp_degree = #{empDegree}
+	        </if>
+			<if test="@OGNL@isNotEmpty(isChecking)">
+	            AND t.is_checking = #{isChecking}
+	        </if>
+			<if test="@OGNL@isNotEmpty(checkingStartTime)">
+	            AND t.checking_start_time = #{checkingStartTime}
+	        </if>
+			<if test="@OGNL@isNotEmpty(fingerprintInfo)">
+	            AND t.fingerprint_info = #{fingerprintInfo}
+	        </if>
+			<if test="@OGNL@isNotEmpty(empStatus)">
+	            AND t.emp_status = #{empStatus}
+	        </if>
+			<if test="@OGNL@isNotEmpty(dimissionTime)">
+	            AND t.dimission_time = #{dimissionTime}
+	        </if>
+			<if test="@OGNL@isNotEmpty(leaveReason)">
+	            AND t.leave_reason = #{leaveReason}
+	        </if>
+			<if test="@OGNL@isNotEmpty(ctime)">
+	            AND t.ctime = #{ctime}
+	        </if>
+			<if test="@OGNL@isNotEmpty(creater)">
+	            AND t.creater = #{creater}
+	        </if>
+			<if test="@OGNL@isNotEmpty(createrId)">
+	            AND t.creater_id = #{createrId}
+	        </if>
+			<if test="@OGNL@isNotEmpty(etime)">
+	            AND t.etime = #{etime}
+	        </if>
+			<if test="@OGNL@isNotEmpty(editor)">
+	            AND t.editor = #{editor}
+	        </if>
+			<if test="@OGNL@isNotEmpty(editorId)">
+	            AND t.editor_id = #{editorId}
+	        </if>
+			<if test="@OGNL@isNotEmpty(deleted)">
+	            AND t.deleted = #{deleted}
+	        </if>
+		</where>
+	</select>
+</mapper>
