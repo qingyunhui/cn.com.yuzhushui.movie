@@ -3,6 +3,10 @@ package cn.com.yuzhushui.movie.common.base;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 /***
@@ -13,58 +17,57 @@ import com.github.pagehelper.PageInfo;
  **/
 public class BaseServiceImpl<MODEL, KEY_TYPE> implements BaseService<MODEL, KEY_TYPE>{
 
-	@Override
+	@Autowired
+	private BaseDao<MODEL, KEY_TYPE> baseDao;
+	
+	private final BaseDao<MODEL, KEY_TYPE> getBaseDao() {
+		return baseDao;
+	}
+	
 	public int add(MODEL model) {
-		// TODO Auto-generated method stub
-		return 0;
+		//TODO 可以在insert前做些处理，比如记录创建人，创建时间、创建人id等等..
+		int count = getBaseDao().insert(model);
+		//TODO 也可以在insert之后做一些处理，比如什么呢？
+		return count;
 	}
-
-	@Override
 	public int add(List<MODEL> models) {
-		// TODO Auto-generated method stub
-		return 0;
+		//TODO 可以在insert前做些处理，比如记录创建人，创建时间、创建人id等等..
+		int count = getBaseDao().insertBatch(models);
+		//TODO 也可以在insert之后做一些处理，比如什么呢？
+		return count;
 	}
-
-	@Override
 	public int update(MODEL model) {
-		// TODO Auto-generated method stub
-		return 0;
+		//TODO 可以在insert前做些处理，比如记录创建人，创建时间、创建人id等等..
+		int count = getBaseDao().update(model);
+		//TODO 也可以在insert之后做一些处理，比如什么呢？
+		return count;
 	}
-
-	@Override
 	public int update(List<MODEL> models) {
-		// TODO Auto-generated method stub
-		return 0;
+		//TODO 可以在insert前做些处理，比如记录创建人，创建时间、创建人id等等..
+		int count = getBaseDao().updateBatch(models);
+		//TODO 也可以在insert之后做一些处理，比如什么呢？
+		return count;
 	}
-
-	@Override
+	
 	public int delete(KEY_TYPE id) {
-		// TODO Auto-generated method stub
-		return 0;
+		return getBaseDao().delete(id);
 	}
-
-	@Override
+	
 	public int delete(List<KEY_TYPE> ids) {
-		// TODO Auto-generated method stub
-		return 0;
+		return getBaseDao().deleteBatch(ids);
 	}
-
-	@Override
+	
 	public MODEL query(KEY_TYPE id) {
-		// TODO Auto-generated method stub
-		return null;
+		return getBaseDao().queryById(id);
 	}
-
-	@Override
-	public List<MODEL> query(Map<String,Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+	
+	public List<MODEL> query(Map<String, Object> map) {
+		return getBaseDao().query(map);
 	}
-
-	@Override
-	public PageInfo<MODEL> queryPage() {
-		// TODO Auto-generated method stub
-		return null;
+	
+	public PageInfo<MODEL> queryPage(BaseQuery query) {
+		PageHelper.startPage(query.getPageNum(), query.getPageSize(), query.getOrderBy());
+		return new PageInfo<MODEL>(query(query.getQueryData()));
 	}
 
 }

@@ -20,6 +20,11 @@
 		<artifactId>spring-context</artifactId>
 		<version>${spring.version}</version>
 	</dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-webmvc</artifactId>
+		<version>${spring.version}</version>
+	</dependency>
   	<!-- spring mvc end -->
   
  	<!-- mybatis分页插件 -->
@@ -27,6 +32,19 @@
 		<groupId>com.github.pagehelper</groupId>
 		<artifactId>pagehelper</artifactId>
 		<version>4.0.3</version>
+	</dependency>
+  	
+  	<dependency>
+		<groupId>org.mybatis</groupId>
+		<artifactId>mybatis</artifactId>
+		<version>3.2.7</version>
+	</dependency>
+  	
+  	<dependency>
+		<groupId>javax.servlet</groupId>
+		<artifactId>javax.servlet-api</artifactId>
+		<version>3.0.1</version>
+		<scope>provided</scope>
 	</dependency>
   	
   	<dependency>

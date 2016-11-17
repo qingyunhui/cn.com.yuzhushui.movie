@@ -1,14 +1,11 @@
-package cn.com.yuzhushui.movie.common;
-
-import java.io.Serializable;
-
+package cn.com.yuzhushui.movie.common.base;
 /***
  ** @category 请用一句话来描述其用途...
  ** @author qing.yunhui
  ** @email: 280672161@qq.com
- ** @createTime: 2016年5月11日下午3:52:11
+ ** @createTime: 2016年11月17日下午10:24:29
  **/
-public class BaseForm <KEY_TYPE extends Serializable>{
+public abstract class BaseForm<KEY_TYPE> {
 
 	private String actionPath;//action路径
 	
@@ -29,5 +26,4 @@ public class BaseForm <KEY_TYPE extends Serializable>{
 	public void setActionPath(String actionPath) {
 		this.actionPath = actionPath;
 	}
-	
 }

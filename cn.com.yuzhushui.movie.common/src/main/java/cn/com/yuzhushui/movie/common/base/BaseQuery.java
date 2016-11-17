@@ -1,4 +1,4 @@
-package cn.com.yuzhushui.movie.common;
+package cn.com.yuzhushui.movie.common.base;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,10 +9,9 @@ import qing.yun.hui.common.utils.StringUtil;
  ** @category 请用一句话来描述其用途...
  ** @author qing.yunhui
  ** @email: 280672161@qq.com
- ** @createTime: 2016年5月11日下午3:53:43
+ ** @createTime: 2016年11月17日下午9:18:19
  **/
 public class BaseQuery {
-
 	private Map<String, Object> queryData = new HashMap<String, Object>();// 一些查询条件
 	private int pageNum = 1;// 当前页
 	private int pageSize = 5;// 每页的数量
