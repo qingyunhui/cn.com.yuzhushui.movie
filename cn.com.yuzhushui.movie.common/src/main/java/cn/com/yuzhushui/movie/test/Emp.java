@@ -1,4 +1,4 @@
-package cn.com.guangduo.iface.po;
+/*package cn.com.guangduo.iface.po;
 
 import java.util.Date;
 
@@ -6,130 +6,130 @@ import cn.com.guangduo.iface.common.base.BaseModel;
 import cn.com.guangduo.iface.common.base.ICreateInfo;
 import cn.com.guangduo.iface.common.base.IUpdateInfo;
 
-/**
+*//**
  * @author qing.yunhui 
  * @Since 2010-2016
  * @create 2016-02-03 16:25:13
  * @history
- */public class Emp extends BaseModel<Integer> implements ICreateInfo, IUpdateInfo{
+ *//*public class Emp extends BaseModel<Integer> implements ICreateInfo, IUpdateInfo{
 	
 	//alias
 	public static final String TABLE_ALIAS = "Emp";
 	
 	//columns START
-	/**
+	*//**
 	 * @Fields empId:用户id
-	 */
+	 *//*
 	private Integer empId;
 	
-	/**
+	*//**
 	 * @Fields companyId:单位id
-	 */
+	 *//*
 	private Integer companyId;
 	
-	/**
+	*//**
 	 * @Fields empName:用户名称
-	 */
+	 *//*
 	private String empName;
 	
-	/**
+	*//**
 	 * @Fields empNumber:用户编号
-	 */
+	 *//*
 	private String empNumber;
 	
-	/**
+	*//**
 	 * @Fields empCardNumber:身份证号码
-	 */
+	 *//*
 	private String empCardNumber;
 	
-	/**
+	*//**
 	 * @Fields empSex:性别
-	 */
+	 *//*
 	private Integer empSex;
 	
-	/**
+	*//**
 	 * @Fields empPhone:手机号
-	 */
+	 *//*
 	private String empPhone;
 	
-	/**
+	*//**
 	 * @Fields empType:人员类别
-	 */
+	 *//*
 	private Integer empType;
 	
-	/**
+	*//**
 	 * @Fields empDegree:人员学历
-	 */
+	 *//*
 	private Integer empDegree;
 	
-	/**
+	*//**
 	 * @Fields isChecking:是否考勤
-	 */
+	 *//*
 	private Integer isChecking;
 	
-	/**
+	*//**
 	 * @Fields checkingStartTime:考勤开始时间
-	 */
+	 *//*
 	private Date checkingStartTime;
 	
-	/**
+	*//**
 	 * @Fields phoneInfo:图像信息
-	 */
+	 *//*
 	private byte[] phoneInfo;
 	
-	/**
+	*//**
 	 * @Fields fingerprintInfo:指纹信息
-	 */
+	 *//*
 	private String fingerprintInfo;
 	
-	/**
+	*//**
 	 * @Fields empStatus:状态（0正常，1离职）
-	 */
+	 *//*
 	private Integer empStatus;
 	
-	/**
+	*//**
 	 * @Fields dimissionTime:离职时间
-	 */
+	 *//*
 	private Date dimissionTime;
 	
-	/**
+	*//**
 	 * @Fields leaveReason:离职原因
-	 */
+	 *//*
 	private String leaveReason;
 	
-	/**
+	*//**
 	 * @Fields ctime:创建时间
-	 */
+	 *//*
 	private Date ctime;
 	
-	/**
+	*//**
 	 * @Fields creater:创建人
-	 */
+	 *//*
 	private String creater;
 	
-	/**
+	*//**
 	 * @Fields createrId:创建人id
-	 */
+	 *//*
 	private Integer createrId;
 	
-	/**
+	*//**
 	 * @Fields etime:修改时间
-	 */
+	 *//*
 	private Date etime;
 	
-	/**
+	*//**
 	 * @Fields editor:修改人
-	 */
+	 *//*
 	private String editor;
 	
-	/**
+	*//**
 	 * @Fields editorId:修改人id
-	 */
+	 *//*
 	private Integer editorId;
 	
-	/**
+	*//**
 	 * @Fields deleted:删除标识
-	 */
+	 *//*
 	private Integer deleted;
 	
 	//columns END
@@ -433,4 +433,4 @@ import cn.com.guangduo.iface.common.base.IUpdateInfo;
 		return this.empId;
 	}
 
-}
+}*/

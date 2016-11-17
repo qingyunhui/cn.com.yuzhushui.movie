@@ -1,4 +1,4 @@
-package cn.com.guangduo.iface.form;
+/*package cn.com.guangduo.iface.form;
 
 import java.util.Date;
 
@@ -11,144 +11,144 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import cn.com.guangduo.iface.common.base.BaseForm;
 
-/**
+*//**
  * @author qing.yunhui 
  * @Since 2010-2016
  * @create 2016-02-03 16:25:13
  * @history
- */public class EmpForm extends BaseForm<Integer> {
+ *//*public class EmpForm extends BaseForm<Integer> {
 
 	//columns START
 	
-	/**
+	*//**
 	 * @Fields emp_id:用户id
-	 */
+	 *//*
 	private Integer empId;
 	
-	/**
+	*//**
 	 * @Fields company_id:单位id
-	 */
+	 *//*
 	@Range(message = "数值范围不正确")
 	private Integer companyId;
 	
-	/**
+	*//**
 	 * @Fields emp_name:用户名称
-	 */
+	 *//*
 	@NotEmpty(message = "请填写用户名称")
 	@Length(max = 128, message = "用户名称的长度不能超过{1}")
 	private String empName;
 	
-	/**
+	*//**
 	 * @Fields emp_number:用户编号
-	 */
+	 *//*
 	private String empNumber;
 	
-	/**
+	*//**
 	 * @Fields emp_card_number:身份证号码
-	 */
+	 *//*
 	@NotEmpty(message = "请填写身份证号码")
 	@Length(max = 32, message = "身份证号码的长度不能超过{1}")
 	private String empCardNumber;
 	
-	/**
+	*//**
 	 * @Fields emp_sex:性别
-	 */
+	 *//*
 	@NotNull(message = "请填写性别")
 	@Range(message = "数值范围不正确")
 	private Integer empSex;
 	
-	/**
+	*//**
 	 * @Fields emp_phone:手机号
-	 */
+	 *//*
 	@NotEmpty(message = "请填写手机号")
 	@Length(max = 16, message = "手机号的长度不能超过{1}")
 	private String empPhone;
 	
-	/**
+	*//**
 	 * @Fields emp_type:人员类别
-	 */
+	 *//*
 	@NotNull(message = "请填写人员类别")
 	@Range(message = "数值范围不正确")
 	private Integer empType;
 	
-	/**
+	*//**
 	 * @Fields emp_degree:人员学历
-	 */
+	 *//*
 	@Range(message = "数值范围不正确")
 	private Integer empDegree;
 	
-	/**
+	*//**
 	 * @Fields is_checking:是否考勤
-	 */
+	 *//*
 	@Range(message = "数值范围不正确")
 	private Integer isChecking;
 	
-	/**
+	*//**
 	 * @Fields checking_start_time:考勤开始时间
-	 */
+	 *//*
 	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date checkingStartTime;
 	
-	/**
+	*//**
 	 * @Fields phone_info:图像信息
-	 */
+	 *//*
 	private byte[] phoneInfo;
 	
-	/**
+	*//**
 	 * @Fields fingerprint_info:指纹信息
-	 */
+	 *//*
 	@Length(max = 512, message = "指纹信息的长度不能超过{1}")
 	private String fingerprintInfo;
 	
-	/**
+	*//**
 	 * @Fields emp_status:状态（0正常，1离职）
-	 */
+	 *//*
 	@Range(message = "数值范围不正确")
 	private Integer empStatus;
 	
-	/**
+	*//**
 	 * @Fields dimission_time:离职时间
-	 */
+	 *//*
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date dimissionTime;
 	
-	/**
+	*//**
 	 * @Fields leave_reason:离职原因
-	 */
+	 *//*
 	@Length(max = 1024, message = "离职原因的长度不能超过{1}")
 	private String leaveReason;
 	
-	/**
+	*//**
 	 * @Fields ctime:创建时间
-	 */
+	 *//*
 	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date ctime;
 	
-	/**
+	*//**
 	 * @Fields creater:创建人
-	 */
+	 *//*
 	private String creater;
 	
-	/**
+	*//**
 	 * @Fields creater_id:创建人id
-	 */
+	 *//*
 	private Integer createrId;
 	
-	/**
+	*//**
 	 * @Fields etime:修改时间
-	 */
+	 *//*
 	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date etime;
 	
-	/**
+	*//**
 	 * @Fields editor:修改人
-	 */
+	 *//*
 	@Length(max = 256, message = "修改人的长度不能超过{1}")
 	private String editor;
 	
-	/**
+	*//**
 	 * @Fields editor_id:修改人id
-	 */
+	 *//*
 	@Range(message = "数值范围不正确")
 	private Integer editorId;
 	//columns END
@@ -423,4 +423,4 @@ import cn.com.guangduo.iface.common.base.BaseForm;
 		this.empEquipmentRelId = empEquipmentRelId;
 	}
 
-}
+}*/

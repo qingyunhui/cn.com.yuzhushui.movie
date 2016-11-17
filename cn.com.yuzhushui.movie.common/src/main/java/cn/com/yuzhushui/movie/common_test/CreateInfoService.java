@@ -1,4 +1,4 @@
-package cn.com.yuzhushui.movie.common_test;
+/*package cn.com.yuzhushui.movie.common_test;
 
 import org.springframework.stereotype.Component;
 
@@ -20,3 +20,4 @@ public class CreateInfoService implements IPluginBeforeService {
 	}
 
 }
+*/

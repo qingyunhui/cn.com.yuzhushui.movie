@@ -1,4 +1,4 @@
-package cn.com.yuzhushui.movie.common_test;
+/*package cn.com.yuzhushui.movie.common_test;
 
 import java.util.List;
 import java.util.Map;
@@ -29,14 +29,14 @@ public interface IBaseService<MODEL, KEY_TYPE> {
 	public PageInfo<MODEL> queryPage(BaseQuery query);
 	
 
-	// **************************************以下方法为通用数据库操作方法***BEGIN************************************************************//
+	// **************************************以下方法为通用数据库操作方法***BEGIN**********************************************************
 	public <T> List<T> queryOther(String sqlId, Map<String, Object> map) throws Exception;
 
 	public <T> PageInfo<T> queryPageOther(String sqlId, BaseQuery query) throws Exception;
 	
 	public <T> T queryOneOther(String sqlId,Map<String, Object> param) throws Exception;
 	
-	/**
+	*//**
 	 * 
 	 * @Description: 新增（批量）
 	 * @Title: add
@@ -47,10 +47,10 @@ public interface IBaseService<MODEL, KEY_TYPE> {
 	 * @throws Exception
 	 *             int
 	 * @throws
-	 */
+	 *//*
 	public int add(String sqlId, List<MODEL> models) throws Exception;
 
-	/**
+	*//**
 	 * 
 	 * @Description: 新增（单条记录）
 	 * @Title: add
@@ -61,10 +61,10 @@ public interface IBaseService<MODEL, KEY_TYPE> {
 	 * @throws Exception
 	 *             int
 	 * @throws
-	 */
+	 *//*
 	public int add(String sqlId, MODEL model) throws Exception;
 
-	/**
+	*//**
 	 * 
 	 * @Description: 查询（多条记录）
 	 * @Title: query
@@ -73,11 +73,11 @@ public interface IBaseService<MODEL, KEY_TYPE> {
 	 * @param map
 	 * @return List<Model>
 	 * @throws
-	 */
+	 *//*
 	public List<MODEL> query(String sqlId, Map<String, Object> map)
 			throws Exception;
 
-	/**
+	*//**
 	 * 
 	 * 查询分页
 	 * 
@@ -86,11 +86,11 @@ public interface IBaseService<MODEL, KEY_TYPE> {
 	 * @param query
 	 * @return PageInfo<MODEL>
 	 * @throws
-	 */
+	 *//*
 	public PageInfo<MODEL> query(String sqlId, BaseQuery query)
 			throws Exception;
 
-	/**
+	*//**
 	 * 
 	 * @Description: 查询（一条记录）
 	 * @Title: queryOne
@@ -100,11 +100,11 @@ public interface IBaseService<MODEL, KEY_TYPE> {
 	 * @throws Exception
 	 *             Model
 	 * @throws
-	 */
+	 *//*
 	public MODEL queryOne(String sqlId, Map<String, Object> map)
 			throws Exception;
 
-	/**
+	*//**
 	 * 
 	 * @Description: 根据Bean查询（一条记录）
 	 * @Title: query
@@ -114,11 +114,11 @@ public interface IBaseService<MODEL, KEY_TYPE> {
 	 * @throws Exception
 	 *             Model
 	 * @throws
-	 */
+	 *//*
 	public MODEL query(String sqlId, MODEL modelParameter)
 			throws Exception;
 
-	/**
+	*//**
 	 * 
 	 * @Description: 更新（单条、批量）
 	 * @Title: update
@@ -128,10 +128,10 @@ public interface IBaseService<MODEL, KEY_TYPE> {
 	 * @throws Exception
 	 *             int
 	 * @throws
-	 */
+	 *//*
 	public int update(String sqlId, List<MODEL> models) throws Exception;
 
-	/**
+	*//**
 	 * 
 	 * @Description: 更新（单条记录）
 	 * @Title: update
@@ -141,10 +141,10 @@ public interface IBaseService<MODEL, KEY_TYPE> {
 	 * @throws Exception
 	 *             int
 	 * @throws
-	 */
+	 *//*
 	public int update(String sqlId, MODEL model) throws Exception;
 
-	/**
+	*//**
 	 * 
 	 * @Description: 删除 （单条、批量）
 	 * @Title: delete
@@ -154,11 +154,11 @@ public interface IBaseService<MODEL, KEY_TYPE> {
 	 * @throws Exception
 	 *             int
 	 * @throws
-	 */
+	 *//*
 	public int delete(String sqlId, Map<String, Object> map)
 			throws Exception;
 
-	/**
+	*//**
 	 * 
 	 * @Description: 删除（单条记录）
 	 * @Title: delete
@@ -168,7 +168,7 @@ public interface IBaseService<MODEL, KEY_TYPE> {
 	 * @throws Exception
 	 *             int
 	 * @throws
-	 */
+	 *//*
 	public int delete(String sqlId, MODEL model) throws Exception;
 
-}
+}*/

@@ -1,4 +1,4 @@
-package cn.com.liangdian.diaoyu.common.base;
+/*package cn.com.liangdian.diaoyu.common.base;
 
 import java.util.List;
 import java.util.Map;
@@ -9,12 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
-/***
+*//***
  ** @category 请用一句话来描述其用途...
  ** @author qing.yunhui
  ** @email: 280672161@qq.com
  ** @createTime: 2016年5月11日下午3:49:31
- **/
+ **//*
 public class BaseServiceImpl<MODEL extends BaseModel<KEY_TYPE>, KEY_TYPE> implements BaseService<MODEL, KEY_TYPE>{
 
 	@Autowired
@@ -73,3 +73,4 @@ public class BaseServiceImpl<MODEL extends BaseModel<KEY_TYPE>, KEY_TYPE> implem
 		return new PageInfo<MODEL>(getBaseDao().query(query.getQueryData()));
 	}
 }
+*/

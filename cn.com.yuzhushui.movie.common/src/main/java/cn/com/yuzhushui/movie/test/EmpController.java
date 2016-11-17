@@ -1,4 +1,4 @@
-package cn.com.guangduo.iface.controller;
+/*package cn.com.guangduo.iface.controller;
 
 import java.util.HashMap;
 import java.util.List;
@@ -57,10 +57,10 @@ public class EmpController extends BaseController<Emp, EmpForm, Integer> {
 		empEquipmentRelService.update(empRel);
 	}
 	
-	/**
+	*//**
 	 * 根据给定设备Id查询对应设备下的所有人员...
 	 * @param empEquipmentRelId 
-	 * */
+	 * *//*
 	@RequestMapping(value = "queryEmpByBatchEquipmentRelId")
 	public ModelAndView queryEmpByBatchEquipmentRelId(EmpForm empForm) {
 		ModelAndView modelAndView = new ModelAndView(getActionPath() + "/d_emp_listByBatchEquipmentRelId");
@@ -73,4 +73,4 @@ public class EmpController extends BaseController<Emp, EmpForm, Integer> {
 	public String getActionPath() {
 		return ACTION_PATH;
 	}
-}
+}*/

@@ -1,4 +1,4 @@
-package cn.com.yuzhushui.movie.common_test;
+/*package cn.com.yuzhushui.movie.common_test;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
@@ -26,7 +26,7 @@ import cn.com.guangduo.iface.common.enums.MethodType;
 
 import com.github.pagehelper.PageInfo;
 
-/**
+*//**
  * 
  * @Description: BaseController定义一些基本的action
  * @ClassName: BaseController  
@@ -36,7 +36,7 @@ import com.github.pagehelper.PageInfo;
  * @param <MODEL> BEAN对象
  * @param <FORM>  表单对象
  * @param <KEY_TYPE> 表主键类型
- */
+ *//*
 public abstract class BaseController<MODEL extends BaseModel<KEY_TYPE>, FORM extends BaseForm<KEY_TYPE>, KEY_TYPE extends Serializable> {
 	@Autowired
 	IBaseService<MODEL, KEY_TYPE> baseService;
@@ -45,27 +45,27 @@ public abstract class BaseController<MODEL extends BaseModel<KEY_TYPE>, FORM ext
 		return baseService;
 	}
 
-	/**
+	*//**
 	 * 
 	 * @Description: 列表页面 
 	 * @Title: list 
 	 * @param request
 	 * @return ModelAndView
-	 */
+	 *//*
 	@RequestMapping(value = "list")
 	public ModelAndView list() {
 		ModelAndView modelAndView = new ModelAndView(getActionPath() + "/list");
 		return modelAndView;
 	}
 	
-	/**
+	*//**
 	 * 
 	 * @Description: 查询分页 
 	 * @Title: doList 
 	 * @param request
 	 * @return String
 	 * @throws
-	 */
+	 *//*
 	@RequestMapping(value="doList.json", method={RequestMethod.POST})
 	@ResponseBody
 	public PageInfo<MODEL> doList(HttpServletRequest request) {
@@ -77,27 +77,27 @@ public abstract class BaseController<MODEL extends BaseModel<KEY_TYPE>, FORM ext
 	}
 
 	
-	/**
+	*//**
 	 * 查询之后的处理
 	 * @param query
 	 * @param queryPager
-	 * */
+	 * *//*
 	public void doQueryAfter(BaseQuery query,PageInfo<MODEL> queryPage) {}
 
-	/**
+	*//**
 	 * 查询之前的处理
 	 * @param query
-	 * **/
+	 * **//*
 	public void doQueryBefore(BaseQuery query) {}
 
-	/**
+	*//**
 	 * 
 	 * @Description: 新增  
 	 * @Title: add 
 	 * @param form
 	 * @return ModelAndView
 	 * @throws
-	 */
+	 *//*
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "add")
 	public ModelAndView add(FORM form) {
@@ -125,19 +125,19 @@ public abstract class BaseController<MODEL extends BaseModel<KEY_TYPE>, FORM ext
 		return modelAndView;
 	}
 
-	/**
+	*//**
 	 * 
 	 * @Description: 将类名首字母小写
 	 * @Title: getLowerClassName 
 	 * @param c
 	 * @return String
 	 * @throws
-	 */
+	 *//*
 	private String getLowerClassName(Class<?> c) {
 		return c.getSimpleName().substring(0, 1).toLowerCase() + c.getSimpleName().substring(1);
 	}
 
-	/**
+	*//**
 	 * 
 	 * @Description: 提交新增 
 	 * @Title: doAdd 
@@ -147,7 +147,7 @@ public abstract class BaseController<MODEL extends BaseModel<KEY_TYPE>, FORM ext
 	 * @return
 	 * @throws Exception ModelAndView
 	 * @throws
-	 */
+	 *//*
 	@RequestMapping(value = "doAdd", method = { RequestMethod.POST })
 	public ModelAndView doAdd(@Valid FORM form, BindingResult result, RedirectAttributes redirectAttributes) {
 		doAddBefore(form, result);// 新增校验
@@ -174,7 +174,7 @@ public abstract class BaseController<MODEL extends BaseModel<KEY_TYPE>, FORM ext
 		redirectAttributes.addFlashAttribute("msg", "新增成功！");
 		return modelAndView;
 	}
-	/**
+	*//**
 	 * 保存之前     
 	 *
 	 * @Title: doAddBefore 
@@ -182,24 +182,24 @@ public abstract class BaseController<MODEL extends BaseModel<KEY_TYPE>, FORM ext
 	 * @param result 
 	 * @return void
 	 * @throws
-	 */
+	 *//*
 	protected void doAddBefore(FORM form, BindingResult result) {
 	}
-	/**
+	*//**
 	 * 保存成功之后
 	 * @param model
-	 */
+	 *//*
 	protected void doAddAfter(MODEL model) {
 	}
 
-	/**
+	*//**
 	 * 
 	 * @Description: 更新 
 	 * @Title: update 
 	 * @param id
 	 * @return ModelAndView
 	 * @throws
-	 */
+	 *//*
 	@RequestMapping(value="update")
 	public ModelAndView update(KEY_TYPE id) {
 		MODEL model = baseService.query(id);
@@ -219,19 +219,19 @@ public abstract class BaseController<MODEL extends BaseModel<KEY_TYPE>, FORM ext
 		return modelAndView;
 	}
 	
-	/**
+	*//**
 	 * 
 	 * 扩展数据 
 	 * @Title: expandParam 
 	 * @param modelAndView
 	 * @param form void
 	 * @throws
-	 */
+	 *//*
 	public void expandParam(ModelAndView modelAndView, FORM form) {
 		
 	}
 	
-	/**
+	*//**
 	 *根据不同操作添加相应的扩展数据 
 	 *
 	 * @Title: expandParam 
@@ -240,12 +240,12 @@ public abstract class BaseController<MODEL extends BaseModel<KEY_TYPE>, FORM ext
 	 * @param method 暂定：1-add、2-update、3-view
 	 * @return void
 	 * @throws
-	 */
+	 *//*
 	public void expandParam(ModelAndView modelAndView, FORM form, int methodType) {
 		
 	}
 
-	/**
+	*//**
 	 * 
 	 * @Description: 提交更新  
 	 * @Title: doUpdate 
@@ -255,7 +255,7 @@ public abstract class BaseController<MODEL extends BaseModel<KEY_TYPE>, FORM ext
 	 * @return
 	 * @throws Exception ModelAndView
 	 * @throws
-	 */
+	 *//*
 	@RequestMapping(value = "doUpdate", method = { RequestMethod.POST })
 	public ModelAndView doUpdate(@Valid FORM form, BindingResult result, RedirectAttributes redirectAttributes) throws Exception {
 		doUpdateBefore(form, result);// 更新前校验
@@ -274,13 +274,13 @@ public abstract class BaseController<MODEL extends BaseModel<KEY_TYPE>, FORM ext
 		redirectAttributes.addFlashAttribute("msg", "更新成功！");
 		return modelAndView;
 	}
-	/**
+	*//**
 	 * 修改成功之后
 	 * @param model
-	 */
+	 *//*
 	protected void doUpdateAfter(MODEL model) {
 	}
-	/**
+	*//**
 	 * 修改之前 
 	 *
 	 * @Title: doAddBefore 
@@ -288,18 +288,18 @@ public abstract class BaseController<MODEL extends BaseModel<KEY_TYPE>, FORM ext
 	 * @param result 
 	 * @return void
 	 * @throws
-	 */
+	 *//*
 	protected void doUpdateBefore(FORM form, BindingResult result) {
 	}
 
-	/**
+	*//**
 	 * 
 	 * @Description: 查看详情 
 	 * @Title: detail 
 	 * @param id
 	 * @return ModelAndView
 	 * @throws
-	 */
+	 *//*
 	@RequestMapping(value="detail")
 	public ModelAndView detail(KEY_TYPE id) {
 		MODEL model = baseService.query(id);
@@ -318,14 +318,14 @@ public abstract class BaseController<MODEL extends BaseModel<KEY_TYPE>, FORM ext
 		return modelAndView;
 	}
 
-	/**
+	*//**
 	 * 
 	 * @Description: 删除 
 	 * @Title: doDelete 
 	 * @param ids
 	 * @return ResponseData
 	 * @throws
-	 */
+	 *//*
 	@RequestMapping(value = "doDelete.json")
 	@ResponseBody
 	public ResponseData doDelete(KEY_TYPE[] ids) {
@@ -337,10 +337,10 @@ public abstract class BaseController<MODEL extends BaseModel<KEY_TYPE>, FORM ext
 		return rd;
 	}
 	
-	/**
+	*//**
 	 * 删除之后
 	 * @param model
-	 */
+	 *//*
 	protected void doDeleteAfter(KEY_TYPE[] ids) {
 		
 	}
@@ -348,14 +348,14 @@ public abstract class BaseController<MODEL extends BaseModel<KEY_TYPE>, FORM ext
 
 	public abstract String getActionPath();// 获取action路径
 	
-	/**
+	*//**
 	 * 
 	 * @Description: 封装查询条件 
 	 * @Title: EncapsulateQueryCondition 
 	 * @param request
 	 * @return BaseQuery
 	 * @throws
-	 */
+	 *//*
 	protected BaseQuery EncapsulateQueryCondition(HttpServletRequest request) {
 		BaseQuery query = new BaseQuery();
 		Enumeration<String> parameterNames = request.getParameterNames();
@@ -390,13 +390,13 @@ public abstract class BaseController<MODEL extends BaseModel<KEY_TYPE>, FORM ext
 		return query;
 	}
 
-	/**
+	*//**
 	 * 
 	 * @Description: 获取类型
 	 * @Title: getGenericType
 	 * @return Class<T>
 	 * @throws
-	 */
+	 *//*
 	@SuppressWarnings({"unchecked" })
 	public <T> Class<T> getGenericType(int index) {
 		Type genType = getClass().getGenericSuperclass();
@@ -408,3 +408,4 @@ public abstract class BaseController<MODEL extends BaseModel<KEY_TYPE>, FORM ext
 		return null;
 	}
 }
+*/

@@ -1,4 +1,4 @@
-package cn.com.yuzhushui.movie.common;
+/*package cn.com.yuzhushui.movie.common;
 
 import java.util.List;
 import java.util.Map;
@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageInfo;
 
-/***
+*//***
  ** @category 请用一句话来描述其用途...
  ** @author qing.yunhui
  ** @email: 280672161@qq.com
  ** @createTime: 2016年5月11日下午3:57:14
- **/
+ **//*
 @Service
 public interface BaseService <MODEL,KEY_TYPE>{
 	
@@ -35,3 +35,4 @@ public interface BaseService <MODEL,KEY_TYPE>{
 	public PageInfo<MODEL> queryPage(BaseQuery query);
 	
 }
+*/

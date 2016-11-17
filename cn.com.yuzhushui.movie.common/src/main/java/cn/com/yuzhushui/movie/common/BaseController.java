@@ -1,4 +1,4 @@
-package cn.com.liangdian.diaoyu.common.base;
+/*package cn.com.liangdian.diaoyu.common.base;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
@@ -28,12 +28,12 @@ import cn.com.liangdian.diaoyu.util.EnumUtil;
 import cn.com.liangdian.diaoyu.util.StringUtil;
 import cn.com.liangdian.diaoyu.util.validata.ValidataUtil;
 
-/**
+*//**
  * @Description: BaseController定义一些基本的action
  * @param <MODEL> BEAN对象
  * @param <FORM>  表单对象
  * @param <KEY_TYPE> 表主键类型
- */
+ *//*
 public abstract class BaseController<MODEL extends BaseModel<KEY_TYPE>, FORM extends BaseForm<KEY_TYPE>, KEY_TYPE extends Serializable> {
 	
 	@Autowired
@@ -46,20 +46,20 @@ public abstract class BaseController<MODEL extends BaseModel<KEY_TYPE>, FORM ext
 		return baseService;
 	}
 
-	/**
+	*//**
 	 * @Description: 列表页面 
 	 * @param request
-	 */
+	 *//*
 	@RequestMapping(value = "list")
 	public ModelAndView list() {
 		ModelAndView modelAndView = new ModelAndView(getActionPath() + "/list");
 		return modelAndView;
 	}
 	
-	/**
+	*//**
 	 * 分页 查询
 	 * @param request
-	 */
+	 *//*
 	@RequestMapping(value="doList.json", method={RequestMethod.POST})
 	@ResponseBody
 	public PageInfo<MODEL> doList() {
@@ -68,12 +68,12 @@ public abstract class BaseController<MODEL extends BaseModel<KEY_TYPE>, FORM ext
 		return queryPage;
 	}
 	
-	/**
+	*//**
 	 * 
 	 * @Description: 新增  
 	 * @param form
 	 * @return ModelAndView
-	 */
+	 *//*
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "add")
 	public ModelAndView add(FORM form) {
@@ -95,12 +95,12 @@ public abstract class BaseController<MODEL extends BaseModel<KEY_TYPE>, FORM ext
 		return modelAndView;
 	}
 
-	/**
+	*//**
 	 * @Description: 提交新增 
 	 * @param form
 	 * @param result
 	 * @param redirectAttributes
-	 */
+	 *//*
 	@RequestMapping(value = "doAdd", method = { RequestMethod.POST })
 	public ModelAndView doAdd(@Validated FORM form,BindingResult result,RedirectAttributes redirectAttributes) {
 		if(result.hasErrors()) {
@@ -127,10 +127,10 @@ public abstract class BaseController<MODEL extends BaseModel<KEY_TYPE>, FORM ext
 		return modelAndView;
 	}
 	
-	/**
+	*//**
 	 * @Description: 更新 
 	 * @param id
-	 */
+	 *//*
 	@RequestMapping(value="update")
 	public ModelAndView update(KEY_TYPE id) {
 		MODEL model = baseService.query(id);
@@ -148,12 +148,12 @@ public abstract class BaseController<MODEL extends BaseModel<KEY_TYPE>, FORM ext
 		return modelAndView;
 	}
 	
-	/**
+	*//**
 	 * @Description: 提交更新  
 	 * @param form
 	 * @param result
 	 * @param redirectAttributes
-	 */
+	 *//*
 	@RequestMapping(value = "doUpdate", method = { RequestMethod.POST })
 	public ModelAndView doUpdate(@Validated FORM form,BindingResult result, RedirectAttributes redirectAttributes) throws Exception {
 		if(result.hasErrors()) {
@@ -176,10 +176,10 @@ public abstract class BaseController<MODEL extends BaseModel<KEY_TYPE>, FORM ext
 		return modelAndView;
 	}
 
-	/**
+	*//**
 	 * @Description: 查看详情 
 	 * @param id
-	 */
+	 *//*
 	@RequestMapping(value="detail")
 	public ModelAndView detail(KEY_TYPE id) {
 		MODEL model = baseService.query(id);
@@ -196,11 +196,11 @@ public abstract class BaseController<MODEL extends BaseModel<KEY_TYPE>, FORM ext
 		return modelAndView;
 	}
 
-	/**
+	*//**
 	 * @Description: 删除 
 	 * @param ids
 	 * @return ResponseData
-	 */
+	 *//*
 	@RequestMapping(value = "doDelete.json")
 	@ResponseBody
 	public ResponseData doDelete(KEY_TYPE[] ids) {
@@ -213,11 +213,11 @@ public abstract class BaseController<MODEL extends BaseModel<KEY_TYPE>, FORM ext
 
 	public abstract String getActionPath();// 获取action路径
 	
-	/**
+	*//**
 	 * 组装查询条件
 	 * @param request
 	 * @return BaseQuery
-	 */
+	 *//*
 	protected BaseQuery initDataByBaseQuery() {
 		BaseQuery query = new BaseQuery();
 		Enumeration<String> parameterNames = request.getParameterNames();
@@ -252,10 +252,10 @@ public abstract class BaseController<MODEL extends BaseModel<KEY_TYPE>, FORM ext
 		return query;
 	}
 
-	/**
+	*//**
 	 * @Description: 获取类型
 	 * @return Class<T>
-	 */
+	 *//*
 	@SuppressWarnings({"unchecked" })
 	public <T> Class<T> getGenericType(int index) {
 		Type genType = getClass().getGenericSuperclass();
@@ -270,3 +270,4 @@ public abstract class BaseController<MODEL extends BaseModel<KEY_TYPE>, FORM ext
 		return request;
 	}
 }
+*/

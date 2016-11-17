@@ -1,4 +1,4 @@
-package cn.com.guangduo.iface.service;
+/*package cn.com.guangduo.iface.service;
 
 import org.springframework.stereotype.Service;
 
@@ -9,4 +9,4 @@ import cn.com.guangduo.iface.po.Emp;
 public class EmpService extends BaseService<Emp, Integer> implements IEmpService {
 	// 扩展接口实现
     
-}
+}*/

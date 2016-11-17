@@ -1,4 +1,4 @@
-package cn.com.yuzhushui.movie.common_test;
+/*package cn.com.yuzhushui.movie.common_test;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -14,7 +14,7 @@ import cn.com.guangduo.iface.common.util.SessionUtil;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-/**
+*//**
  * 
  * @Description: BaseService 定义一些基础的业务，并且提供扩展支持  
  * @ClassName: BaseService  
@@ -22,7 +22,7 @@ import com.github.pagehelper.PageInfo;
  * @date 2015年12月23日 下午3:30:52  
  * @param <Model> BEAN对象
  * @param <KEY_TYPE> 表主键类型
- */
+ *//*
 public class BaseService<MODEL extends BaseModel<KEY_TYPE>, KEY_TYPE> implements IBaseService<MODEL, KEY_TYPE> {
 	@Autowired
 	SqlSessionFactory sessionFactory;
@@ -105,8 +105,8 @@ public class BaseService<MODEL extends BaseModel<KEY_TYPE>, KEY_TYPE> implements
 		PageHelper.startPage(query.getPageNum(), query.getPageSize(), query.getOrderBy());
 		return new PageInfo<MODEL>(query(query.getQueryData()));
 	}
-	// **************************************以下方法为通用数据库操作方法***BEGIN************************************************************//
-	/**
+	// **************************************以下方法为通用数据库操作方法***BEGIN**********************************************************
+	*//**
 	 * 
 	 * @Description: 新增（批量）
 	 * @Title: add 
@@ -115,7 +115,7 @@ public class BaseService<MODEL extends BaseModel<KEY_TYPE>, KEY_TYPE> implements
 	 * @return
 	 * @throws Exception int
 	 * @throws
-	 */
+	 *//*
 	public int add(String sqlId, List<MODEL> models) throws Exception {
 		List<IPluginBeforeService> beforeService = SessionUtil.getBeansOfType(IPluginBeforeService.class);
 		List<IPluginAfterService> afterService = SessionUtil.getBeansOfType(IPluginAfterService.class);
@@ -136,7 +136,7 @@ public class BaseService<MODEL extends BaseModel<KEY_TYPE>, KEY_TYPE> implements
 		return insertNum;				
 	}
 	
-	/**
+	*//**
 	 * 
 	 * @Description: 新增（单条记录）
 	 * @Title: add 
@@ -145,7 +145,7 @@ public class BaseService<MODEL extends BaseModel<KEY_TYPE>, KEY_TYPE> implements
 	 * @return
 	 * @throws Exception int
 	 * @throws
-	 */
+	 *//*
 	public int add(String sqlId, MODEL model) throws Exception {
 		List<IPluginBeforeService> beforeService = SessionUtil.getBeansOfType(IPluginBeforeService.class);
 		List<IPluginAfterService> afterService = SessionUtil.getBeansOfType(IPluginAfterService.class);
@@ -162,7 +162,7 @@ public class BaseService<MODEL extends BaseModel<KEY_TYPE>, KEY_TYPE> implements
 		return insertNum;				
 	}
 	
-	/**
+	*//**
 	 * 
 	 * @Description: 查询（多条记录） 
 	 * @Title: query 
@@ -170,7 +170,7 @@ public class BaseService<MODEL extends BaseModel<KEY_TYPE>, KEY_TYPE> implements
 	 * @param map
 	 * @return List<Model>
 	 * @throws
-	 */
+	 *//*
 	public List<MODEL> query(String sqlId, Map<String, Object> map) throws Exception {
 		SqlSession sqlSession = sessionFactory.openSession();
 		sqlId = renovateSqlId(sqlId);
@@ -185,7 +185,7 @@ public class BaseService<MODEL extends BaseModel<KEY_TYPE>, KEY_TYPE> implements
 		sqlSession.close();
 		return list;
 	}
-	/**
+	*//**
 	 * 
 	 * 查询分页  
 	 * @Title: query 
@@ -193,7 +193,7 @@ public class BaseService<MODEL extends BaseModel<KEY_TYPE>, KEY_TYPE> implements
 	 * @param query
 	 * @return PageInfo<MODEL>
 	 * @throws
-	 */
+	 *//*
 	public PageInfo<MODEL> query(String sqlId, BaseQuery query) throws Exception {
 		SqlSession sqlSession = sessionFactory.openSession();
 		sqlId = renovateSqlId(sqlId);
@@ -219,7 +219,7 @@ public class BaseService<MODEL extends BaseModel<KEY_TYPE>, KEY_TYPE> implements
 		sqlSession.close();
 		return result;
 	}
-	/**
+	*//**
 	 * 
 	 * @Description: 查询（一条记录）
 	 * @Title: queryOne 
@@ -228,7 +228,7 @@ public class BaseService<MODEL extends BaseModel<KEY_TYPE>, KEY_TYPE> implements
 	 * @return
 	 * @throws Exception Model
 	 * @throws
-	 */
+	 *//*
 	public MODEL queryOne(String sqlId, Map<String, Object> map) throws Exception {
 		SqlSession sqlSession = sessionFactory.openSession();
 		sqlId = renovateSqlId(sqlId);
@@ -237,7 +237,7 @@ public class BaseService<MODEL extends BaseModel<KEY_TYPE>, KEY_TYPE> implements
 		return model;
 	}
 	
-	/**
+	*//**
 	 * 
 	 * @Description: 根据Bean查询（一条记录）
 	 * @Title: query 
@@ -246,7 +246,7 @@ public class BaseService<MODEL extends BaseModel<KEY_TYPE>, KEY_TYPE> implements
 	 * @return
 	 * @throws Exception Model
 	 * @throws
-	 */
+	 *//*
 	public MODEL query(String sqlId, MODEL modelParameter) throws Exception {
 		SqlSession sqlSession = sessionFactory.openSession();
 		sqlId = renovateSqlId(sqlId);
@@ -255,7 +255,7 @@ public class BaseService<MODEL extends BaseModel<KEY_TYPE>, KEY_TYPE> implements
 		return model;
 	}
 
-	/**
+	*//**
 	 * 
 	 * @Description: 更新（单条、批量）
 	 * @Title: update 
@@ -264,7 +264,7 @@ public class BaseService<MODEL extends BaseModel<KEY_TYPE>, KEY_TYPE> implements
 	 * @return
 	 * @throws Exception int
 	 * @throws
-	 */
+	 *//*
 	public int update(String sqlId, List<MODEL> models) throws Exception {
 		List<IPluginService> plugins = SessionUtil.getBeansOfType(IPluginService.class);
 		for (MODEL model : models) {
@@ -279,7 +279,7 @@ public class BaseService<MODEL extends BaseModel<KEY_TYPE>, KEY_TYPE> implements
 		return updateNum;
 	}
 	
-	/**
+	*//**
 	 * 
 	 * @Description: 更新（单条记录）
 	 * @Title: update
@@ -288,7 +288,7 @@ public class BaseService<MODEL extends BaseModel<KEY_TYPE>, KEY_TYPE> implements
 	 * @return
 	 * @throws Exception int
 	 * @throws
-	 */
+	 *//*
 	public int update(String sqlId, MODEL model) throws Exception {
 		List<IPluginService> plugins = SessionUtil.getBeansOfType(IPluginService.class);
 		for (IPluginService plugin : plugins) {
@@ -301,7 +301,7 @@ public class BaseService<MODEL extends BaseModel<KEY_TYPE>, KEY_TYPE> implements
 		return updateNum;
 	}
 	
-	/**
+	*//**
 	 * 
 	 * @Description: 删除 （单条、批量）
 	 * @Title: delete
@@ -310,7 +310,7 @@ public class BaseService<MODEL extends BaseModel<KEY_TYPE>, KEY_TYPE> implements
 	 * @return
 	 * @throws Exception int
 	 * @throws
-	 */
+	 *//*
 	public int delete(String sqlId, Map<String, Object> map) throws Exception {
 		SqlSession sqlSession = sessionFactory.openSession();
 		sqlId = renovateSqlId(sqlId);
@@ -319,7 +319,7 @@ public class BaseService<MODEL extends BaseModel<KEY_TYPE>, KEY_TYPE> implements
 		return deleteNum;
 	}
 	
-	/**
+	*//**
 	 * 
 	 * @Description: 删除（单条记录）
 	 * @Title: delete
@@ -328,7 +328,7 @@ public class BaseService<MODEL extends BaseModel<KEY_TYPE>, KEY_TYPE> implements
 	 * @return
 	 * @throws Exception int
 	 * @throws
-	 */
+	 *//*
 	public int delete(String sqlId, MODEL model) throws Exception {
 		SqlSession sqlSession = sessionFactory.openSession();
 		sqlId = renovateSqlId(sqlId);
@@ -337,14 +337,14 @@ public class BaseService<MODEL extends BaseModel<KEY_TYPE>, KEY_TYPE> implements
 		return deleteNum;
 	}
 	
-	/**
+	*//**
 	 * 
 	 * @Description: 调整映射sql的标识字符串，如：cn.com.guangduo.fgwpm.dao.TestDao.queryById 
 	 * @Title: renovateSqlId 
 	 * @param sqlId
 	 * @throws Exception void
 	 * @throws
-	 */
+	 *//*
 	@SuppressWarnings({"rawtypes" })
 	private String renovateSqlId(String sqlId) throws Exception {
 		
@@ -360,5 +360,6 @@ public class BaseService<MODEL extends BaseModel<KEY_TYPE>, KEY_TYPE> implements
 		return namespace + "." + sqlId;
 	}
 	
-	// *************************************END**************END**************END**************END******************************************//
+	// *************************************END**************END**************END**************END*****************************************
 }
+*/
