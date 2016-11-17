@@ -5,10 +5,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 import cn.com.yuzhushui.movie.cache.ShardedJedisCached;
+import cn.com.yuzhushui.movie.common.base.BaseAction;
+import cn.com.yuzhushui.movie.sys.web.vo.SysUser;
+import cn.com.yuzhushui.movie.sys.web.vo.SysUserForm;
 
 /**
  * @author qing.yunhui 
@@ -18,7 +19,7 @@ import cn.com.yuzhushui.movie.cache.ShardedJedisCached;
  */
 @Controller
 @RequestMapping(SysUserAction.ACTION_PATH)
-public class SysUserAction {
+public class SysUserAction extends BaseAction<SysUser, SysUserForm, Integer>{
 	
 	protected static final String ACTION_PATH="/sys/sysUser";
 	
@@ -26,12 +27,9 @@ public class SysUserAction {
 	
 	@Autowired
 	private ShardedJedisCached shardedJedisCached;
-	
-	@RequestMapping(value="list", method = {RequestMethod.POST, RequestMethod.GET})
-	public ModelAndView list(){
-		ModelAndView modelAndView = new ModelAndView("list");
-		
-		
-		return modelAndView;
+
+	@Override
+	public String getActionPath() {
+		return ACTION_PATH;
 	}
 }

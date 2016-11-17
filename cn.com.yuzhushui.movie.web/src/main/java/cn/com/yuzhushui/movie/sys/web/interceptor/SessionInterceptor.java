@@ -22,7 +22,7 @@ import qing.yun.hui.common.constants.Constant;
  * @author <a href="mailto:qingyunhui@zuozh.com">qingyunhui</a>
  * @since version1.0 Copyright 2015 ZZJR All Rights Reserved.
  */
-public class SessionInterceptor extends HandlerInterceptorAdapter{
+/*public class SessionInterceptor extends HandlerInterceptorAdapter{
 	
 	protected Logger logger=LoggerFactory.getLogger(SessionInterceptor.class);
 	
@@ -33,11 +33,11 @@ public class SessionInterceptor extends HandlerInterceptorAdapter{
 	private String interceptURL;//拦截的URL
 	
 	
-	/**
+	*//**
 	 * 
 	 *  预处理、在preHandle中，可以进行编码、安全控制等处理
 	 *  
-	 *  */
+	 *  *//*
 	@Override
 	public boolean preHandle(HttpServletRequest request,HttpServletResponse response, Object handler) throws Exception {
 		String url=request.getServletPath();    
@@ -66,13 +66,13 @@ public class SessionInterceptor extends HandlerInterceptorAdapter{
 		
 	}
 
-	/** 后处理、在postHandle中，有机会修改ModelAndView； */
+	*//** 后处理、在postHandle中，有机会修改ModelAndView； *//*
 	@Override
 	public void postHandle(HttpServletRequest request,HttpServletResponse response, Object handler,ModelAndView modelAndView) throws Exception {
 		System.out.println("postHandle");
 	}
 
-	/** 返回处理、在afterCompletion中，可以根据Exception是否为null判断是否发生了异常，进行日志记录。 **/
+	*//** 返回处理、在afterCompletion中，可以根据Exception是否为null判断是否发生了异常，进行日志记录。 **//*
 	@Override
 	public void afterCompletion(HttpServletRequest request,HttpServletResponse response, Object handler, Exception ex)throws Exception {
 		
@@ -96,4 +96,4 @@ public class SessionInterceptor extends HandlerInterceptorAdapter{
 		this.interceptURL = interceptURL;
 	}
 
-}
+}*/
