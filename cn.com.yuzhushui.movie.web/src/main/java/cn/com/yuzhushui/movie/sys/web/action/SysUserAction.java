@@ -49,10 +49,9 @@ public class SysUserAction extends BaseAction<SysUser, SysUserForm, Integer>{
 	
 	@RequestMapping(value = "doAddTest", method = { RequestMethod.POST,RequestMethod.GET })
 	public String doAddTest() {
+		logger.info("=====================调用baseService.add()=====================");
 		SysUser user=new SysUser();
-		
 		int r=new Random().nextInt(200);
-		
 		user.setAccountId(1+r);
 		user.setName(""+r);
 		user.setAge(28+r);
@@ -66,20 +65,43 @@ public class SysUserAction extends BaseAction<SysUser, SysUserForm, Integer>{
 		user.setEditor("张三");
 		user.setEditorId(22);
 		user.setDeleted(0);
-		
 		int count=0;
-		
 		try {
-//			sysUserService.addTest(user);
-			count=baseService.add(user);//sysUserService.addTest()>>>baseService.add()
+			count=baseService.add(user);
 		} catch (Exception e) {
 			logger.error("************数据库操作异常，异常原因，{}",new Object[]{e});
 		}
-		
-		
 		logger.info("受影响的行数:"+count+"条。");
-		
+		logger.info("=====================调用baseService，end=====================");
 		return ACTION_PATH+"/list";
 	} 
 	
+	@RequestMapping(value = "doAddTest2", method = { RequestMethod.POST,RequestMethod.GET })
+	public String doAddTest2() {
+		logger.info("=====================调用sysUserService.addTest()=====================");
+		SysUser user=new SysUser();
+		int r=new Random().nextInt(200);
+		user.setAccountId(1+r);
+		user.setName(""+r);
+		user.setAge(28+r);
+		user.setSex(1);
+		user.setMobilephone("186653006"+r);
+		user.setEmail("28067216"+r);
+		user.setCtime(new Date());
+		user.setCreater(""+r);
+		user.setCreaterId(2222);
+		user.setEtime(new Date());
+		user.setEditor("张三");
+		user.setEditorId(22);
+		user.setDeleted(0);
+		int count=0;
+		try {
+			sysUserService.addTest(user);
+		} catch (Exception e) {
+			logger.error("************数据库操作异常，异常原因，{}",new Object[]{e});
+		}
+		logger.info("受影响的行数:"+count+"条。");
+		logger.info("=====================调用sysUserService.end=====================");
+		return ACTION_PATH+"/list";
+	} 
 }
