@@ -3,8 +3,6 @@ package cn.com.yuzhushui.movie.common.base;
 import java.util.List;
 import java.util.Map;
 
-import javax.jws.WebService;
-
 import com.github.pagehelper.PageInfo;
 
 /***
@@ -13,7 +11,6 @@ import com.github.pagehelper.PageInfo;
  ** @email: 280672161@qq.com
  ** @createTime: 2016年11月17日下午1:27:34
  **/
-@WebService
 public interface BaseService<MODEL, KEY_TYPE>{
 
 	/***

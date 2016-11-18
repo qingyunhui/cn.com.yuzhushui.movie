@@ -3,8 +3,8 @@ package cn.com.yuzhushui.movie.common.base;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -15,6 +15,7 @@ import com.github.pagehelper.PageInfo;
  ** @email: 280672161@qq.com
  ** @createTime: 2016年11月17日下午2:25:54
  **/
+@Service
 public class BaseServiceImpl<MODEL, KEY_TYPE> implements BaseService<MODEL, KEY_TYPE>{
 
 	@Autowired

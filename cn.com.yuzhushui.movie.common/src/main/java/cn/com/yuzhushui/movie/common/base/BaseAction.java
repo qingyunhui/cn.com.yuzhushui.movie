@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.github.pagehelper.PageInfo;
-
 import qing.yun.hui.common.utils.Validate.ValidataUtil;
+
+import com.github.pagehelper.PageInfo;
 
 /***
  ** @category 请用一句话来描述其用途...
@@ -30,7 +30,7 @@ import qing.yun.hui.common.utils.Validate.ValidataUtil;
 public abstract class BaseAction<MODEL extends BaseModel<KEY_TYPE>, FORM extends BaseForm<KEY_TYPE>, KEY_TYPE>{
 
 	@Autowired
-	private BaseService<MODEL, KEY_TYPE> baseService;
+	private BaseService<MODEL,KEY_TYPE>  baseService;
 
 	public abstract String getActionPath();// 获取action路径
 	

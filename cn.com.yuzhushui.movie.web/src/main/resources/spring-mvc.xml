@@ -15,7 +15,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 	<mvc:resources mapping="/fonts/**" location="/fonts/" cache-period="31556926" />
 	<!-- 自动扫描controller包下的所有类，使其认为spring mvc的控制器 -->
 	<context:component-scan base-package="cn.com.yuzhushui.movie.**.web.action" />
-	<context:component-scan base-package="cn.com.yuzhushui.movie.common.base" />
+	<!-- <context:component-scan base-package="cn.com.yuzhushui.movie.common.base" /> -->
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="ignoreResourceNotFound" value="true" />
 		<property name="locations">
