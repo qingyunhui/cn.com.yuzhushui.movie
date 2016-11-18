@@ -60,9 +60,8 @@ http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<!-- 自动扫描entity目录, 省掉Configuration.xml里的手工配置 -->
-		<property name="mapperLocations" value="classpath*:cn/com/yuzhushui/**/biz/dao/mapping/*.xml" />
+		<property name="mapperLocations" value="classpath*:mapping/movie/*.xml" />
 	</bean>
-
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="cn.com.yuzhushui.**.biz.dao,cn.com.yuzhushui.movie.common.base" />
 		<!-- <property name="package" value="cn.com.yuzhushui.movie.common.base" /> -->
