@@ -1,9 +1,5 @@
 
 
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /***
  ** @category 请用一句话来描述其用途...
@@ -14,16 +10,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class BeginTest {
 
-	private ApplicationContext context;
-	
-	@Before
-	public void before(){           
-		 System.out.println("============befor==================");
-		 context = new ClassPathXmlApplicationContext(new String[]{"classpath:spring.xml"});
+	public static void main(String[] args){
+		System.out.println(1/0);
 	}
-	
-	@Test
-	public void test(){
-		System.out.println("====================success====================");
-	}
+
 }

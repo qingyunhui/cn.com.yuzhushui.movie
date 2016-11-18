@@ -15,6 +15,7 @@ import cn.com.yuzhushui.movie.cache.ShardedJedisCached;
 import cn.com.yuzhushui.movie.common.base.BaseAction;
 import cn.com.yuzhushui.movie.common.base.BaseService;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysUser;
+import cn.com.yuzhushui.movie.sys.biz.service.SysUserService;
 import cn.com.yuzhushui.movie.sys.web.vo.SysUserForm;
 
 /**
@@ -31,6 +32,9 @@ public class SysUserAction extends BaseAction<SysUser, SysUserForm, Integer>{
 	
 	@Autowired
 	private ShardedJedisCached shardedJedisCached;
+	
+	@Autowired
+	private SysUserService sysUserService;
 	
 	@Autowired
 	private BaseService<SysUser,Integer> baseService;
@@ -66,7 +70,8 @@ public class SysUserAction extends BaseAction<SysUser, SysUserForm, Integer>{
 		int count=0;
 		
 		try {
-			count=baseService.add(user);
+//			sysUserService.addTest(user);
+			count=baseService.add(user);//sysUserService.addTest()>>>baseService.add()
 		} catch (Exception e) {
 			logger.error("************数据库操作异常，异常原因，{}",new Object[]{e});
 		}
@@ -74,7 +79,7 @@ public class SysUserAction extends BaseAction<SysUser, SysUserForm, Integer>{
 		
 		logger.info("受影响的行数:"+count+"条。");
 		
-		return ACTION_PATH;
+		return ACTION_PATH+"/list";
 	} 
 	
 }

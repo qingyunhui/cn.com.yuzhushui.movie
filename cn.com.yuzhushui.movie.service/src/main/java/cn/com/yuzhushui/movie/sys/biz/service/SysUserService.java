@@ -1,7 +1,6 @@
 package cn.com.yuzhushui.movie.sys.biz.service;
 
 import cn.com.yuzhushui.movie.common.base.BaseService;
-
 import cn.com.yuzhushui.movie.sys.biz.entity.SysUser;
 /**
  * @author qing.yunhui 
@@ -10,5 +9,12 @@ import cn.com.yuzhushui.movie.sys.biz.entity.SysUser;
  * @history
  */
 public interface SysUserService extends BaseService<SysUser,Integer>{
+	
+	/***
+	 * <p>新增</p>
+	 * @param sysUser 待新增的对象
+	 * @return int 受影响的行数
+	 * */
+	public int addTest(SysUser sysUser);
     
 }
