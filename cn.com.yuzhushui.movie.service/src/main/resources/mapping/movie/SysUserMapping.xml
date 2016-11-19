@@ -49,6 +49,73 @@
         t.deleted
 	</sql>
 
+	<!-- 通用查询条件 -->
+	<sql id="queryCriteria">
+		<if test="@OGNL@isNotEmpty(id)">
+            AND t.id = #{id}
+        </if>
+		<if test="@OGNL@isNotEmpty(accountId)">
+            AND t.account_id = #{accountId}
+        </if>
+		<if test="@OGNL@isNotEmpty(name)">
+            AND t.name = #{name}
+        </if>
+		<if test="@OGNL@isNotEmpty(sex)">
+            AND t.sex = #{sex}
+        </if>
+		<if test="@OGNL@isNotEmpty(age)">
+            AND t.age = #{age}
+        </if>
+		<if test="@OGNL@isNotEmpty(telephone)">
+            AND t.telephone = #{telephone}
+        </if>
+		<if test="@OGNL@isNotEmpty(mobilephone)">
+            AND t.mobilephone = #{mobilephone}
+        </if>
+		<if test="@OGNL@isNotEmpty(job)">
+            AND t.job = #{job}
+        </if>
+		<if test="@OGNL@isNotEmpty(qq)">
+            AND t.qq = #{qq}
+        </if>
+		<if test="@OGNL@isNotEmpty(wechat)">
+            AND t.wechat = #{wechat}
+        </if>
+		<if test="@OGNL@isNotEmpty(microblog)">
+            AND t.microblog = #{microblog}
+        </if>
+		<if test="@OGNL@isNotEmpty(email)">
+            AND t.email = #{email}
+        </if>
+		<if test="@OGNL@isNotEmpty(officeAddr)">
+            AND t.office_addr = #{officeAddr}
+        </if>
+		<if test="@OGNL@isNotEmpty(ctime)">
+            AND t.ctime = #{ctime}
+        </if>
+		<if test="@OGNL@isNotEmpty(creater)">
+            AND t.creater = #{creater}
+        </if>
+		<if test="@OGNL@isNotEmpty(createrId)">
+            AND t.creater_id = #{createrId}
+        </if>
+		<if test="@OGNL@isNotEmpty(etime)">
+            AND t.etime = #{etime}
+        </if>
+		<if test="@OGNL@isNotEmpty(editor)">
+            AND t.editor = #{editor}
+        </if>
+		<if test="@OGNL@isNotEmpty(editorId)">
+            AND t.editor_id = #{editorId}
+        </if>
+		<if test="@OGNL@isNotEmpty(comments)">
+            AND t.comments = #{comments}
+        </if>
+		<if test="@OGNL@isNotEmpty(deleted)">
+            AND t.deleted = #{deleted}
+        </if>
+	</sql>
+
 	<insert id="insert" parameterType="cn.com.yuzhushui.movie.sys.biz.entity.SysUser" >
 		<![CDATA[
 	        INSERT INTO sys_user (
@@ -168,34 +235,6 @@
 	<update id="update" parameterType="cn.com.yuzhushui.movie.sys.biz.entity.SysUser">
         UPDATE sys_user 
         <set>
-            	account_id = #{accountId},
-            	name = #{name},
-            	sex = #{sex},
-            	age = #{age},
-            	telephone = #{telephone},
-            	mobilephone = #{mobilephone},
-            	job = #{job},
-            	qq = #{qq},
-            	wechat = #{wechat},
-            	microblog = #{microblog},
-            	email = #{email},
-            	office_addr = #{officeAddr},
-            	ctime = #{ctime},
-            	creater = #{creater},
-            	creater_id = #{createrId},
-            	etime = #{etime},
-            	editor = #{editor},
-            	editor_id = #{editorId},
-            	comments = #{comments},
-            	deleted = #{deleted},
-        </set>
-        WHERE deleted=0
-        	AND id = #{id}
-	</update>
-	
-	<update id="updateSelective" parameterType="cn.com.yuzhushui.movie.sys.biz.entity.SysUser">
-        UPDATE sys_user 
-        <set>
         	<if test="@OGNL@isNotEmpty(accountId)">
 	            account_id = #{accountId},
 	        </if>
@@ -272,71 +311,7 @@
 	<select id="queryAll" parameterType="map" resultMap="BaseResultMap">
 		SELECT <include refid="full-columns" />
 	    FROM sys_user t
-		<where>
-			<if test="@OGNL@isNotEmpty(id)">
-	            AND t.id = #{id}
-	        </if>
-			<if test="@OGNL@isNotEmpty(accountId)">
-	            AND t.account_id = #{accountId}
-	        </if>
-			<if test="@OGNL@isNotEmpty(name)">
-	            AND t.name = #{name}
-	        </if>
-			<if test="@OGNL@isNotEmpty(sex)">
-	            AND t.sex = #{sex}
-	        </if>
-			<if test="@OGNL@isNotEmpty(age)">
-	            AND t.age = #{age}
-	        </if>
-			<if test="@OGNL@isNotEmpty(telephone)">
-	            AND t.telephone = #{telephone}
-	        </if>
-			<if test="@OGNL@isNotEmpty(mobilephone)">
-	            AND t.mobilephone = #{mobilephone}
-	        </if>
-			<if test="@OGNL@isNotEmpty(job)">
-	            AND t.job = #{job}
-	        </if>
-			<if test="@OGNL@isNotEmpty(qq)">
-	            AND t.qq = #{qq}
-	        </if>
-			<if test="@OGNL@isNotEmpty(wechat)">
-	            AND t.wechat = #{wechat}
-	        </if>
-			<if test="@OGNL@isNotEmpty(microblog)">
-	            AND t.microblog = #{microblog}
-	        </if>
-			<if test="@OGNL@isNotEmpty(email)">
-	            AND t.email = #{email}
-	        </if>
-			<if test="@OGNL@isNotEmpty(officeAddr)">
-	            AND t.office_addr = #{officeAddr}
-	        </if>
-			<if test="@OGNL@isNotEmpty(ctime)">
-	            AND t.ctime = #{ctime}
-	        </if>
-			<if test="@OGNL@isNotEmpty(creater)">
-	            AND t.creater = #{creater}
-	        </if>
-			<if test="@OGNL@isNotEmpty(createrId)">
-	            AND t.creater_id = #{createrId}
-	        </if>
-			<if test="@OGNL@isNotEmpty(etime)">
-	            AND t.etime = #{etime}
-	        </if>
-			<if test="@OGNL@isNotEmpty(editor)">
-	            AND t.editor = #{editor}
-	        </if>
-			<if test="@OGNL@isNotEmpty(editorId)">
-	            AND t.editor_id = #{editorId}
-	        </if>
-			<if test="@OGNL@isNotEmpty(comments)">
-	            AND t.comments = #{comments}
-	        </if>
-			<if test="@OGNL@isNotEmpty(deleted)">
-	            AND t.deleted = #{deleted}
-	        </if>
-		</where>
+		WHERE <include refid="queryCriteria"/>
 		<if test="@OGNL@isNotEmpty(orderColumn) ">
         ORDER BY t.${orderColumn} <if test="@OGNL@isNotEmpty(orderDirection) ">${orderDirection}</if>
         </if>
@@ -346,71 +321,7 @@
 		SELECT 
         <include refid="full-columns" />
             FROM sys_user t
-		<where>
-	        <if test="@OGNL@isNotEmpty(id)">
-	            AND t.id = #{id}
-	        </if>
-	        <if test="@OGNL@isNotEmpty(accountId)">
-	            AND t.account_id = #{accountId}
-	        </if>
-	        <if test="@OGNL@isNotEmpty(name)">
-	            AND t.name = #{name}
-	        </if>
-	        <if test="@OGNL@isNotEmpty(sex)">
-	            AND t.sex = #{sex}
-	        </if>
-	        <if test="@OGNL@isNotEmpty(age)">
-	            AND t.age = #{age}
-	        </if>
-	        <if test="@OGNL@isNotEmpty(telephone)">
-	            AND t.telephone = #{telephone}
-	        </if>
-	        <if test="@OGNL@isNotEmpty(mobilephone)">
-	            AND t.mobilephone = #{mobilephone}
-	        </if>
-	        <if test="@OGNL@isNotEmpty(job)">
-	            AND t.job = #{job}
-	        </if>
-	        <if test="@OGNL@isNotEmpty(qq)">
-	            AND t.qq = #{qq}
-	        </if>
-	        <if test="@OGNL@isNotEmpty(wechat)">
-	            AND t.wechat = #{wechat}
-	        </if>
-	        <if test="@OGNL@isNotEmpty(microblog)">
-	            AND t.microblog = #{microblog}
-	        </if>
-	        <if test="@OGNL@isNotEmpty(email)">
-	            AND t.email = #{email}
-	        </if>
-	        <if test="@OGNL@isNotEmpty(officeAddr)">
-	            AND t.office_addr = #{officeAddr}
-	        </if>
-	        <if test="@OGNL@isNotEmpty(ctime)">
-	            AND t.ctime = #{ctime}
-	        </if>
-	        <if test="@OGNL@isNotEmpty(creater)">
-	            AND t.creater = #{creater}
-	        </if>
-	        <if test="@OGNL@isNotEmpty(createrId)">
-	            AND t.creater_id = #{createrId}
-	        </if>
-	        <if test="@OGNL@isNotEmpty(etime)">
-	            AND t.etime = #{etime}
-	        </if>
-	        <if test="@OGNL@isNotEmpty(editor)">
-	            AND t.editor = #{editor}
-	        </if>
-	        <if test="@OGNL@isNotEmpty(editorId)">
-	            AND t.editor_id = #{editorId}
-	        </if>
-	        <if test="@OGNL@isNotEmpty(comments)">
-	            AND t.comments = #{comments}
-	        </if>
-	        <if test="@OGNL@isNotEmpty(deleted)">
-	            AND t.deleted = #{deleted}
-	        </if>
-		</where>
+		WHERE <include refid="queryCriteria"/>
 		<if test="@OGNL@isNotEmpty(orderColumn) ">
         ORDER BY t.${orderColumn} <if test="@OGNL@isNotEmpty(orderDirection) ">${orderDirection}</if>
         </if>
@@ -419,70 +330,6 @@
 
 	<select id="queryCount" parameterType="map" resultType="java.lang.Integer">
 		select count(id) FROM sys_user 
-        <where>
-	        	<if test="@OGNL@isNotEmpty(id)">
-	            AND id = #{id}
-	        	</if>
-	        	<if test="@OGNL@isNotEmpty(accountId)">
-	            AND account_id = #{accountId}
-	        	</if>
-	        	<if test="@OGNL@isNotEmpty(name)">
-	            AND name = #{name}
-	        	</if>
-	        	<if test="@OGNL@isNotEmpty(sex)">
-	            AND sex = #{sex}
-	        	</if>
-	        	<if test="@OGNL@isNotEmpty(age)">
-	            AND age = #{age}
-	        	</if>
-	        	<if test="@OGNL@isNotEmpty(telephone)">
-	            AND telephone = #{telephone}
-	        	</if>
-	        	<if test="@OGNL@isNotEmpty(mobilephone)">
-	            AND mobilephone = #{mobilephone}
-	        	</if>
-	        	<if test="@OGNL@isNotEmpty(job)">
-	            AND job = #{job}
-	        	</if>
-	        	<if test="@OGNL@isNotEmpty(qq)">
-	            AND qq = #{qq}
-	        	</if>
-	        	<if test="@OGNL@isNotEmpty(wechat)">
-	            AND wechat = #{wechat}
-	        	</if>
-	        	<if test="@OGNL@isNotEmpty(microblog)">
-	            AND microblog = #{microblog}
-	        	</if>
-	        	<if test="@OGNL@isNotEmpty(email)">
-	            AND email = #{email}
-	        	</if>
-	        	<if test="@OGNL@isNotEmpty(officeAddr)">
-	            AND office_addr = #{officeAddr}
-	        	</if>
-	        	<if test="@OGNL@isNotEmpty(ctime)">
-	            AND ctime = #{ctime}
-	        	</if>
-	        	<if test="@OGNL@isNotEmpty(creater)">
-	            AND creater = #{creater}
-	        	</if>
-	        	<if test="@OGNL@isNotEmpty(createrId)">
-	            AND creater_id = #{createrId}
-	        	</if>
-	        	<if test="@OGNL@isNotEmpty(etime)">
-	            AND etime = #{etime}
-	        	</if>
-	        	<if test="@OGNL@isNotEmpty(editor)">
-	            AND editor = #{editor}
-	        	</if>
-	        	<if test="@OGNL@isNotEmpty(editorId)">
-	            AND editor_id = #{editorId}
-	        	</if>
-	        	<if test="@OGNL@isNotEmpty(comments)">
-	            AND comments = #{comments}
-	        	</if>
-	        	<if test="@OGNL@isNotEmpty(deleted)">
-	            AND deleted = #{deleted}
-	        	</if>
-        </where>
+        WHERE <include refid="queryCriteria"/>
 	</select>
 </mapper>

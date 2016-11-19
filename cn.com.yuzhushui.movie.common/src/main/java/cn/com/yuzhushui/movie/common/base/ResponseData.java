@@ -3,12 +3,15 @@ package cn.com.yuzhushui.movie.common.base;
 import java.util.HashMap;
 import java.util.Map;
 
+import lombok.Data;
+
 /***
  ** @category 请用一句话来描述其用途...
  ** @author qing.yunhui
  ** @email: 280672161@qq.com
  ** @createTime: 2016年11月17日下午10:38:45
  **/
+@Data
 public class ResponseData {
 
 	private ResponseStatus status = null;
@@ -25,8 +28,7 @@ public class ResponseData {
 	public ResponseData(ResponseStatus status, String msg) {
 		this(status,msg,new HashMap<String, Object>());
 	}
-	public ResponseData(ResponseStatus status, String msg,
-			Map<String, Object> data) {
+	public ResponseData(ResponseStatus status, String msg,Map<String, Object> data) {
 		super();
 		this.status = status;
 		this.msg = msg;
@@ -48,32 +50,9 @@ public class ResponseData {
 		data.put(key, value);
 		return this;
 	}
-	public int getStatus() {
-		return status.getValue();
-	}
 	
 	public ResponseStatus getResponseStatus() {
 		return status;
 	}
 
-	public void setStatus(ResponseStatus status) {
-		this.status = status;
-	}
-
-	public String getMsg() {
-		return msg;
-	}
-
-	public void setMsg(String msg) {
-		this.msg = msg;
-	}
-
-	public Map<String, Object> getData() {
-		return data;
-	}
-
-	public void setData(Map<String, Object> data) {
-		this.data = data;
-	}
-	
 }

@@ -47,6 +47,8 @@ public class SysUserAction extends BaseAction<SysUser, SysUserForm, Integer>{
 		return ACTION_PATH;
 	}
 	
+	
+	
 	@RequestMapping(value = "doAddTest", method = { RequestMethod.POST,RequestMethod.GET })
 	public String doAddTest() {
 		logger.info("=====================调用baseService.add()=====================");

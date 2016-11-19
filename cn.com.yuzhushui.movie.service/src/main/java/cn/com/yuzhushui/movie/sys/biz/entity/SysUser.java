@@ -3,6 +3,8 @@ package cn.com.yuzhushui.movie.sys.biz.entity;
 import java.util.Date;
 
 import cn.com.yuzhushui.movie.common.base.BaseModel;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author qing.yunhui 
@@ -10,6 +12,8 @@ import cn.com.yuzhushui.movie.common.base.BaseModel;
  * @create 2016-11-18 11:19:22
  * @history
  */
+@Getter
+@Setter
 public class SysUser extends BaseModel<Integer>{
 	
 	//alias
@@ -122,181 +126,5 @@ public class SysUser extends BaseModel<Integer>{
 	private Integer deleted;
 	
 	//columns END
-
-	public SysUser(){
-	}
-
-	public SysUser(Integer id){
-		this.id = id;
-	}
-
-	
-	public void setId(Integer id){
-		this.id = id;
-	}
-	
-	public Integer getId(){
-		return id;
-	}
-	
-	public void setAccountId(Integer accountId){
-		this.accountId = accountId;
-	}
-	
-	public Integer getAccountId(){
-		return accountId;
-	}
-	
-	public void setName(String name){
-		this.name = name;
-	}
-	
-	public String getName(){
-		return name;
-	}
-	
-	public void setSex(Integer sex){
-		this.sex = sex;
-	}
-	
-	public Integer getSex(){
-		return sex;
-	}
-	
-	public void setAge(Integer age){
-		this.age = age;
-	}
-	
-	public Integer getAge(){
-		return age;
-	}
-	
-	public void setTelephone(String telephone){
-		this.telephone = telephone;
-	}
-	
-	public String getTelephone(){
-		return telephone;
-	}
-	
-	public void setMobilephone(String mobilephone){
-		this.mobilephone = mobilephone;
-	}
-	
-	public String getMobilephone(){
-		return mobilephone;
-	}
-	
-	public void setJob(Integer job){
-		this.job = job;
-	}
-	
-	public Integer getJob(){
-		return job;
-	}
-	
-	public void setQq(Integer qq){
-		this.qq = qq;
-	}
-	
-	public Integer getQq(){
-		return qq;
-	}
-	
-	public void setWechat(String wechat){
-		this.wechat = wechat;
-	}
-	
-	public String getWechat(){
-		return wechat;
-	}
-	
-	public void setMicroblog(String microblog){
-		this.microblog = microblog;
-	}
-	
-	public String getMicroblog(){
-		return microblog;
-	}
-	
-	public void setEmail(String email){
-		this.email = email;
-	}
-	
-	public String getEmail(){
-		return email;
-	}
-	
-	public void setOfficeAddr(String officeAddr){
-		this.officeAddr = officeAddr;
-	}
-	
-	public String getOfficeAddr(){
-		return officeAddr;
-	}
-	
-	public void setCtime(Date ctime){
-		this.ctime = ctime;
-	}
-	
-	public Date getCtime(){
-		return ctime;
-	}
-	
-	public void setCreater(String creater){
-		this.creater = creater;
-	}
-	
-	public String getCreater(){
-		return creater;
-	}
-	
-	public void setCreaterId(Integer createrId){
-		this.createrId = createrId;
-	}
-	
-	public Integer getCreaterId(){
-		return createrId;
-	}
-	
-	public void setEtime(Date etime){
-		this.etime = etime;
-	}
-	
-	public Date getEtime(){
-		return etime;
-	}
-	
-	public void setEditor(String editor){
-		this.editor = editor;
-	}
-	
-	public String getEditor(){
-		return editor;
-	}
-	
-	public void setEditorId(Integer editorId){
-		this.editorId = editorId;
-	}
-	
-	public Integer getEditorId(){
-		return editorId;
-	}
-	
-	public void setComments(String comments){
-		this.comments = comments;
-	}
-	
-	public String getComments(){
-		return comments;
-	}
-	
-	public void setDeleted(Integer deleted){
-		this.deleted = deleted;
-	}
-	
-	public Integer getDeleted(){
-		return deleted;
-	}
 
 }
