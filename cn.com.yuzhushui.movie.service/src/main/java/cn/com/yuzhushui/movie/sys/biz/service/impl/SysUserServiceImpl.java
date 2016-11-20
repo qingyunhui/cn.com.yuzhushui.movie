@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.com.yuzhushui.movie.common.base.BaseServiceImpl;
+import cn.com.yuzhushui.movie.common.bean.SysUser;
 import cn.com.yuzhushui.movie.sys.biz.dao.SysUserDao;
-import cn.com.yuzhushui.movie.sys.biz.entity.SysUser;
 import cn.com.yuzhushui.movie.sys.biz.service.SysUserService;
 
 /**

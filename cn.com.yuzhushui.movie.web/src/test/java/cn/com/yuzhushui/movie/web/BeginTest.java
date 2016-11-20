@@ -14,7 +14,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class BeginTest {
 
-	private ApplicationContext context;
+	/*private ApplicationContext context;
 	
 	@Before
 	public void before(){           
@@ -25,5 +25,5 @@ public class BeginTest {
 	@Test
 	public void test(){
 		System.out.println("====================success====================");
-	}
+	}*/
 }

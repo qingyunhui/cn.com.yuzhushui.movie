@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
+import cn.com.yuzhushui.movie.common.util.SessionUtil;
+
 /***
  ** @category 请用一句话来描述其用途...
  ** @author qing.yunhui
@@ -16,7 +18,7 @@ import com.github.pagehelper.PageInfo;
  ** @createTime: 2016年11月17日下午2:25:54
  **/
 @Service
-public class BaseServiceImpl<MODEL, KEY_TYPE> implements BaseService<MODEL, KEY_TYPE>{
+public class BaseServiceImpl<MODEL extends BaseModel<KEY_TYPE>, KEY_TYPE> implements BaseService<MODEL , KEY_TYPE>{
 
 	@Autowired
 	private BaseDao<MODEL, KEY_TYPE> baseDao;
@@ -26,27 +28,27 @@ public class BaseServiceImpl<MODEL, KEY_TYPE> implements BaseService<MODEL, KEY_
 	}
 	
 	public int add(MODEL model) {
-		//TODO 可以在insert前做些处理，比如记录创建人，创建时间、创建人id等等..
+		callProcess(model);
 		int count = getBaseDao().insert(model);
-		//TODO 也可以在insert之后做一些处理，比如什么呢？
 		return count;
 	}
 	public int add(List<MODEL> models) {
-		//TODO 可以在insert前做些处理，比如记录创建人，创建时间、创建人id等等..
+		for(MODEL model:models){
+			callProcess(model);
+		}
 		int count = getBaseDao().insertBatch(models);
-		//TODO 也可以在insert之后做一些处理，比如什么呢？
 		return count;
 	}
 	public int update(MODEL model) {
-		//TODO 可以在insert前做些处理，比如记录创建人，创建时间、创建人id等等..
+		callProcess(model);
 		int count = getBaseDao().update(model);
-		//TODO 也可以在insert之后做一些处理，比如什么呢？
 		return count;
 	}
 	public int update(List<MODEL> models) {
-		//TODO 可以在insert前做些处理，比如记录创建人，创建时间、创建人id等等..
+		for(MODEL model:models){
+			callProcess(model);
+		}
 		int count = getBaseDao().updateBatch(models);
-		//TODO 也可以在insert之后做一些处理，比如什么呢？
 		return count;
 	}
 	
@@ -70,5 +72,16 @@ public class BaseServiceImpl<MODEL, KEY_TYPE> implements BaseService<MODEL, KEY_
 		PageHelper.startPage(query.getPageNum(), query.getPageSize(), query.getOrderBy());
 		return new PageInfo<MODEL>(query(query.getQueryData()));
 	}
-
+	
+	/**
+	 * <p>调用接口处理model</p>
+	 * @param model 待处理的model
+	 * @return void
+	 * */
+	private void callProcess(MODEL model){
+		List<PluginService> pluginService = SessionUtil.getBeansOfType(PluginService.class);
+		for (PluginService plugin : pluginService) {
+			plugin.process(model);
+		}
+	}
 }

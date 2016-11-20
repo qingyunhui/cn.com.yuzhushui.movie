@@ -18,7 +18,7 @@ import com.alibaba.fastjson.JSONObject;
 import cn.com.yuzhushui.movie.cache.ShardedJedisCached;
 import cn.com.yuzhushui.movie.common.base.BaseAction;
 import cn.com.yuzhushui.movie.common.base.BaseService;
-import cn.com.yuzhushui.movie.sys.biz.entity.SysUser;
+import cn.com.yuzhushui.movie.common.bean.SysUser;
 import cn.com.yuzhushui.movie.sys.biz.service.SysUserService;
 import cn.com.yuzhushui.movie.sys.web.vo.SysUserForm;
 import qing.yun.hui.common.utils.BeanUtil;

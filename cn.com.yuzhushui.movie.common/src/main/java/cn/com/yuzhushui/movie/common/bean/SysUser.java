@@ -1,8 +1,10 @@
-package cn.com.yuzhushui.movie.sys.biz.entity;
+package cn.com.yuzhushui.movie.common.bean;
 
 import java.util.Date;
 
 import cn.com.yuzhushui.movie.common.base.BaseModel;
+import cn.com.yuzhushui.movie.common.base.CreaterService;
+import cn.com.yuzhushui.movie.common.base.EditorService;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,10 +16,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class SysUser extends BaseModel<Integer>{
-	
-	//alias
-	//public static final String TABLE_ALIAS = "SysUser";
+public class SysUser extends BaseModel<Integer> implements CreaterService,EditorService{
 	
 	//columns START
 	/**

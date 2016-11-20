@@ -2,7 +2,7 @@
 package cn.com.yuzhushui.movie.sys.biz.dao;
 
 import cn.com.yuzhushui.movie.common.base.BaseDao;
-import cn.com.yuzhushui.movie.sys.biz.entity.SysUser;
+import cn.com.yuzhushui.movie.common.bean.SysUser;
 
 /**
  * @author qing.yunhui 

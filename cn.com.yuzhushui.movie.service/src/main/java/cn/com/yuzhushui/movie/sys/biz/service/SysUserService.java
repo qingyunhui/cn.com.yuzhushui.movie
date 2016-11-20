@@ -1,7 +1,7 @@
 package cn.com.yuzhushui.movie.sys.biz.service;
 
 import cn.com.yuzhushui.movie.common.base.BaseService;
-import cn.com.yuzhushui.movie.sys.biz.entity.SysUser;
+import cn.com.yuzhushui.movie.common.bean.SysUser;
 /**
  * @author qing.yunhui 
  * @Since 2011-2016
