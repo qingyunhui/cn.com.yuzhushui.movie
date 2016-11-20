@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
  ** @createTime: 2016年11月17日下午1:23:20
  **/
 @Repository
-public interface BaseDao<MODEL,KEY_TYPE> {
+public interface BaseDao<MODEL extends BaseModel<KEY_TYPE>,KEY_TYPE> {
 	
 	/**
 	 * <p>新增</p>
