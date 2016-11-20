@@ -15,7 +15,7 @@ import cn.com.yuzhushui.movie.common.base.BaseAction;
 /**
  * @author qing.yunhui 
  * @Since 2011-2016
- * @create 2016-11-20 00:16:24
+ * @create 2016-11-20 15:37:51
  * @history
  */
 @Controller

@@ -26,9 +26,6 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser,Integer> impleme
 		
 		count=sysUserDao.insert(sysUser);
 		System.out.println("=======>count:"+count);
-		int tmp=1/0;
-		System.out.println("=======>tmp:"+tmp);
-		
 		/*try {
 			count=sysUserDao.insert(sysUser);
 			System.out.println("=======>count:"+count);

@@ -28,9 +28,6 @@ public class BaseServiceImpl<MODEL, KEY_TYPE> implements BaseService<MODEL, KEY_
 	public int add(MODEL model) {
 		//TODO 可以在insert前做些处理，比如记录创建人，创建时间、创建人id等等..
 		int count = getBaseDao().insert(model);
-		System.out.println("count:"+count);
-		int tmp=1/0;
-		System.out.println("tmp:"+tmp);
 		//TODO 也可以在insert之后做一些处理，比如什么呢？
 		return count;
 	}

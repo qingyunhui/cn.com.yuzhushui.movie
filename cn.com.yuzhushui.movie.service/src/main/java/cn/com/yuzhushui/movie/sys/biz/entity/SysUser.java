@@ -17,7 +17,7 @@ import lombok.Setter;
 public class SysUser extends BaseModel<Integer>{
 	
 	//alias
-	public static final String TABLE_ALIAS = "SysUser";
+	//public static final String TABLE_ALIAS = "SysUser";
 	
 	//columns START
 	/**
