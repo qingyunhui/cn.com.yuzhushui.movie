@@ -1,28 +1,29 @@
-package cn.com.yuzhushui.movie.common.bean;
+package cn.com.yuzhushui.movie.sys.biz.entity;
 
 import java.util.Date;
 
 import cn.com.yuzhushui.movie.common.base.BaseModel;
-import cn.com.yuzhushui.movie.common.base.CreaterService;
-import cn.com.yuzhushui.movie.common.base.EditorService;
 import lombok.Getter;
 import lombok.Setter;
 
 /**
  * @author qing.yunhui 
  * @Since 2011-2016
- * @create 2016-11-18 11:19:22
+ * @create 2016-11-23 00:05:04
  * @history
  */
 @Getter
 @Setter
-public class SysUser extends BaseModel<Integer> implements CreaterService,EditorService{
+public class SysUser extends BaseModel<Integer>{
+	
+	//alias
+	public static final String TABLE_ALIAS = "SysUser";
 	
 	//columns START
 	/**
-	 * @Fields id:id
+	 * @Fields userId:id
 	 */
-	private Integer id;
+	private Integer userId;
 	
 	/**
 	 * @Fields accountId:account_id
@@ -123,6 +124,11 @@ public class SysUser extends BaseModel<Integer> implements CreaterService,Editor
 	 * @Fields deleted:删除标识
 	 */
 	private Integer deleted;
+
+	@Override
+	public Integer getId() {
+		return userId;
+	}
 	
 	//columns END
 

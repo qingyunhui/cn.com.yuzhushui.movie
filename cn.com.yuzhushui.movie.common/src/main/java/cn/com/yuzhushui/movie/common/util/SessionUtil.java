@@ -14,8 +14,9 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import cn.com.yuzhushui.movie.common.bean.SysUser;
-import qing.yun.hui.common.constants.Constant;
+import cn.com.yuzhushui.movie.common.bean.SessionInfo;
+import cn.com.yuzhushui.movie.constant.MovieConstant;
+import cn.com.yuzhushui.movie.sys.biz.entity.SysUser;
 
 /***
  ** @category 请用一句话来描述其用途...
@@ -40,10 +41,14 @@ public class SessionUtil {
 	public static HttpServletResponse getResponse() {
 		return getRequestAttr().getResponse();
 	}
-
+	
+	public static SessionInfo getSessionInfo(){
+		return (SessionInfo)getSession().getAttribute(MovieConstant.SESSION_INFO);
+	}
+	
 	public static SysUser getSysUser() {
-		SysUser sysUser=(SysUser)getSession().getAttribute(Constant.USER_INFO_SESSION);
-		return sysUser;
+		SysUser appUserInfo=getSessionInfo().getSysUser();
+		return appUserInfo;
 	}
 
 	/**

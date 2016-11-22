@@ -9,7 +9,7 @@ import lombok.Setter;
 /**
  * @author qing.yunhui 
  * @Since 2011-2016
- * @create 2016-11-20 15:37:51
+ * @create 2016-11-23 00:05:03
  * @history
  */
 @Getter
@@ -29,6 +29,16 @@ public class SysAccount extends BaseModel<Integer>{
 	 * @Fields account:账号
 	 */
 	private String account;
+	
+	/**
+	 * @Fields mobilephone:移动电话
+	 */
+	private String mobilephone;
+	
+	/**
+	 * @Fields email:电子邮箱
+	 */
+	private String email;
 	
 	/**
 	 * @Fields password:密码(加密后)
@@ -85,4 +95,6 @@ public class SysAccount extends BaseModel<Integer>{
 		return accountId;
 	}
 	
+	//columns END
+
 }

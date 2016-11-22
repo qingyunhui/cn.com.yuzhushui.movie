@@ -18,7 +18,7 @@ import com.alibaba.fastjson.JSONObject;
 import cn.com.yuzhushui.movie.cache.ShardedJedisCached;
 import cn.com.yuzhushui.movie.common.base.BaseAction;
 import cn.com.yuzhushui.movie.common.base.BaseService;
-import cn.com.yuzhushui.movie.common.bean.SysUser;
+import cn.com.yuzhushui.movie.sys.biz.entity.SysUser;
 import cn.com.yuzhushui.movie.sys.biz.service.SysUserService;
 import cn.com.yuzhushui.movie.sys.web.vo.SysUserForm;
 import qing.yun.hui.common.utils.BeanUtil;
@@ -87,7 +87,7 @@ public class SysUserAction extends BaseAction<SysUser, SysUserForm, Integer>{
 		}
 		logger.info("r:"+r);
 		SysUser u=new SysUser();
-		u.setId(r);
+//		u.setId(r);
 		u.setName("**特朗普**"+r);
 		int count=sysUserService.update(u);
 		logger.info("受影响的行数有:"+count+"条。");
@@ -162,7 +162,7 @@ public class SysUserAction extends BaseAction<SysUser, SysUserForm, Integer>{
 		user.setDeleted(0);
 		int count=0;
 		try {
-			count=sysUserService.addTest(user);
+//			count=sysUserService.addTest(user);
 		} catch (Exception e) {
 			logger.error("************数据库操作异常，异常原因，{}",new Object[]{e});
 		}

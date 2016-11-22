@@ -2,8 +2,8 @@ package cn.com.yuzhushui.movie.common.base;
 
 import org.springframework.stereotype.Service;
 
-import cn.com.yuzhushui.movie.common.bean.SysUser;
 import cn.com.yuzhushui.movie.common.util.SessionUtil;
+import cn.com.yuzhushui.movie.sys.biz.entity.SysUser;
 
 /***
  ** @category 请用一句话来描述其用途...

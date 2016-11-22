@@ -44,11 +44,6 @@ public class SysUserForm extends BaseForm<Integer> {
 	private Integer age;
 	
 	/**
-	 * @Fields Column_12:column12
-	 */
-	private String column12;
-	
-	/**
 	 * @Fields telephone:联系电话
 	 */
 	private String telephone;
