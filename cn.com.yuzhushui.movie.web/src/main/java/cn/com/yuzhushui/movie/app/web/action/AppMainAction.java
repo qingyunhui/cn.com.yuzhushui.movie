@@ -21,6 +21,7 @@ import cn.com.yuzhushui.movie.cache.ShardedJedisCached;
 import cn.com.yuzhushui.movie.common.bean.LogParameter;
 import cn.com.yuzhushui.movie.common.bean.SessionInfo;
 import cn.com.yuzhushui.movie.constant.MovieConstant;
+import cn.com.yuzhushui.movie.enums.LoginType;
 import cn.com.yuzhushui.movie.enums.SysAccountEnum;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysAccount;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysUser;
@@ -87,24 +88,33 @@ public class AppMainAction {
 		return modelView;
 	}
 	
+	/**
+	 * 判断登陆方式
+	 * */
+	protected Integer loginType(String identity){
+		if(ValidateUtil.isEmail(identity)) return LoginType.EMAIL_TYPE.getValue();
+		if(ValidateUtil.isMobile(identity)) return LoginType.MOBILEPHONE_TYPE.getValue();
+		return LoginType.ACCOUNT_TYPE.getValue();
+	}
+	
 	/**登陆*/
 	@RequestMapping(value = "/doLogin", method = RequestMethod.POST)
 	public ModelAndView doLogin(LogParameter logParam,String phoneOrEmail, HttpSession session,RedirectAttributes attributes) {
 		ModelAndView modeView = new ModelAndView("redirect:" + ACTION_PATH + "/login.htm");
 		Map<String, Object> map = new HashMap<String, Object>();
 		if(StringUtil.isEmpty(phoneOrEmail)){
-			modeView.addObject(MovieConstant.MESSAGES,"请输入手机号/邮箱!");
+			modeView.addObject(MovieConstant.MESSAGES,"请输入手机号/邮箱/账号!");
 			return modeView;
 		}
-		boolean mobilePhone=ValidateUtil.isMobile(phoneOrEmail);
-		if(mobilePhone){
-			map.put("mobilePhone", logParam.getAccounts());
-		}/*else if(){}{
+		Integer loginType=loginType(phoneOrEmail);
+		if(loginType.equals(LoginType.MOBILEPHONE_TYPE)){
+			map.put("mobilephone", logParam.getAccounts());
+		}else if(loginType.equals(LoginType.EMAIL_TYPE)){
 			map.put("email", logParam.getAccounts());
 		}else{
 			map.put("account", logParam.getAccounts());
-		}*/
-		map.put("loginPassword", MD5Util.getMD5Encryption(logParam.getPasswords()));
+		}
+		map.put("password", MD5Util.getMD5Encryption(logParam.getPasswords()));
 		List<SysAccount> accounts=sysAccountService.query(map);
 		if (accounts.size() == 1) {
 			SysAccount account = accounts.get(0);
