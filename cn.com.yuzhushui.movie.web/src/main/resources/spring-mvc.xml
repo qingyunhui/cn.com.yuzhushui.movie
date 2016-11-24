@@ -26,6 +26,17 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 		</property>
 	</bean>
 	
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean class="cn.com.yuzhushui.movie.common.Interceptor.SessionInterceptor">
+				<property name="noFilters" value="app/appMain/login.htm"/><!-- 不须要拦截的URL多个URL以逗号隔开。	 -->
+				<property name="register" value="" /><!-- 须要注册的URL -->
+				<property name="needLogin" value=""/><!-- 须要登陆的URL -->
+			</bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
 	<!-- <mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
