@@ -7,10 +7,15 @@
 </head>
 <body>
 <br/>
-<h1>=========这是引导页=========</h1>
+<h1>=========这是登陆页=========</h1>
 <br/>
-<a href="${path}app/appMain/login.htm">======单击进入登陆页面======</a>
-
+<a href="${path}app/appMain/login.htm">======单击进行登陆======</a>
+<br/>
+<form action="${path}app/appMain/doLogin.htm" method="post">
+	<input name="accounts" />
+	<input name="passwords">
+	<input type="submit">
+</form>
 <script type="text/javascript">
 	$(function(){
 	

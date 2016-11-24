@@ -99,14 +99,14 @@ public class AppMainAction {
 	
 	/**登陆*/
 	@RequestMapping(value = "/doLogin", method = RequestMethod.POST)
-	public ModelAndView doLogin(LogParameter logParam,String phoneOrEmail, HttpSession session,RedirectAttributes attributes) {
+	public ModelAndView doLogin(LogParameter logParam, HttpSession session,RedirectAttributes attributes) {
 		ModelAndView modeView = new ModelAndView("redirect:" + ACTION_PATH + "/login.htm");
 		Map<String, Object> map = new HashMap<String, Object>();
-		if(StringUtil.isEmpty(phoneOrEmail)){
+		if(StringUtil.isEmpty(logParam.getAccounts())){
 			modeView.addObject(MovieConstant.MESSAGES,"请输入手机号/邮箱/账号!");
 			return modeView;
 		}
-		Integer loginType=loginType(phoneOrEmail);
+		Integer loginType=loginType(logParam.getAccounts());
 		if(loginType.equals(LoginType.MOBILEPHONE_TYPE)){
 			map.put("mobilephone", logParam.getAccounts());
 		}else if(loginType.equals(LoginType.EMAIL_TYPE)){
@@ -124,6 +124,7 @@ public class AppMainAction {
 			if(users.size()==1){
 				if(account.getStatus()!=SysAccountEnum.STATUS.AUDIT_SUCCESS.getValue()){
 					attributes.addFlashAttribute(MovieConstant.MESSAGES, "登录失败，用户已被禁用或者没有注册！");
+					return modeView;
 				}else{
 					SysUser sysUser=users.get(0);
 					SessionInfo sessionInfo = new SessionInfo();
