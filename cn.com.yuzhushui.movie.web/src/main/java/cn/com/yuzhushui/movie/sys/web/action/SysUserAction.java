@@ -125,11 +125,7 @@ public class SysUserAction extends BaseAction<SysUser, SysUserForm, Integer>{
 		user.setMobilephone("186653006"+r);
 		user.setEmail("28067216"+r);
 		user.setCtime(new Date());
-		user.setCreater(""+r);
-		user.setCreaterId(2222);
 		user.setEtime(new Date());
-		user.setEditor("张三");
-		user.setEditorId(22);
 		user.setDeleted(0);
 		int count=0;
 		try {
@@ -154,11 +150,7 @@ public class SysUserAction extends BaseAction<SysUser, SysUserForm, Integer>{
 		user.setMobilephone("186653006"+r);
 		user.setEmail("28067216"+r);
 		user.setCtime(new Date());
-		user.setCreater(""+r);
-		user.setCreaterId(2222);
 		user.setEtime(new Date());
-		user.setEditor("张三");
-		user.setEditorId(22);
 		user.setDeleted(0);
 		int count=0;
 		try {

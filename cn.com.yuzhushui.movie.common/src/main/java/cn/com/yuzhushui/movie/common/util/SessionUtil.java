@@ -1,6 +1,7 @@
 package cn.com.yuzhushui.movie.common.util;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import cn.com.yuzhushui.movie.common.bean.SessionInfo;
 import cn.com.yuzhushui.movie.constant.MovieConstant;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysUser;
+import qing.yun.hui.common.utils.StringUtil;
 
 /***
  ** @category 请用一句话来描述其用途...
@@ -61,11 +63,25 @@ public class SessionUtil {
 	 */
 	public static <T> List<T> getBeansOfType(Class<T> clazz) {
 		Map<String, T> beansOfType = getApplication().getBeansOfType(clazz);
-		
 		List<T> beans = new ArrayList<T>();
-		for (T bean : beansOfType.values()) {
+		Iterator<String> iterator=beansOfType.keySet().iterator();
+		while(iterator.hasNext()){
+			String key=iterator.next();
+			if(StringUtil.isEmpty(key)) continue;
+			if(!key.endsWith("Impl"))continue;
+			T bean =beansOfType.get(key);
+			/*
+			 * T t =beansOfType.get(key);
+				System.out.println("key:"+key+",t:"+t);
+				key:createrServiceImpl,t:cn.com.yuzhushui.movie.common.base.CreaterServiceImpl@11959727
+				key:editorServiceImpl,t:cn.com.yuzhushui.movie.common.base.EditorServiceImpl@73f68a75
+				key:pluginService,t:org.apache.ibatis.binding.MapperProxy@3efc42cd
+			*/
 			beans.add(bean);
 		}
+		/*for (T bean : beansOfType.values()) {
+			beans.add(bean);
+		}*/
 		return beans;
 	}
 

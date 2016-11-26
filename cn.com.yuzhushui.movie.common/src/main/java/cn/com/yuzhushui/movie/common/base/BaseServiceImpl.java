@@ -77,10 +77,14 @@ public class BaseServiceImpl<MODEL extends BaseModel<KEY_TYPE>, KEY_TYPE> implem
 	 * <p>调用接口处理model</p>
 	 * @param model 待处理的model
 	 * @return void
+
+
 	 * */
 	private void callProcess(MODEL model){
 		List<PluginService> pluginService = SessionUtil.getBeansOfType(PluginService.class);
 		for (PluginService plugin : pluginService) {
+			//CreaterServiceImpl.class=class cn.com.yuzhushui.movie.common.base.CreaterServiceImpl
+			//cn.com.yuzhushui.movie.common.base.CreaterServiceImpl@1c560cae
 			plugin.process(model);
 		}
 	}

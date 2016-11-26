@@ -5,7 +5,7 @@ package cn.com.yuzhushui.movie.common.base;
  ** @email: 280672161@qq.com
  ** @createTime: 2016年11月20日下午8:51:44
  **/
-public interface CreaterService {
+public interface CreaterInfo {
 
 	String getCreater();
 	Integer getCreaterId();

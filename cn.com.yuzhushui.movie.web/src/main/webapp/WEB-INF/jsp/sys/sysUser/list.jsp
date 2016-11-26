@@ -6,7 +6,9 @@
 <%@ include file="/WEB-INF/jsp/public/head.jsp"%>
 </head>
 <body>
+<br/>
 <h1>well com by user.list</h1>
+<br/>
 <script type="text/javascript">
 	
 </script>

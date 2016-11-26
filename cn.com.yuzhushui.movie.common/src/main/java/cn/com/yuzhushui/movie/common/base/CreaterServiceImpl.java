@@ -17,8 +17,8 @@ public class CreaterServiceImpl implements PluginService{
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void process(BaseModel baseModel) {
-		if(baseModel instanceof CreaterService) {
-			CreaterService creater = (CreaterService) baseModel;
+		if(baseModel instanceof CreaterInfo) {
+			CreaterInfo creater = (CreaterInfo) baseModel;
 			SysUser sysUser = SessionUtil.getSysUser();
 			creater.setCreater(sysUser.getName());
 			creater.setCreaterId(sysUser.getId());

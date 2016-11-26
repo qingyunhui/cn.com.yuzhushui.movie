@@ -17,8 +17,8 @@ public class EditorServiceImpl implements PluginService{
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void process(BaseModel baseModel) {
-		if(baseModel instanceof CreaterService) {
-			EditorService editor = (EditorService) baseModel;
+		if(baseModel instanceof EditorInfo) {
+			EditorInfo editor = (EditorInfo) baseModel;
 			SysUser sysUser = SessionUtil.getSysUser();
 			editor.setEditor(sysUser.getName());
 			editor.setEditorId(sysUser.getId());

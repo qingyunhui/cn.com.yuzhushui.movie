@@ -3,6 +3,8 @@ package cn.com.yuzhushui.movie.sys.biz.entity;
 import java.util.Date;
 
 import cn.com.yuzhushui.movie.common.base.BaseModel;
+import cn.com.yuzhushui.movie.common.base.CreaterInfo;
+import cn.com.yuzhushui.movie.common.base.EditorInfo;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +16,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class SysUser extends BaseModel<Integer>{
+public class SysUser extends BaseModel<Integer> implements CreaterInfo,EditorInfo{
 	
 	//alias
 	public static final String TABLE_ALIAS = "SysUser";

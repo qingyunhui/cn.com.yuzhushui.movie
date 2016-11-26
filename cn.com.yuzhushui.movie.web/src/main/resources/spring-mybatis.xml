@@ -66,7 +66,6 @@ http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
 	</bean>
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="cn.com.yuzhushui.**.biz.dao,cn.com.yuzhushui.movie.common.base" />
-		<!-- <property name="package" value="cn.com.yuzhushui.movie.common.base" /> -->
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
 	</bean>
 

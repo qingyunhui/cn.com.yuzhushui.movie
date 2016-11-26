@@ -77,8 +77,9 @@
     <url-pattern>*.htm</url-pattern>
     <url-pattern>*.json</url-pattern>
   </servlet-mapping>
+  <!-- session有效期60分钟 -->
   <session-config>
-    <session-timeout>150</session-timeout>
+    <session-timeout>60</session-timeout>
   </session-config>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
