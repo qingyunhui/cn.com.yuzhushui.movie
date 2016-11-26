@@ -82,7 +82,7 @@
 	        ) VALUES (
 	        	#{accountId},
 	        	#{roleId},
-	        	#{ctime},
+	        	now(),
 	        	#{creater},
 	        	#{createrId},
 	        	#{etime},
@@ -115,7 +115,7 @@
 	        (
 	        	#{accountId},
 	        	#{roleId},
-	        	#{ctime},
+	        	now(),
 	        	#{creater},
 	        	#{createrId},
 	        	#{etime},

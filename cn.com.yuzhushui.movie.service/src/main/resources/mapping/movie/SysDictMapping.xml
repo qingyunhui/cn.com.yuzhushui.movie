@@ -103,7 +103,7 @@
 	        	#{itemValue},
 	        	#{name},
 	        	#{orderValue},
-	        	#{ctime},
+	        	now(),
 	        	#{creater},
 	        	#{createrId},
 	        	#{etime},
@@ -142,7 +142,7 @@
 	        	#{itemValue},
 	        	#{name},
 	        	#{orderValue},
-	        	#{ctime},
+	        	now(),
 	        	#{creater},
 	        	#{createrId},
 	        	#{etime},
@@ -188,7 +188,7 @@
 	            order_value = #{orderValue},
 	        </if>
         	<if test="@OGNL@isNotEmpty(ctime)">
-	            ctime = #{ctime},
+	            ctimenow()me},
 	        </if>
         	<if test="@OGNL@isNotEmpty(creater)">
 	            creater = #{creater},

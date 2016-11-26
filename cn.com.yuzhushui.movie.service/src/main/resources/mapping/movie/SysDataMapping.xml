@@ -64,7 +64,7 @@
 	        ) VALUES (
 	        	#{targetTable},
 	        	#{targetId},
-	        	#{ctime},
+	        	now(),
 	        	#{creater},
 	        	#{createrId},
 	        	#{loseEfficacyDate},
@@ -91,7 +91,7 @@
 	        (
 	        	#{targetTable},
 	        	#{targetId},
-	        	#{ctime},
+	        	now(),
 	        	#{creater},
 	        	#{createrId},
 	        	#{loseEfficacyDate},
