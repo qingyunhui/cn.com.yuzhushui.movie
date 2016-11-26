@@ -12,7 +12,7 @@ import cn.com.yuzhushui.movie.sys.biz.entity.SysUser;
  ** @createTime: 2016年11月20日下午9:09:43
  **/
 @Service
-public class CreaterServiceImpl implements PluginService{
+public class CreaterServiceImpl implements PluginBeforeService{
 
 	@SuppressWarnings("rawtypes")
 	@Override

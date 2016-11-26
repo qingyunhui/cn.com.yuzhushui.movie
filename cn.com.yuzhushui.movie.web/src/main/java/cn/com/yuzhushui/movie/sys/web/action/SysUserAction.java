@@ -124,8 +124,6 @@ public class SysUserAction extends BaseAction<SysUser, SysUserForm, Integer>{
 		user.setSex(1);
 		user.setMobilephone("186653006"+r);
 		user.setEmail("28067216"+r);
-		user.setCtime(new Date());
-		user.setEtime(new Date());
 		user.setDeleted(0);
 		int count=0;
 		try {

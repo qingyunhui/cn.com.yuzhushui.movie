@@ -28,25 +28,25 @@ public class BaseServiceImpl<MODEL extends BaseModel<KEY_TYPE>, KEY_TYPE> implem
 	}
 	
 	public int add(MODEL model) {
-		callProcess(model);
+		beforeHand(model);
 		int count = getBaseDao().insert(model);
 		return count;
 	}
 	public int add(List<MODEL> models) {
 		for(MODEL model:models){
-			callProcess(model);
+			beforeHand(model);
 		}
 		int count = getBaseDao().insertBatch(models);
 		return count;
 	}
 	public int update(MODEL model) {
-		callProcess(model);
+		afterHand(model);
 		int count = getBaseDao().update(model);
 		return count;
 	}
 	public int update(List<MODEL> models) {
 		for(MODEL model:models){
-			callProcess(model);
+			afterHand(model);
 		}
 		int count = getBaseDao().updateBatch(models);
 		return count;
@@ -77,14 +77,17 @@ public class BaseServiceImpl<MODEL extends BaseModel<KEY_TYPE>, KEY_TYPE> implem
 	 * <p>调用接口处理model</p>
 	 * @param model 待处理的model
 	 * @return void
-
-
 	 * */
-	private void callProcess(MODEL model){
-		List<PluginService> pluginService = SessionUtil.getBeansOfType(PluginService.class);
-		for (PluginService plugin : pluginService) {
-			//CreaterServiceImpl.class=class cn.com.yuzhushui.movie.common.base.CreaterServiceImpl
-			//cn.com.yuzhushui.movie.common.base.CreaterServiceImpl@1c560cae
+	protected void beforeHand(MODEL model){
+		List<PluginBeforeService> pluginBeforeService = SessionUtil.getBeansOfType(PluginBeforeService.class);
+		for (PluginBeforeService plugin : pluginBeforeService) {
+			plugin.process(model);
+		}
+	}
+	
+	protected void afterHand(MODEL model){
+		List<PluginAfterService> pluginAfterService = SessionUtil.getBeansOfType(PluginAfterService.class);
+		for (PluginAfterService plugin : pluginAfterService) {
 			plugin.process(model);
 		}
 	}
