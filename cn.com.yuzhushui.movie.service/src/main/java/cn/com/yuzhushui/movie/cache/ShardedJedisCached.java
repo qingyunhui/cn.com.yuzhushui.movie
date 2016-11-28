@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.PreDestroy;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,6 +13,8 @@ import redis.clients.jedis.ScanParams;
 import redis.clients.jedis.ScanResult;
 import redis.clients.jedis.ShardedJedis;
 import redis.clients.jedis.ShardedJedisPool;
+
+import com.alibaba.fastjson.JSONObject;
 
 /***
  ** @category 请用一句话来描述其用途...
@@ -27,6 +27,11 @@ public class ShardedJedisCached {
 	private ShardedJedisPool jedisPool;
 	
 	private Logger logger=LoggerFactory.getLogger(ShardedJedisCached.class);
+	
+	
+	public static void main(String[] args){
+	}
+	
 
 	/**
 	 * 设置一个key的过期时间（单位：秒）
@@ -742,11 +747,11 @@ public class ShardedJedisCached {
 	 * @param second 有效时间
 	 * @return boolean
 	 * */
-	public boolean set(String key, String value, int second) {
+	public boolean set(String key, Object value, int second) {
 		ShardedJedis shardedJedis = null;
 		try {
 			shardedJedis = jedisPool.getResource();
-			shardedJedis.setex(key, second, value);
+			shardedJedis.setex(key, second, JSONObject.toJSONString(value));
 			return true;
 		} catch (Exception ex) {
 			logger.error("set error.", ex);
@@ -763,11 +768,11 @@ public class ShardedJedisCached {
 	 * @param value
 	 * @return boolean
 	 * */
-	public boolean set(String key, String value) {
+	public boolean set(String key, Object value) {
 		ShardedJedis shardedJedis = null;
 		try {
 			shardedJedis = jedisPool.getResource();
-			shardedJedis.set(key, value);
+			shardedJedis.set(key, JSONObject.toJSONString(value));
 			return true;
 		} catch (Exception ex) {
 			logger.error("set error.", ex);
