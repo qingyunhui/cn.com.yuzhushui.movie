@@ -70,5 +70,13 @@
 	    <version>${spring-data-redis.version}</version>
 	</dependency>
 	
+	<!-- shiro -->
+	<dependency>
+		 <groupId>org.apache.shiro</groupId>
+	     <artifactId>shiro-core</artifactId>
+	     <version>${shiro.version}</version>
+	</dependency>
+	<!-- shiro end -->
+	
   </dependencies>  
 </project>
