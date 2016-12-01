@@ -121,6 +121,8 @@ public class AppMainAction {
 			logger.error("===========>"+message+"<===========");
 			return modeView;
 		}
+		
+		shardedJedisCached.set("admin123", "123456799");
 		//@2.用户登陆密码输入错误次数校验
 		String userLogCount=logParam.getAccounts()+"_"+MovieConstant.MESSAGES_INFO;//当前用户登陆次数
 		String logCountStr=shardedJedisCached.get(userLogCount);
@@ -169,7 +171,7 @@ public class AppMainAction {
 					int indate=2*60*60;//设置cookie有效为:2个小时
 					String userInfoJson=JSONObject.toJSONString(sessionInfo);
 					CookieUtil.setCookie(request, response, MovieConstant.SESSION_INFO, sessionId, MovieConstant.DOMAIN, MovieConstant.ROOT_PATH,indate);
-					shardedJedisCached.set(MovieConstant.SESSION_INFO, userInfoJson, indate);
+					shardedJedisCached.set(sessionId, userInfoJson, indate);
 					return modeView;
 				}else{
 					String enumName=EnumUtil.getNameByValue(SysAccountEnum.STATUS.class, account.getStatus());

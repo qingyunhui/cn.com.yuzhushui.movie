@@ -1,5 +1,6 @@
 package cn.com.yuzhushui.movie.common.Interceptor;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -57,6 +58,7 @@ public class SessionInterceptor extends HandlerInterceptorAdapter{
 		String sessionId=CookieUtil.getCookieValueByName(request, MovieConstant.SESSION_INFO);
 		
 		if(!StringUtil.isEmpty(sessionId)){
+			Cookie cookie=CookieUtil.getCookieByName(request, MovieConstant.SESSION_INFO);
 			String sessionInfo= shardedJedisCached.get(sessionId);
 			if(!StringUtil.isEmpty(sessionInfo)){
 				SessionInfo mySessionInfo=JSONObject.parseObject(sessionInfo, SessionInfo.class);
@@ -69,10 +71,13 @@ public class SessionInterceptor extends HandlerInterceptorAdapter{
 					}
 					response.sendRedirect(appLoginPath);
 					return false;
+				}else{
+					CookieUtil.deleteCookie(request, response, cookie, MovieConstant.DOMAIN, MovieConstant.ROOT_PATH);
 				}
+			}else{
+				CookieUtil.deleteCookie(request, response, cookie, MovieConstant.DOMAIN, MovieConstant.ROOT_PATH);
 			}
 		}
-		
 		/*
 		SessionInfo seesionInfo=(SessionInfo)request.getSession().getAttribute(MovieConstant.SESSION_INFO);
 		if(null==seesionInfo){
