@@ -12,4 +12,8 @@ public class MovieConstant {
 
 	/**消息*/
 	public static final String MESSAGES="messages";
+	
+	/**登陆次数标识*/
+	public static final String  LOGON_COUNT="logonCount";
+	
 }

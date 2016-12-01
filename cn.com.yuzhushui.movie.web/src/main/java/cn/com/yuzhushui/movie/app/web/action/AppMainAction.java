@@ -64,6 +64,7 @@ public class AppMainAction {
 		/***
 		 * @1.如果用户未注册则进入引导页...
 		 * @2.用户已注册，判断用户是否是一个月内免登陆(数据库有标识字段)、查询redis缓存中是否存在这个标识，
+		 *    @2.0判断登陆次数是否>N次
 		 *    @2.1如果用户是一个月内免登陆、且还在有效期、则跳转到主页面。
 		 *    @2.2如果用户不是一个月内免登陆、则跳转到登陆页面。
 		 * */
@@ -73,7 +74,7 @@ public class AppMainAction {
 			modelView = new ModelAndView("redirect:/main/myMain.htm");
 			return modelView;
 		}
-		if("true".equals(CookieUtil.getCookieByKey(request, SHOWED_INTRODUCE))) {
+		if("true".equals(CookieUtil.getCookieValueByName(request, SHOWED_INTRODUCE))) {
 			modelView = new ModelAndView("redirect:" + ACTION_PATH + "/login.htm");// 进入登录页面(自动登录考虑页面的功能)
 		} else {
 			modelView = new ModelAndView(ACTION_PATH + "/introduce");// 进入引导页面
@@ -89,7 +90,8 @@ public class AppMainAction {
 	}
 	
 	/**
-	 * 判断登陆方式
+	 * <p>判断登陆方式[0:账号登陆、1:手机号、2:邮箱]</p>
+	 * @return 登陆方式
 	 * */
 	protected Integer loginType(String identity){
 		if(ValidateUtil.isEmail(identity)) return LoginType.EMAIL_TYPE.getValue();

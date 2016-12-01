@@ -1,5 +1,7 @@
 package cn.com.yuzhushui.movie.web;
 
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
@@ -13,6 +15,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  **/
 
 public class BeginTest {
+	
 
 	/*private ApplicationContext context;
 	
