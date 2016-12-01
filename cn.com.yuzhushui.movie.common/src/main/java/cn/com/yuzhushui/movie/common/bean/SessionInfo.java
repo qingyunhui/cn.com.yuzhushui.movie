@@ -1,8 +1,8 @@
 package cn.com.yuzhushui.movie.common.bean;
 
+import cn.com.yuzhushui.movie.sys.biz.entity.SysAccount;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysUser;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 /***
  ** @Description: 请用一句话来描述
@@ -11,11 +11,8 @@ import lombok.Setter;
  ** @dateTime: Oct 27, 2015 9:23:57 AM
  ** @version: V1.0
  ***/
-@Getter
-@Setter
+@Data
 public class SessionInfo {
-	
 	private SysUser sysUser;
-	
-	private Object object;
+	private SysAccount sysAccount;
 }

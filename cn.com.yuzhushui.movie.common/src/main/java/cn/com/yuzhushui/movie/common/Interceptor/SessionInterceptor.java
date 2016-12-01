@@ -70,7 +70,7 @@ public class SessionInterceptor extends HandlerInterceptorAdapter{
 						appLoginPath=contextPath+loginPath;
 					}
 					response.sendRedirect(appLoginPath);
-					return false;
+					return super.preHandle(request, response, handler);
 				}else{
 					CookieUtil.deleteCookie(request, response, cookie, MovieConstant.DOMAIN, MovieConstant.ROOT_PATH);
 				}

@@ -17,12 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import qing.yun.hui.common.utils.CookieUtil;
-import qing.yun.hui.common.utils.EnumUtil;
-import qing.yun.hui.common.utils.GenerateRuleUtil;
-import qing.yun.hui.common.utils.MD5Util;
-import qing.yun.hui.common.utils.StringUtil;
-import qing.yun.hui.common.utils.ValidateUtil;
 import cn.com.yuzhushui.movie.cache.ShardedJedisCached;
 import cn.com.yuzhushui.movie.common.bean.LogParameter;
 import cn.com.yuzhushui.movie.common.bean.SessionInfo;
@@ -33,8 +27,12 @@ import cn.com.yuzhushui.movie.sys.biz.entity.SysAccount;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysUser;
 import cn.com.yuzhushui.movie.sys.biz.service.SysAccountService;
 import cn.com.yuzhushui.movie.sys.biz.service.SysUserService;
-
-import com.alibaba.fastjson.JSONObject;
+import qing.yun.hui.common.utils.CookieUtil;
+import qing.yun.hui.common.utils.EnumUtil;
+import qing.yun.hui.common.utils.GenerateRuleUtil;
+import qing.yun.hui.common.utils.MD5Util;
+import qing.yun.hui.common.utils.StringUtil;
+import qing.yun.hui.common.utils.ValidateUtil;
 
 /***
  ** @category 请用一句话来描述其用途...
@@ -122,7 +120,6 @@ public class AppMainAction {
 			return modeView;
 		}
 		
-		shardedJedisCached.set("admin123", "123456799");
 		//@2.用户登陆密码输入错误次数校验
 		String userLogCount=logParam.getAccounts()+"_"+MovieConstant.MESSAGES_INFO;//当前用户登陆次数
 		String logCountStr=shardedJedisCached.get(userLogCount);
@@ -164,14 +161,13 @@ public class AppMainAction {
 					SysUser sysUser=users.get(0);
 					SessionInfo sessionInfo = new SessionInfo();
 					sessionInfo.setSysUser(sysUser);
-					sessionInfo.setObject(account);
+					sessionInfo.setSysAccount(account);
 //					session.setAttribute(MovieConstant.SESSION_INFO, sessionInfo);// 登录成功，获取用户信息，并存入session
 					String sessionId = GenerateRuleUtil.generateUnique(MovieConstant.JOINT, MovieConstant.PROJECT_NAME);
 					//设置cookie有效期
 					int indate=2*60*60;//设置cookie有效为:2个小时
-					String userInfoJson=JSONObject.toJSONString(sessionInfo);
 					CookieUtil.setCookie(request, response, MovieConstant.SESSION_INFO, sessionId, MovieConstant.DOMAIN, MovieConstant.ROOT_PATH,indate);
-					shardedJedisCached.set(sessionId, userInfoJson, indate);
+					shardedJedisCached.set(sessionId, sessionInfo, indate);
 					return modeView;
 				}else{
 					String enumName=EnumUtil.getNameByValue(SysAccountEnum.STATUS.class, account.getStatus());
