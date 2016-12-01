@@ -3,16 +3,22 @@ package cn.com.yuzhushui.movie.common.Interceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import qing.yun.hui.common.constants.Symbol;
+import qing.yun.hui.common.utils.CookieUtil;
+import qing.yun.hui.common.utils.StringUtil;
+import cn.com.yuzhushui.movie.cache.ShardedJedisCached;
 import cn.com.yuzhushui.movie.common.bean.SessionInfo;
 import cn.com.yuzhushui.movie.constant.MovieConstant;
-import lombok.Getter;
-import lombok.Setter;
-import qing.yun.hui.common.constants.Symbol;
-import qing.yun.hui.common.utils.StringUtil;
+
+import com.alibaba.fastjson.JSONObject;
 
 /***
  ** @category 拦截器
@@ -33,6 +39,9 @@ public class SessionInterceptor extends HandlerInterceptorAdapter{
 	@Value("#{properties['loginPath']}")
 	private String loginPath;
 	
+	@Autowired
+	private ShardedJedisCached shardedJedisCached;
+	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)throws Exception {
 		String curUrl = request.getServletPath();
@@ -44,6 +53,27 @@ public class SessionInterceptor extends HandlerInterceptorAdapter{
 			}
 		}
 		String contextPath=request.getServletContext().getContextPath();
+		
+		String sessionId=CookieUtil.getCookieValueByName(request, MovieConstant.SESSION_INFO);
+		
+		if(!StringUtil.isEmpty(sessionId)){
+			String sessionInfo= shardedJedisCached.get(sessionId);
+			if(!StringUtil.isEmpty(sessionInfo)){
+				SessionInfo mySessionInfo=JSONObject.parseObject(sessionInfo, SessionInfo.class);
+				if(null!=mySessionInfo){
+					String appLoginPath=null;
+					if(!loginPath.startsWith(Symbol.SLASH)){
+						appLoginPath=contextPath+Symbol.SLASH+loginPath;
+					}else{
+						appLoginPath=contextPath+loginPath;
+					}
+					response.sendRedirect(appLoginPath);
+					return false;
+				}
+			}
+		}
+		
+		/*
 		SessionInfo seesionInfo=(SessionInfo)request.getSession().getAttribute(MovieConstant.SESSION_INFO);
 		if(null==seesionInfo){
 			String appLoginPath=null;
@@ -54,7 +84,7 @@ public class SessionInterceptor extends HandlerInterceptorAdapter{
 			}
 			response.sendRedirect(appLoginPath);
 			return false;
-		}
+		}*/
 		return super.preHandle(request, response, handler);
 	}
 
