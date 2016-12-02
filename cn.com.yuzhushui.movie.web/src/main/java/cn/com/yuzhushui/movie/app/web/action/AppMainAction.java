@@ -72,7 +72,7 @@ public class AppMainAction {
 		 *    @2.1如果用户是一个月内免登陆、且还在有效期、则跳转到主页面。
 		 *    @2.2如果用户不是一个月内免登陆、则跳转到登陆页面。
 		 * */
-		ModelAndView modelView = new ModelAndView("redirect:/main/myMain.htm");
+		ModelAndView modelView = new ModelAndView("redirect:"+ACTION_PATH+"/myMain.htm");
 //		SessionInfo sessioninfo = (SessionInfo) session.getAttribute(MovieConstant.SESSION_INFO);
 		String sessionId=CookieUtil.getCookieValueByName(request, MovieConstant.SESSION_INFO);
 		if (StringUtil.isEmpty(sessionId)) {
@@ -92,6 +92,34 @@ public class AppMainAction {
 			modelView.setViewName(ACTION_PATH + "/introduce");// 进入引导页
 		}
 		
+		return modelView;
+	}
+	
+	/**进入个人首页（第一个页面）**/
+	@RequestMapping(value = "/myMain")
+	public ModelAndView myMain(HttpServletRequest request,HttpServletResponse response, HttpSession session) {
+		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/myMain");
+		return modelView;
+	}
+	
+	/**商品分类（第二个页面）*/
+	@RequestMapping(value = "/goodsCategory")
+	public ModelAndView goodsCategory(HttpServletRequest request,HttpServletResponse response, HttpSession session) {
+		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/goodsCategory");
+		return modelView;
+	}
+	
+	/**购物车（第三个页面）*/
+	@RequestMapping(value = "/shoppingCart")
+	public ModelAndView shoppingCart(HttpServletRequest request,HttpServletResponse response, HttpSession session) {
+		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/shoppingCart");
+		return modelView;
+	}
+	
+	/**个人中心（第四个页面）*/
+	@RequestMapping(value = "/myself")
+	public ModelAndView myself(HttpServletRequest request,HttpServletResponse response, HttpSession session) {
+		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/myself");
 		return modelView;
 	}
 	
@@ -168,7 +196,7 @@ public class AppMainAction {
 			if(users.size()==1){
 				if(account.getStatus().intValue()==SysAccountEnum.STATUS.AUDIT_SUCCESS.getValue()){
 					//登陆成功-把用户存储到cookie中。
-					modeView.setViewName("redirect:/main/myMain.htm");
+					modeView.setViewName("redirect:"+ACTION_PATH+"/myMain.htm");
 					SysUser sysUser=users.get(0);
 					SessionInfo sessionInfo = new SessionInfo();
 					sessionInfo.setSysUser(sysUser);

@@ -318,7 +318,7 @@ body {
 	display:block;
 	text-align:center;
 	font-size:28px;
-	padding-top:10px;
+	padding-top:5px;
 }
 .box_exp ul li i img{
 	max-width:60%;
@@ -326,7 +326,7 @@ body {
 .box_exp ul li span {
 	display:block;
 	text-align:center;
-	padding-bottom:10px;
+	padding-bottom:5px;
 }
 .box_exp ul li em {
 	font-weight:bold;
@@ -577,9 +577,9 @@ em.more {text-shadow:0 1px #FFF !important;color:#666666 !important;right:8px !i
 }
 .info_child{
 	padding:10px 0;
-	line-height:28px;
+	line-height:20px;
 	border-top:1px #DDDDDD solid;
-	margin-top:10px;
+	margin-top:5px;
 }
 .info_child img{
 	max-width:285px
@@ -588,7 +588,7 @@ em.more {text-shadow:0 1px #FFF !important;color:#666666 !important;right:8px !i
 	border-top:1px #CCCCCC dotted;
 	padding-top:10px;
 }
-.info_light{ padding:10px;}
+.info_light{ padding:5px;}
 .info_light .title {
 	background:url(../images/arrow2.png) no-repeat right 50%;
 	-webkit-background-size:13px 8.5px;
