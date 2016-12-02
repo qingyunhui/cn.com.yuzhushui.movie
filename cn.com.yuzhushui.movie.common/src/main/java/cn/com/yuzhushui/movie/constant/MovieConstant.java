@@ -22,6 +22,9 @@ public class MovieConstant {
 	/**锁定时间（单位:分钟）*/
 	public static final int LOCK_TIME=30;
 	
+	/**cookie有效时间（2小时）*/
+	public static final int COOKIE_VALIDITY_TIME=2*60*60;
+	
 	/**项目的顶级域名(子域名，二级域名都可以访问到，比如:abc.smiles8.com,top.smiles8.com)**/
 	public static final String DOMAIN="smiles8.com";
 	

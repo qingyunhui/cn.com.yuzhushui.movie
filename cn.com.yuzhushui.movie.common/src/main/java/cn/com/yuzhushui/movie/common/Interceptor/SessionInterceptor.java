@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import qing.yun.hui.common.constants.Symbol;
+import qing.yun.hui.common.constants.SymbolConstant;
 import qing.yun.hui.common.utils.CookieUtil;
 import qing.yun.hui.common.utils.StringUtil;
 import cn.com.yuzhushui.movie.cache.ShardedJedisCached;
@@ -47,60 +47,57 @@ public class SessionInterceptor extends HandlerInterceptorAdapter{
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)throws Exception {
 		String curUrl = request.getServletPath();
 		if(null==noInterceptors) return super.preHandle(request, response, handler);
-		curUrl=StringUtil.truncateBothCharact(curUrl, Symbol.SLASH);
+		curUrl=StringUtil.truncateBothCharact(curUrl, SymbolConstant.SLASH);
 		for(String url:noInterceptors){
 			if(curUrl.trim().equals(url.trim())){
 				return super.preHandle(request, response, handler);
 			}
 		}
-		String contextPath=request.getServletContext().getContextPath();
 		
 		String sessionId=CookieUtil.getCookieValueByName(request, MovieConstant.SESSION_INFO);
-		
-		if(!StringUtil.isEmpty(sessionId)){
+		if(StringUtil.isEmpty(sessionId)){
+			String appLoginPath=getLoginPath(request, sessionId);
 			Cookie cookie=CookieUtil.getCookieByName(request, MovieConstant.SESSION_INFO);
-			String sessionInfo= shardedJedisCached.get(sessionId);
-			if(!StringUtil.isEmpty(sessionInfo)){
-				SessionInfo mySessionInfo=JSONObject.parseObject(sessionInfo, SessionInfo.class);
-				if(null!=mySessionInfo){
-					String appLoginPath=null;
-					if(!loginPath.startsWith(Symbol.SLASH)){
-						appLoginPath=contextPath+Symbol.SLASH+loginPath;
-					}else{
-						appLoginPath=contextPath+loginPath;
-					}
-					response.sendRedirect(appLoginPath);
-					return super.preHandle(request, response, handler);
-				}else{
-					CookieUtil.deleteCookie(request, response, cookie, MovieConstant.DOMAIN, MovieConstant.ROOT_PATH);
-				}
-			}else{
-				CookieUtil.deleteCookie(request, response, cookie, MovieConstant.DOMAIN, MovieConstant.ROOT_PATH);
-			}
-		}
-		/*
-		SessionInfo seesionInfo=(SessionInfo)request.getSession().getAttribute(MovieConstant.SESSION_INFO);
-		if(null==seesionInfo){
-			String appLoginPath=null;
-			if(!loginPath.startsWith(Symbol.SLASH)){
-				appLoginPath=contextPath+Symbol.SLASH+loginPath;
-			}else{
-				appLoginPath=contextPath+loginPath;
-			}
+			CookieUtil.deleteCookie(request, response, cookie, MovieConstant.DOMAIN, MovieConstant.ROOT_PATH);
 			response.sendRedirect(appLoginPath);
 			return false;
-		}*/
+		}
+		
+		String sessionInfo= shardedJedisCached.get(sessionId);
+		if(!StringUtil.isEmpty(sessionInfo)){
+			//用户在有操作时，实时更新cookie有效期..
+			SessionInfo mySessionInfo=JSONObject.parseObject(sessionInfo, SessionInfo.class);
+			if(null!=mySessionInfo){
+				CookieUtil.setCookie(request, response, MovieConstant.SESSION_INFO, sessionId, MovieConstant.DOMAIN, MovieConstant.ROOT_PATH, MovieConstant.COOKIE_VALIDITY_TIME);
+				return super.preHandle(request, response, handler);
+			}
+		}
 		return super.preHandle(request, response, handler);
 	}
 
+	/**
+	 * <p>获取首页登陆url</p>
+	 *@param request
+	 *@param loginPath
+	 *@return 获取登陆路径 
+	 **/
+	public String getLoginPath(HttpServletRequest request,String loginPath){
+		String appLoginPath=null;
+		String contextPath=request.getServletContext().getContextPath();
+		if(!loginPath.startsWith(SymbolConstant.SLASH)){
+			appLoginPath=contextPath+SymbolConstant.SLASH+loginPath;
+		}else{
+			appLoginPath=contextPath+loginPath;
+		}
+		return appLoginPath;
+	}
+	
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)throws Exception {
-		System.out.println("****************==postHandle==****************");
 	}
 
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)throws Exception {
-		System.out.println("****************==afterCompletion==****************");
 	}
 	
 }

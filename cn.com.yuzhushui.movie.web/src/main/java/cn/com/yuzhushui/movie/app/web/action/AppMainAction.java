@@ -165,9 +165,8 @@ public class AppMainAction {
 //					session.setAttribute(MovieConstant.SESSION_INFO, sessionInfo);// 登录成功，获取用户信息，并存入session
 					String sessionId = GenerateRuleUtil.generateUnique(MovieConstant.JOINT, MovieConstant.PROJECT_NAME);
 					//设置cookie有效期
-					int indate=2*60*60;//设置cookie有效为:2个小时
-					CookieUtil.setCookie(request, response, MovieConstant.SESSION_INFO, sessionId, MovieConstant.DOMAIN, MovieConstant.ROOT_PATH,indate);
-					shardedJedisCached.set(sessionId, sessionInfo, indate);
+					CookieUtil.setCookie(request, response, MovieConstant.SESSION_INFO, sessionId, MovieConstant.DOMAIN, MovieConstant.ROOT_PATH,MovieConstant.COOKIE_VALIDITY_TIME);
+					shardedJedisCached.set(sessionId, sessionInfo, MovieConstant.COOKIE_VALIDITY_TIME);
 					return modeView;
 				}else{
 					String enumName=EnumUtil.getNameByValue(SysAccountEnum.STATUS.class, account.getStatus());
