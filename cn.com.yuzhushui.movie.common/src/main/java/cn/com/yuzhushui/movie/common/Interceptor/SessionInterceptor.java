@@ -56,7 +56,7 @@ public class SessionInterceptor extends HandlerInterceptorAdapter{
 		
 		String sessionId=CookieUtil.getCookieValueByName(request, MovieConstant.SESSION_INFO);
 		if(StringUtil.isEmpty(sessionId)){
-			String appLoginPath=getLoginPath(request, sessionId);
+			String appLoginPath=getLoginPath(request);
 			Cookie cookie=CookieUtil.getCookieByName(request, MovieConstant.SESSION_INFO);
 			CookieUtil.deleteCookie(request, response, cookie, MovieConstant.DOMAIN, MovieConstant.ROOT_PATH);
 			response.sendRedirect(appLoginPath);
@@ -81,7 +81,7 @@ public class SessionInterceptor extends HandlerInterceptorAdapter{
 	 *@param loginPath
 	 *@return 获取登陆路径 
 	 **/
-	public String getLoginPath(HttpServletRequest request,String loginPath){
+	public String getLoginPath(HttpServletRequest request){
 		String appLoginPath=null;
 		String contextPath=request.getServletContext().getContextPath();
 		if(!loginPath.startsWith(SymbolConstant.SLASH)){

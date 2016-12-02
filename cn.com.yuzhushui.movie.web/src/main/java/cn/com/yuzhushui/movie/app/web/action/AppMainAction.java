@@ -17,6 +17,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import qing.yun.hui.common.utils.CookieUtil;
+import qing.yun.hui.common.utils.EnumUtil;
+import qing.yun.hui.common.utils.GenerateRuleUtil;
+import qing.yun.hui.common.utils.MD5Util;
+import qing.yun.hui.common.utils.StringUtil;
+import qing.yun.hui.common.utils.ValidateUtil;
 import cn.com.yuzhushui.movie.cache.ShardedJedisCached;
 import cn.com.yuzhushui.movie.common.bean.LogParameter;
 import cn.com.yuzhushui.movie.common.bean.SessionInfo;
@@ -27,12 +33,8 @@ import cn.com.yuzhushui.movie.sys.biz.entity.SysAccount;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysUser;
 import cn.com.yuzhushui.movie.sys.biz.service.SysAccountService;
 import cn.com.yuzhushui.movie.sys.biz.service.SysUserService;
-import qing.yun.hui.common.utils.CookieUtil;
-import qing.yun.hui.common.utils.EnumUtil;
-import qing.yun.hui.common.utils.GenerateRuleUtil;
-import qing.yun.hui.common.utils.MD5Util;
-import qing.yun.hui.common.utils.StringUtil;
-import qing.yun.hui.common.utils.ValidateUtil;
+
+import com.alibaba.fastjson.JSONObject;
 
 /***
  ** @category 请用一句话来描述其用途...
@@ -70,17 +72,26 @@ public class AppMainAction {
 		 *    @2.1如果用户是一个月内免登陆、且还在有效期、则跳转到主页面。
 		 *    @2.2如果用户不是一个月内免登陆、则跳转到登陆页面。
 		 * */
-		ModelAndView modelView = null;
-		SessionInfo sessioninfo = (SessionInfo) session.getAttribute(MovieConstant.SESSION_INFO);
-		if (sessioninfo != null) {
-			modelView = new ModelAndView("redirect:/main/myMain.htm");
+		ModelAndView modelView = new ModelAndView("redirect:/main/myMain.htm");
+//		SessionInfo sessioninfo = (SessionInfo) session.getAttribute(MovieConstant.SESSION_INFO);
+		String sessionId=CookieUtil.getCookieValueByName(request, MovieConstant.SESSION_INFO);
+		if (StringUtil.isEmpty(sessionId)) {
+			//@要不要跳转到引导页呢？		TODO
+			modelView.setViewName("redirect:" + ACTION_PATH + "/login.htm");
 			return modelView;
 		}
-		if("true".equals(CookieUtil.getCookieValueByName(request, SHOWED_INTRODUCE))) {
-			modelView = new ModelAndView("redirect:" + ACTION_PATH + "/login.htm");// 进入登录页面(自动登录考虑页面的功能)
-		} else {
-			modelView = new ModelAndView(ACTION_PATH + "/introduce");// 进入引导页面
+		
+		String sessionInfoJson=shardedJedisCached.get(sessionId);
+		SessionInfo sessInfoInfo=JSONObject.parseObject(sessionInfoJson, SessionInfo.class);
+		
+		if(null!=sessInfoInfo){
+			return modelView;
 		}
+		
+		if("true".equals(CookieUtil.getCookieValueByName(request, SHOWED_INTRODUCE))) {
+			modelView.setViewName(ACTION_PATH + "/introduce");// 进入引导页
+		}
+		
 		return modelView;
 	}
 	
