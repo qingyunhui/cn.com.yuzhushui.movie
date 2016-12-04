@@ -72,26 +72,18 @@ public class AppMainAction {
 		 *    @2.1如果用户是一个月内免登陆、且还在有效期、则跳转到主页面。
 		 *    @2.2如果用户不是一个月内免登陆、则跳转到登陆页面。
 		 * */
-		ModelAndView modelView = new ModelAndView("redirect:"+ACTION_PATH+"/myMain.htm");
-//		SessionInfo sessioninfo = (SessionInfo) session.getAttribute(MovieConstant.SESSION_INFO);
+		ModelAndView modelView = new ModelAndView(ACTION_PATH+"/introduce");
 		String sessionId=CookieUtil.getCookieValueByName(request, MovieConstant.SESSION_INFO);
 		if (StringUtil.isEmpty(sessionId)) {
-			//@要不要跳转到引导页呢？		TODO
-			modelView.setViewName("redirect:" + ACTION_PATH + "/login.htm");
 			return modelView;
 		}
-		
 		String sessionInfoJson=shardedJedisCached.get(sessionId);
 		SessionInfo sessInfoInfo=JSONObject.parseObject(sessionInfoJson, SessionInfo.class);
-		
 		if(null!=sessInfoInfo){
+			modelView.setViewName("redirect:"+ACTION_PATH+"/myMain.htm");
 			return modelView;
 		}
-		
-		if("true".equals(CookieUtil.getCookieValueByName(request, SHOWED_INTRODUCE))) {
-			modelView.setViewName(ACTION_PATH + "/introduce");// 进入引导页
-		}
-		
+		modelView.setViewName("redirect:"+ACTION_PATH+"/login.htm");
 		return modelView;
 	}
 	
@@ -185,6 +177,9 @@ public class AppMainAction {
 		}else{
 			map.put("account", logParam.getAccounts());
 		}
+		
+		logger.error("===========>登陆类型为:{}<===========",new Object[]{EnumUtil.getNameByValue(LoginType.class, loginType.intValue())});
+		
 		map.put("password", MD5Util.getMD5Encryption(logParam.getPasswords()));
 		//@4.判断数据库中是否存在该用户
 		List<SysAccount> accounts=sysAccountService.query(map);
@@ -195,6 +190,9 @@ public class AppMainAction {
 			List<SysUser> users=sysUserService.query(userMap);
 			if(users.size()==1){
 				if(account.getStatus().intValue()==SysAccountEnum.STATUS.AUDIT_SUCCESS.getValue()){
+					
+					logger.error("登录成功，用户信息将记录到Cookie中且存储到Shiro中!");
+					
 					//登陆成功-把用户存储到cookie中。
 					modeView.setViewName("redirect:"+ACTION_PATH+"/myMain.htm");
 					SysUser sysUser=users.get(0);
@@ -209,14 +207,17 @@ public class AppMainAction {
 					return modeView;
 				}else{
 					String enumName=EnumUtil.getNameByValue(SysAccountEnum.STATUS.class, account.getStatus());
+					logger.error("登录失败，该用户已"+enumName+"!");
 					attributes.addFlashAttribute(MovieConstant.MESSAGES_INFO, "登录失败，该用户已"+enumName+"!");
 					return modeView;
 				}
 			}else{
 				attributes.addFlashAttribute(MovieConstant.MESSAGES_INFO, "登录失败，用户名或密码错误！");
+				logger.error("登录失败，accountId={}在SysUser中不存在。",new Object[]{account.getAccountId()});
 			}
 		} else {
 			attributes.addFlashAttribute(MovieConstant.MESSAGES_INFO, "登录失败，用户名或密码错误！");
+			logger.error("登录失败，用户名或密码错误！");
 		}
 		return modeView;
 	}
