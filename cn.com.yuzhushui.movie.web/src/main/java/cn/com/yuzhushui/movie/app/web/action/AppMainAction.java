@@ -17,12 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import qing.yun.hui.common.utils.CookieUtil;
-import qing.yun.hui.common.utils.EnumUtil;
-import qing.yun.hui.common.utils.GenerateRuleUtil;
-import qing.yun.hui.common.utils.MD5Util;
-import qing.yun.hui.common.utils.StringUtil;
-import qing.yun.hui.common.utils.ValidateUtil;
+import com.alibaba.fastjson.JSONObject;
+
 import cn.com.yuzhushui.movie.cache.ShardedJedisCached;
 import cn.com.yuzhushui.movie.common.bean.LogParameter;
 import cn.com.yuzhushui.movie.common.bean.SessionInfo;
@@ -34,8 +30,12 @@ import cn.com.yuzhushui.movie.sys.biz.entity.SysAccount;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysUser;
 import cn.com.yuzhushui.movie.sys.biz.service.SysAccountService;
 import cn.com.yuzhushui.movie.sys.biz.service.SysUserService;
-
-import com.alibaba.fastjson.JSONObject;
+import qing.yun.hui.common.utils.CookieUtil;
+import qing.yun.hui.common.utils.EnumUtil;
+import qing.yun.hui.common.utils.GenerateRuleUtil;
+import qing.yun.hui.common.utils.MD5Util;
+import qing.yun.hui.common.utils.StringUtil;
+import qing.yun.hui.common.utils.ValidateUtil;
 
 /***
  ** @category 请用一句话来描述其用途...
@@ -130,6 +130,11 @@ public class AppMainAction {
 		return modelView;
 	}
 	
+	@RequestMapping(value = "/register")
+	public ModelAndView register(HttpServletRequest request,HttpServletResponse response, HttpSession session) {
+		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/register");
+		return modelView;
+	}
 	
 	/**
 	 * <p>判断登陆方式[0:账号登陆、1:手机号、2:邮箱]</p>

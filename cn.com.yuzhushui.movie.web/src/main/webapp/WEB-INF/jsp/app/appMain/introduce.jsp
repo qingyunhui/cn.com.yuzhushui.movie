@@ -5,6 +5,7 @@
 	<head>
 		<meta http-equiv="Content-Type">
 		<meta content="text/html; charset=utf-8">
+		
 		<meta charset="utf-8">
 		<title>找的就是你</title>		
 		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
