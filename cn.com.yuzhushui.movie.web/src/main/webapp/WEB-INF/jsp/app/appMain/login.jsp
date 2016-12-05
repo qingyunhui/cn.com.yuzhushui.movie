@@ -12,8 +12,8 @@
 	<br/>
 	
 	<form action="${path}app/appMain/doLogin.htm" method="post">
-		<input name="accounts" />
-		<input name="passwords">
+		<input name="accounts" value="admin" />
+		<input name="passwords" type="password" value="111111">
 		<input type="submit">
 	</form>
 	

@@ -64,12 +64,16 @@ public class SessionUtil {
 	}
 	
 	public static SysUser getSysUser() {
-		SysUser appUserInfo=getSessionInfo().getSysUser();
+		SessionInfo sessionInfo= getSessionInfo();
+		if(null==sessionInfo) return null;
+		SysUser appUserInfo=sessionInfo.getSysUser();
 		return appUserInfo;
 	}
 	
 	public static SysAccount getSysAccount(){
-		SysAccount sysAccount=getSessionInfo().getSysAccount();
+		SessionInfo sessionInfo= getSessionInfo();
+		if(null==sessionInfo) return null;
+		SysAccount sysAccount=sessionInfo.getSysAccount();
 		return sysAccount;
 	}
 

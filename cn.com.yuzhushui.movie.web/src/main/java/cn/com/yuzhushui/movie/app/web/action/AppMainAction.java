@@ -26,6 +26,7 @@ import qing.yun.hui.common.utils.ValidateUtil;
 import cn.com.yuzhushui.movie.cache.ShardedJedisCached;
 import cn.com.yuzhushui.movie.common.bean.LogParameter;
 import cn.com.yuzhushui.movie.common.bean.SessionInfo;
+import cn.com.yuzhushui.movie.common.util.SessionUtil;
 import cn.com.yuzhushui.movie.constant.MovieConstant;
 import cn.com.yuzhushui.movie.enums.LoginType;
 import cn.com.yuzhushui.movie.enums.SysAccountEnum;
@@ -119,8 +120,16 @@ public class AppMainAction {
 	@RequestMapping(value = "/login")
 	public ModelAndView login(HttpServletRequest request,HttpServletResponse response, HttpSession session) {
 		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/login");
+		
+		SysUser user=SessionUtil.getSysUser();
+		if(null!=user){
+			modelView.setViewName("redirect:"+ACTION_PATH+"/myMain.htm");
+			return modelView;
+		}
+		
 		return modelView;
 	}
+	
 	
 	/**
 	 * <p>判断登陆方式[0:账号登陆、1:手机号、2:邮箱]</p>
@@ -137,6 +146,13 @@ public class AppMainAction {
 	public ModelAndView doLogin(HttpServletRequest request,HttpServletResponse response, HttpSession session,LogParameter logParam,RedirectAttributes attributes) {
 		ModelAndView modeView = new ModelAndView("redirect:" + ACTION_PATH + "/login.htm");
 		Map<String, Object> map = new HashMap<String, Object>();
+		
+		SysUser user=SessionUtil.getSysUser();
+		if(null!=user){
+			modeView.setViewName("redirect:"+ACTION_PATH+"/myMain.htm");
+			return modeView;
+		}
+		
 		//@1.非空校验
 		if(StringUtil.isEmpty(logParam.getAccounts())){
 			String message="请输入手机号/邮箱/账号!";
