@@ -10,15 +10,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import qing.yun.hui.common.utils.CookieUtil;
+import qing.yun.hui.common.utils.StringUtil;
+import cn.com.yuzhushui.movie.cache.ShardedJedisCached;
 import cn.com.yuzhushui.movie.common.bean.SessionInfo;
 import cn.com.yuzhushui.movie.constant.MovieConstant;
+import cn.com.yuzhushui.movie.sys.biz.entity.SysAccount;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysUser;
-import qing.yun.hui.common.utils.StringUtil;
+
+import com.alibaba.fastjson.JSONObject;
 
 /***
  ** @category 请用一句话来描述其用途...
@@ -27,6 +34,8 @@ import qing.yun.hui.common.utils.StringUtil;
  ** @createTime: 2016年11月20日下午9:23:03
  **/
 public class SessionUtil {
+
+	private static Logger logger=LoggerFactory.getLogger(SessionUtil.class);
 	
 	private static ServletRequestAttributes getRequestAttr() {
 		return (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
@@ -45,12 +54,23 @@ public class SessionUtil {
 	}
 	
 	public static SessionInfo getSessionInfo(){
-		return (SessionInfo)getSession().getAttribute(MovieConstant.SESSION_INFO);
+		String sessionId=CookieUtil.getCookieValueByName(getRequest(), MovieConstant.SESSION_INFO);
+		logger.info("===========>sessionId={}<===========",new Object[]{sessionId});
+		if(StringUtil.isEmpty(sessionId)) return null;
+		ShardedJedisCached shardedJedisCached = getBeanOfType(ShardedJedisCached.class);
+		String sessionJson= shardedJedisCached.get(sessionId);
+		return JSONObject.parseObject(sessionJson, SessionInfo.class);
+//		return (SessionInfo)getSession().getAttribute(MovieConstant.SESSION_INFO);
 	}
 	
 	public static SysUser getSysUser() {
 		SysUser appUserInfo=getSessionInfo().getSysUser();
 		return appUserInfo;
+	}
+	
+	public static SysAccount getSysAccount(){
+		SysAccount sysAccount=getSessionInfo().getSysAccount();
+		return sysAccount;
 	}
 
 	/**
@@ -79,9 +99,6 @@ public class SessionUtil {
 			*/
 			beans.add(bean);
 		}
-		/*for (T bean : beansOfType.values()) {
-			beans.add(bean);
-		}*/
 		return beans;
 	}
 

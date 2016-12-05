@@ -27,6 +27,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 	</bean>
 	
 	<mvc:interceptors>
+		<!-- URL拦截器（针对须要放行、注册、登陆的URL进行拦截。） -->
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
 			<bean class="cn.com.yuzhushui.movie.common.Interceptor.SessionInterceptor">
@@ -35,6 +36,11 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 				<property name="logins" value=""/><!-- 须要登陆的URL -->
 			</bean>
 		</mvc:interceptor>
+		<!-- 表单重复提交拦截器 -->
+		<!-- mvc:interceptor>
+			<mvc:mapping path="/**" />	拦截所有的URL
+			<bean class="cn.com.yuzhushui.movie.common.Interceptor.RepeatSubmitInterceptor"></bean>
+		</mvc:interceptor> -->
 	</mvc:interceptors>
 	
 	<!-- <mvc:interceptors>
