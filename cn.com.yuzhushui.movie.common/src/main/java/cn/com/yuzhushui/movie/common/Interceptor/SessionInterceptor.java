@@ -64,14 +64,23 @@ public class SessionInterceptor extends HandlerInterceptorAdapter{
 		}
 		
 		String sessionInfo= shardedJedisCached.get(sessionId);
-		if(!StringUtil.isEmpty(sessionInfo)){
-			//用户在有操作时，实时更新cookie有效期..
-			SessionInfo mySessionInfo=JSONObject.parseObject(sessionInfo, SessionInfo.class);
-			if(null!=mySessionInfo){
-				CookieUtil.setCookie(request, response, MovieConstant.SESSION_INFO, sessionId, MovieConstant.DOMAIN, MovieConstant.ROOT_PATH, MovieConstant.COOKIE_VALIDITY_TIME);
-				return super.preHandle(request, response, handler);
-			}
+		
+		if(StringUtil.isEmpty(sessionInfo)){
+			//删除cookie中的session
+			String appLoginPath=getLoginPath(request);
+			Cookie cookie=CookieUtil.getCookieByName(request, MovieConstant.SESSION_INFO);
+			CookieUtil.deleteCookie(request, response, cookie, MovieConstant.DOMAIN, MovieConstant.ROOT_PATH);
+			response.sendRedirect(appLoginPath);
+			return false;
 		}
+		
+		//用户在有操作时，实时更新cookie有效期..
+		SessionInfo mySessionInfo=JSONObject.parseObject(sessionInfo, SessionInfo.class);
+		if(null!=mySessionInfo){
+			CookieUtil.setCookie(request, response, MovieConstant.SESSION_INFO, sessionId, MovieConstant.DOMAIN, MovieConstant.ROOT_PATH, MovieConstant.COOKIE_VALIDITY_TIME);
+			return super.preHandle(request, response, handler);
+		}
+		
 		return super.preHandle(request, response, handler);
 	}
 

@@ -105,6 +105,6 @@
   </error-page>
   <error-page>
     <error-code>404</error-code>
-    <location>/exception/notFind.htm</location>
+    <location>/error/notfind.htm</location>
   </error-page>
 </web-app>

@@ -13,15 +13,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.alibaba.fastjson.JSONObject;
-
+import qing.yun.hui.common.utils.BeanUtil;
 import cn.com.yuzhushui.movie.cache.ShardedJedisCached;
 import cn.com.yuzhushui.movie.common.base.BaseAction;
 import cn.com.yuzhushui.movie.common.base.BaseService;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysUser;
 import cn.com.yuzhushui.movie.sys.biz.service.SysUserService;
 import cn.com.yuzhushui.movie.sys.web.vo.SysUserForm;
-import qing.yun.hui.common.utils.BeanUtil;
+
+import com.alibaba.fastjson.JSONObject;
 
 /**
  * @author qing.yunhui 
@@ -68,7 +68,7 @@ public class SysUserAction extends BaseAction<SysUser, SysUserForm, Integer>{
 		logger.info("r:"+r);
 		int count=sysUserService.delete(r);
 		logger.info("受影响的行数有:"+count+"条。");
-		return ACTION_PATH+"/list";
+		return "redirect:"+ACTION_PATH+"/list.htm";
 	} 
 	
 	@RequestMapping(value = "updateTest", method = { RequestMethod.POST,RequestMethod.GET })
@@ -91,7 +91,7 @@ public class SysUserAction extends BaseAction<SysUser, SysUserForm, Integer>{
 		u.setName("**特朗普**"+r);
 		int count=sysUserService.update(u);
 		logger.info("受影响的行数有:"+count+"条。");
-		return ACTION_PATH+"/list";
+		return "redirect:"+ACTION_PATH+"/list.htm";
 	} 
 	
 	@RequestMapping(value = "query", method = { RequestMethod.POST,RequestMethod.GET })
@@ -133,7 +133,7 @@ public class SysUserAction extends BaseAction<SysUser, SysUserForm, Integer>{
 		}
 		logger.info("受影响的行数:"+count+"条。");
 		logger.info("=====================调用baseService，end=====================");
-		return ACTION_PATH+"/list";
+		return "redirect:"+ACTION_PATH+"/list.htm";
 	} 
 	
 	@RequestMapping(value = "doAddTest2", method = { RequestMethod.POST,RequestMethod.GET })
@@ -158,6 +158,6 @@ public class SysUserAction extends BaseAction<SysUser, SysUserForm, Integer>{
 		}
 		logger.info("受影响的行数:"+count+"条。");
 		logger.info("=====================调用sysUserService.end=====================");
-		return ACTION_PATH+"/list";
+		return "redirect:"+ACTION_PATH+"/list.htm";
 	} 
 }

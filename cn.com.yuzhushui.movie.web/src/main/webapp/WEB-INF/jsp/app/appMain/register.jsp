@@ -1,9 +1,9 @@
 <%@ page language="java" import="java.util.*" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/jsp/common/taglib.jsp"%>
+<%@ include file="/WEB-INF/jsp/public/tagLibrary.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
-<%@ include file="/WEB-INF/jsp/common/head.jsp"%>
+<%@ include file="/WEB-INF/jsp/public/head.jsp"%>
     <title>register</title>
     <style type="text/css">
     	.ui-btn-lg-new {

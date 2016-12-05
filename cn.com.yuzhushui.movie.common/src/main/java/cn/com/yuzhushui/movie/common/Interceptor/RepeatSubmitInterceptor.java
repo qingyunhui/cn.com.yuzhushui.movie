@@ -15,7 +15,17 @@ import qing.yun.hui.common.annotations.RepeatSubmitAnno;
 import qing.yun.hui.common.constants.Constant;
 
 /***
- ** @category 表单重复提交拦截器...
+ ** @category 表单重复提交拦截器
+ *<p>
+ * 如果是post提交（非ajax提交），就没有必要使用拦截器，直接在提交表单后、redirect 到目标页面即可。
+ * 而如果是ajax提交方式，就不能使用redirect、就必须使用该拦截器来实现。
+ *<p>
+ *<P>
+ * 使用介绍，在add(xx)action中 添加 @RepeatSubmitAnno(save=true)并且在期add页面在中添加隐藏域、
+ * <input type="hidden" name="token" value="${token}">
+ * 注意这里的token是在拦截器中生成的，必须与token中变量名保持一致。
+ * 然后在,doAdd(xx)action中添加 @RepeatSubmitAnno(remove=true)，即可。
+ *</p>
  ** @author qing.yunhui
  ** @email: 280672161@qq.com
  ** @createTime: 2016年12月5日上午10:31:01
