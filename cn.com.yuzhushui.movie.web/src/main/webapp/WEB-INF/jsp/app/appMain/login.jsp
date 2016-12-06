@@ -14,13 +14,13 @@ $(window).load(function() {
 <script type="text/javascript">
 $(document).ready(function(){
 	$("form").submit(function(e){
-	  	var username = $.trim($("#username").val());
-		var password = $.trim($("#password").val());
-		if(username == ''){
-			layer.tips('请输入用户名/邮箱/手机号码','#username', {tips: 1});
+	  	var accounts = $.trim($("#accounts").val());
+		var passwords = $.trim($("#passwords").val());
+		if(accounts == ''){
+			layer.tips('请输入用户名/邮箱/手机号码','#accounts', {tips: 1});
 			return false;
-		}else if(password == ''){
-			layer.tips('请输入登录密码','#password', {tips: 1});
+		}else if(passwords == ''){
+			layer.tips('请输入登录密码','#passwords', {tips: 1});
 			return false;
 		}
 	});
@@ -38,18 +38,18 @@ $(document).ready(function(){
   <!--header 开始-->
   <header>
     <div class="header"> <a class="new-a-back" href="javascript:history.back();"> <span><img src="${path}image/login/iconfont-fanhui.png"></span> </a>
-      <h2>一起惠返利网·登录</h2>
+      <h2>一起微笑吧·登录</h2>
       </div>
   </header>
   <!--header 结束-->
   
   <div class="w main">
-  	<form id="frm_login" method="get" action="">
+  	<form id="frm_login" method="post" action="${path}app/appMain/doLogin.htm">
         <div class="item item-username">
-          <input id="username" class="txt-input txt-username" type="text" placeholder="请输入用户名/邮箱/手机号" value="" name="username">
+          <input id="accounts" class="txt-input txt-username" type="text" placeholder="请输入用户名/邮箱/手机号" value="admin" name="accounts">
           <b class="input-close" style="display: none;"></b> </div>
         <div class="item item-password">
-          <input id="password" class="txt-input txt-password ciphertext" type="password" placeholder="请输入密码" name="password" style="display: inline;">
+          <input id="passwords" class="txt-input txt-password ciphertext" type="password" placeholder="请输入密码" value="111111" name="passwords" style="display: inline;">
           <input id="ptext" class="txt-input txt-password plaintext" type="text" placeholder="请输入密码" style="display: none;" name="ptext">
           <b class="tp-btn btn-off"></b>
         </div>
@@ -76,7 +76,7 @@ $(document).ready(function(){
   	<a href="getpwd_email.html">找回密码</a>
     <a href="${path}app/appMain/register.htm">注册</a>
   </div>
-  <div class="copyright">Copyright © 2011-2016 微笑吧 www.smiles8.top 版权所有</div>
+  <div class="copyright">Copyright © 2011-2016 www.smiles8.top 版权所有.</div>
 </div>
 </body>
 </html>
@@ -90,10 +90,10 @@ $(document).ready(function(){
 
 	//是否显示清除按钮
 	function displayClearBtn(){
-		if(document.getElementById("username").value != ''){
-			$("#username").siblings(".input-close").show();
+		if(document.getElementById("accounts").value != ''){
+			$("#accounts").siblings(".input-close").show();
 		}
-		if(document.getElementById("password").value != ''){
+		if(document.getElementById("passwords").value != ''){
 			$(".ciphertext").siblings(".input-close").show();
 		}
 		if($("#codeLevel").val()!="" && $("#codeLevel").val()!='0'){
@@ -108,16 +108,16 @@ $(document).ready(function(){
 		$(e.target).parent().find(":input").val("");
 		$(e.target).hide();
 		$($(e.target).parent().find(":input")).each(function(i){
-			if(this.id=="ptext" || this.id=="password"){
-				$("#password").val('');
+			if(this.id=="ptext" || this.id=="passwords"){
+				$("#passwords").val('');
 				$("#ptext").val('');
 			}
          });
     });  
 	
-	//设置password字段的值	
+	//设置passwords字段的值	
 	$('.txt-password').bind('input',function(){
-		$('#password').val($(this).val());
+		$('#passwords').val($(this).val());
 	});
 	
 	//显隐密码切换

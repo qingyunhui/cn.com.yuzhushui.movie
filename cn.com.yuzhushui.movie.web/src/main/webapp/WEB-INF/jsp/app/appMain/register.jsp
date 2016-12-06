@@ -24,7 +24,7 @@ $(window).load(function() {
   <!--header 开始-->
   <header>
     <div class="header"> <a class="new-a-back" href="javascript:history.back();"> <span><img src="${path}image/login/iconfont-fanhui.png"></span> </a>
-      <h2>一起惠返利网·注册</h2>
+      <h2>一起微笑吧·注册</h2>
       </div>
   </header>
   <!--header 结束-->
@@ -33,21 +33,18 @@ $(window).load(function() {
   	<form id="frm_login" method="post" action="">
         <div class="item item-username">
           <input id="username" class="txt-input txt-username" type="text" placeholder="请输入用户名" value="" name="username">
-          <b class="input-close" style="display: none;"></b> </div>
+          <b class="input-close" style="display: none;"></b> 
+        </div>
         <div class="item item-password">
           <input id="password" class="txt-input txt-password ciphertext" type="password" placeholder="请输入密码" name="password" style="display: inline;">
           <input id="ptext" class="txt-input txt-password plaintext" type="text" placeholder="请输入密码" style="display: none;" name="ptext">
-          <b class="tp-btn btn-off"></b> </div>
+          <b class="tp-btn btn-off"></b> 
+        </div>
         <div class="item item-password">
           <input id="password_PwdTwo" class="txt-input txt-password_PwdTwo ciphertext_PwdTwo" type="password" placeholder="确认密码" name="password_PwdTwo" style="display: inline;">
           <input id="ptext_PwdTwo" class="txt-input txt-password_PwdTwo plaintext_PwdTwo" type="text" placeholder="确认密码" style="display: none;" name="ptext_PwdTwo">
-          <b class="tp-btn_PwdTwo btn-off_PwdTwo"></b> </div>
-        <div class="item item-username">
-          <input id="username" class="txt-input txt-username" type="text" placeholder="请输入邮箱" value="" name="username">
-          <b class="input-close" style="display:none;"></b> </div>
-        <div class="item item-username">
-          <input id="username" class="txt-input txt-username" type="text" placeholder="请输入QQ号码" value="" name="username">
-          <b class="input-close" style="display:none;"></b> </div>
+          <b class="tp-btn_PwdTwo btn-off_PwdTwo"></b> 
+        </div>
         <div class="item item-captcha">
           <div class="input-info">
             <input id="validateCode" class="txt-input txt-captcha" type="text" placeholder="验证码" autocomplete="off" maxlength="6" size="11">
@@ -55,11 +52,12 @@ $(window).load(function() {
           <div class="err-tips"> 注册即视为同意 <a target="_blank" href="#">用户服务协议</a> </div>
         </div>
         <div class="ui-btn-wrap"> <a class="ui-btn-lg ui-btn-primary" href="#">用户注册</a> </div>
-        <div class="ui-btn-wrap"> <a class="ui-btn-lg ui-btn-danger" href="login.html">已有账号？立即登录</a> </div>
+        <div class="ui-btn-wrap"> <a class="ui-btn-lg ui-btn-danger" href="${path}app/appMain/login.htm">已有账号？立即登录</a> </div>
       </form>
   </div>
 	
-  <div class="copyright">Copyright © 2012-2015 一起惠返利网 m.178hui.com 版权所有</div>
+  <div class="copyright">Copyright © 2011-2016 www.smiles8.top 版权所有</div>
+  
 </div>
 </body>
 </html>

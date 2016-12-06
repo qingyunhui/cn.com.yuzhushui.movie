@@ -1,24 +1,22 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"   pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/jsp/public/tagLibrary.jsp"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>我的首页</title>
+<title>微信网站模板</title>
 
 <meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,maximum-scale=1.0,user-scalable=no;">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="format-detection" content="telephone=no">
 <meta charset="utf-8">
-<link href="${path}css/myMain/style.css" rel="stylesheet" type="text/css" />
-<link href="${path}css/myMain/iscroll.css" rel="stylesheet" type="text/css" />
+
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<link href="css/iscroll.css" rel="stylesheet" type="text/css" />
 <style>
 .banner img {width: 100%;}
 </style>
-</head>
 
-<script type="text/javascript" src="${path}js/myMain/iscroll.js"></script>
+<script type="text/javascript" src="js/iscroll.js"></script>
 <script type="text/javascript">
 var myScroll;
 function loaded(){
@@ -38,13 +36,14 @@ document.addEventListener('DOMContentLoaded', loaded, false);
 </head>
 
 <body>
+
 <!--music-->
 <style>
-.btn_music{display:inline-block;width:35px;height:35px;background:url('${path}image/myMain/play.png') no-repeat center center;background-size:100% auto;position:absolute;z-index:100;left:15px;top:20px;}
-.btn_music.on{background-image:url("${path}image/myMain/stop.png");}
+.btn_music{display:inline-block;width:35px;height:35px;background:url('images/play.png') no-repeat center center;background-size:100% auto;position:absolute;z-index:100;left:15px;top:20px;}
+.btn_music.on{background-image:url("images/stop.png");}
 </style>
 
-<script type="text/javascript" src="${path}js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript">
 var playbox = (function(){
 	//author:eric_wu
@@ -116,17 +115,17 @@ $(document).ready(function(){
 });
 </script>
 
-<span id="playbox" class="btn_music" onclick="playbox.init(this).play();"><audio id="audio" loop src="${path}image/myMain/4.mp3"></audio></span>
+<span id="playbox" class="btn_music" onclick="playbox.init(this).play();"><audio id="audio" loop src="images/4.mp3"></audio></span>
 
 <div class="banner">
 
 	<div id="wrapper">
 		<div id="scroller">
 			<ul id="thelist">
-				<li><p>幻灯片01</p><a href="javascript:void(0)"><img src="${path}image/myMain/3.jpg" /></a></li>
-				<li><p>幻灯片02</p><a href="javascript:void(0)"><img src="${path}image/myMain/4.jpg" /></a></li>
-				<li><p>幻灯片03</p><a href="javascript:void(0)"><img src="${path}image/myMain/2.jpg" /></a></li>
-				<li><p>幻灯片04</p><a href="javascript:void(0)"><img src="${path}image/myMain/1.gif" /></a></li>
+				<li><p>幻灯片01</p><a href="javascript:void(0)"><img src="images/3.jpg" /></a></li>
+				<li><p>幻灯片02</p><a href="javascript:void(0)"><img src="images/4.jpg" /></a></li>
+				<li><p>幻灯片03</p><a href="javascript:void(0)"><img src="images/2.jpg" /></a></li>
+				<li><p>幻灯片04</p><a href="javascript:void(0)"><img src="images/1.gif" /></a></li>
 			</ul>
 		</div>
 	</div>
@@ -143,15 +142,15 @@ $(document).ready(function(){
 </div>
 
 <ul class="mainmenu">
-	<li><a href="javascript:void(0);" ><b><img src="${path}image/myMain/tb01.png" /></b><span>关于我们</span></a></li>
-	<li><a href="javascript:void(0);" ><b><img src="${path}image/myMain/tb02.png" /></b><span>新闻中心</span></a></li>
-	<li><a href="javascript:void(0);" ><b><img src="${path}image/myMain/tb03.png" /></b><span>产品展示</span></a></li>
-	<li><a href="javascript:void(0);" ><b><img src="${path}image/myMain/tb04.png" /></b><span>成功案例</span></a></li>
-	<li><a href="javascript:void(0);" ><b><img src="${path}image/myMain/tb05.png" /></b><span>下载中心</span></a></li>
-	<li><a href="javascript:void(0);" ><b><img src="${path}image/myMain/tb06.png" /></b><span>团队介绍</span></a></li>
-	<li><a href="javascript:void(0);" ><b><img src="${path}image/myMain/tb06.png" /></b><span>人才招聘</span></a></li>
-	<li><a href="javascript:void(0);" ><b><img src="${path}image/myMain/tb07.png" /></b><span>联系我们</span></a></li>
-	<li><a href="javascript:void(0);" ><b><img src="${path}image/myMain/tb08.png" /></b><span>在线留言</span></a></li>     	 
+	<li><a href="/" ><b><img src="images/tb01.png" /></b><span>关于我们</span></a></li>
+	<li><a href="/" ><b><img src="images/tb02.png" /></b><span>新闻中心</span></a></li>
+	<li><a href="/" ><b><img src="images/tb03.png" /></b><span>产品展示</span></a></li>
+	<li><a href="/" ><b><img src="images/tb04.png" /></b><span>成功案例</span></a></li>
+	<li><a href="/" ><b><img src="images/tb05.png" /></b><span>下载中心</span></a></li>
+	<li><a href="/" ><b><img src="images/tb06.png" /></b><span>团队介绍</span></a></li>
+	<li><a href="/" ><b><img src="images/tb06.png" /></b><span>人才招聘</span></a></li>
+	<li><a href="/" ><b><img src="images/tb07.png" /></b><span>联系我们</span></a></li>
+	<li><a href="/" ><b><img src="images/tb08.png" /></b><span>在线留言</span></a></li>     	 
 </ul>
 
 
@@ -176,8 +175,7 @@ window.onresize = function(){
 } 
 </script>
 
-<div class="copyright"><br /><br />Copyright © 2011-2016 www.smiles8.top 版权所有.</div>
+<div class="copyright"><br /><br />Copyright © 2014-2015 <a href="http://www.mycodes.net">源码之家</a> All rights reserved.</div>
 
 </body>
-
 </html>
