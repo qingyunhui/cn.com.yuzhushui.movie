@@ -1,12 +1,7 @@
 package cn.com.yuzhushui.movie.web;
 
-import java.util.Date;
-
-import com.alibaba.fastjson.JSONObject;
-
-import cn.com.yuzhushui.movie.common.bean.SessionInfo;
-import cn.com.yuzhushui.movie.sys.biz.entity.SysAccount;
-import cn.com.yuzhushui.movie.sys.biz.entity.SysUser;
+import java.util.ArrayList;
+import java.util.List;
 
 /***
  ** @category 请用一句话来描述其用途...
@@ -17,54 +12,79 @@ import cn.com.yuzhushui.movie.sys.biz.entity.SysUser;
 public class MyTest {
 	
 	public static void main(String[] args){
+
+		int count=39;
+		int defaultCount=10;//默认处理10条数据
+		List<String> list=initList(count);
 		
-		SysUser su=new SysUser();
+		println(list);
 		
-//		"{\"sysUser\":{\"accountId\":1,\"age\":89,\"creater\":\"61\",\"createrId\":2222,\"ctime\":1479651070000,\"deleted\":0,\"editor\":\"张三\",\
-//		"editorId\":22,\"email\":\"2806721661\",\"etime\":1479651070000,\"id\":1,\"mobilephone\":\"18665300661\",\"name\":\"61\",\"sex\":1,\"userId\":1}}"
+		int totalPageCount=getTotalPageCount(list, defaultCount);
 		
-		su.setAccountId(1);
-		su.setAge(89);
-		su.setCtime(new Date());
-		su.setCreater("61");
-		su.setCreaterId(222);
-		su.setDeleted(0);
-		su.setEditor("张三");
-		su.setEditorId(22);
-		su.setEmail("2806721661");
-		su.setEtime(new Date());
-		su.setMobilephone("18665300661");
-		su.setName("51");
-		su.setSex(1);
-		su.setUserId(1);
-//		"{\"sysAccount\":{\"account\":\"admin\",\"accountId\":1,\"creater\":\"admin\",\"createrId\":1,\"ctime\":1479997174000,\"deleted\":0,\"editor\":\"admin\",\"editorId\":1,
-//		\"etime\":1479997181000,\"id\":1,\"password\":\"96E79218965Eb72C92A549dd5A330112\",\"status\":2}}"
+		todoBatch(list, defaultCount, totalPageCount);
+	}
+	
+	public static void todoBatch(List<String> list,int defaultPageSize,int totalPageCount){
+		System.out.println("========================开始拆分:========================");
+		if(list.size()<=defaultPageSize){
+			System.out.println("==========第"+0+"页");
+			println(list);
+			return;
+		}
 		
-		SessionInfo sif=new SessionInfo();
-		sif.setSysUser(su);
-		SysAccount sa=new SysAccount();
-		sa.setAccount("admin");
-		sa.setAccount("1");
-		sa.setCreater("admin");
-		sa.setCreaterId(1);
-		sa.setCtime(new Date());
-		sa.setDeleted(0);
-		sa.setEditor("admin");
-		sa.setEditorId(1);
-		sa.setEtime(new Date());
-		sa.setPassword("96E79218965Eb72C92A549dd5A330112");
-		sa.setStatus(2);
-		sif.setSysAccount(sa);
-		String jsonInfo=JSONObject.toJSONString(sif);
+		for(int i=0;i<totalPageCount;i++){
+			System.out.println("==========第"+i+"页");
+			List<String> newList=null;
+			int index=0;
+			if(i==0){
+				newList=list.subList(i, defaultPageSize);
+			}else{
+				index=i*defaultPageSize;
+				int curCount=(i+1)*defaultPageSize;
+				if(i==totalPageCount-1){
+					curCount=list.size();
+				}
+				newList=list.subList(index, curCount);
+			}
+			println(newList);
+		}
+		System.out.println("========================拆分结束:========================");
+	}
+	
+	public static void println(List<String> list){
+		for(String i:list){
+			System.out.println(i);
+		}
+	}
+	
+	/**
+	 * <p>获取总页数</p>
+	 * @param list 
+	 * @param defaultCount 默认每次处理的记录条数
+	 * @return 总页数
+	 * */
+	public static int getTotalPageCount(List<String> list,int defaultCount){
+		int totalCount=list.size();
+		int mod=-1;
+		int totalPageCount=0;
+		mod = totalCount % defaultCount;
+		if (mod != 0) {
+			totalPageCount = (totalCount / defaultCount) + 1;
+		} else {
+			totalPageCount = (totalCount / defaultCount);
+		}
+		return totalPageCount;
+	}
+	
+	public static List<String> initList(long count){
 		
+		List<String> logs=new ArrayList<String>();
 		
+		for(int i=0;i<count;i++){
+			logs.add(i+"个");
+		}
 		
-		System.out.println("jsonInfo:"+jsonInfo);
-		
-		SessionInfo tmp=JSONObject.parseObject(jsonInfo, SessionInfo.class);
-		
-		System.out.println("tm:"+tmp);
-		
+		return logs;
 	}
 
 	 /*public static void main(String[] args) {
