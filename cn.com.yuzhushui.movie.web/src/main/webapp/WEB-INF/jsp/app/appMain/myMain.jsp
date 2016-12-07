@@ -15,6 +15,30 @@
 <link href="${path}css/myMain/iscroll.css" rel="stylesheet" type="text/css" />
 <style>
 .banner img {width: 100%;}
+.footer {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    margin-top: 0px;
+    width: 100%;
+    height: 3.0rem;
+    background: url(../../../image/myMain/footer/projection.png) repeat-x;
+    padding-top: 0.5rem;
+}
+
+.footer .mune {
+    float: left;
+    width: 25%;
+    height: 0.7rem;
+    text-align: center;
+}
+.mune img {
+    width: 2.0rem;
+    height: 2.0rem;
+}
+.mune p {
+    font-size: 0.22rem;
+}
 </style>
 </head>
 
@@ -176,8 +200,8 @@ window.onresize = function(){
 } 
 </script>
 
-<div class="copyright"><br /><br />Copyright © 2011-2016 www.smiles8.top 版权所有.</div>
-
+<c:set var="currIndex" value="1"></c:set>
+<%@ include file="/WEB-INF/jsp/public/footer.jsp"%>
 </body>
 
 </html>
