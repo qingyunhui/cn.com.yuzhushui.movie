@@ -200,7 +200,7 @@ window.onresize = function(){
 } 
 </script>
 
-<c:set var="currIndex" value="1"></c:set>
+<c:set var="currIndex" value="0"></c:set>
 <%@ include file="/WEB-INF/jsp/public/footer.jsp"%>
 </body>
 

@@ -3,75 +3,126 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<%@ include file="/WEB-INF/jsp/public/head.jsp"%>
+<%-- <%@ include file="/WEB-INF/jsp/public/head.jsp"%> --%>
+<script type="text/javascript" src="${path}js/jquery-1.10.2.min.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=1.0" />
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link href="${path}css/myself/style.css" rel="stylesheet" type="text/css" />
 </head>
-<body ondragstart="return false;" onselectstart="return false;" oncontextmenu="return false" onselectstart="return false" ondragstart="return false" onbeforecopy="return false" oncopy=document.selection.empty() onselect=document.selection.empty()> 
-<div id="page">
-	<div class="banner">
-		<ul>
-			<li style="background-image: url('${basePath}image/4.jpg');">1</li>
-			<li style="background-image: url('${basePath}image/3.jpg');">2</li>
-			<li style="background-image: url('${basePath}image/1.jpg');">3</li>
-			<li style="background-image: url('${basePath}image/2.jpg');">4</li>
-		</ul>
+<body>
+
+<div id="_centent">
+<header>
+	<div class="rt-bk">
+		<i class="bk"></i>
+		<p>返回</p>
 	</div>
-	<div id="content">
-		<div class="box_exp info_light">
-			<div class="info_integral">
-				<span class="title"><i class="icon-bookmark-empty"></i>促销商品</span>
-			</div>
-			<div style="display: block; overflow: hidden; opacity: 1;">
-				<div class="info_child">
-					<ul>
-						<li style="width:33%"><div class="line3"><a href="content.html"><i><img src="${basePath}image/7.jpg"></i><span>小熊真皮箱包</span><em>198.00</em></a></div></li>
-						<li style="width:33%"><div class="line3"><a href="content.html"><i><img src="${basePath}image/5.jpg"></i><span>三星NOTE3</span><em>198.00</em></a></div></li>
-						<li style="width:33%"><a href="content.html"><i><img src="${basePath}image/6.jpg"></i><span>索尼T808-9</span><em>198.00</em></a></li>
-						<li style="width:33%"><div class="line3"><a href="content.html"><i><img src="${basePath}image/7.jpg"></i><span>小熊真皮箱包</span><em>198.00</em></a></div></li>
-						<li style="width:33%"><div class="line3"><a href="content.html"><i><img src="${basePath}image/5.jpg"></i><span>三星NOTE3</span><em>198.00</em></a></div></li>
-						<li style="width:33%"><a href="content.html"><i><img src="${basePath}image/6.jpg"></i><span>索尼T808-9</span><em>198.00</em></a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<div class="box_exp">
-			<ul>
-				<li style="width:25%"><div class="line"><a href="class.html"><i class="icon-bell-alt yellow"></i><span>促销卖场</span></a></div></li>
-				<li style="width:25%"><div class="line"><a href="class.html"><i class="icon-shopping-cart red"></i><span>包邮商品</span></a></div></li>
-				<li style="width:25%"><div class="line"><a href="class.html"><i class="icon-time blue"></i><span>团购商城</span></a></div></li>
-				<li style="width:25%"><div class="line2"><a href="class.html"><i class="icon-trophy pink"></i><span>品牌特卖</span></a></div></li>
-				<li style="width:25%"><div class="line3"><a href="class.html"><i class="icon-truck greens"></i><span>订单查询</span></a></div></li>
-				<li style="width:25%"><div class="line3"><a href="class.html"><i class="icon-mobile-phone blue"></i><span>手机充值</span></a></div></li>
-				<li style="width:25%"><div class="line3"><a href="class.html"><i class="icon-gift yellow"></i><span>购买彩票</span></a></div></li>
-				<li style="width:25%"><a href="consumption.html"><i class="icon-info-sign green"></i><span>意见反馈</span></a></li>
-			</ul>
-		</div>	
-		
-		<div style="padding:15px;"></div>
-	</div>
-	<!-- footer页 -->
-	<c:set var="currIndex" value="4"></c:set>
-	<%@ include file="/WEB-INF/jsp/public/footer.jsp"%>
+	<div class="top-name"><p>个人中心</p></div>
+</header>
+
+<div class="head">
+	<div class="head-img">
+    	<img src="${path}image/myself/head-img.png">
+    </div>
+    <div class="head-dsb">
+    	<p class="dsb-name">--凌乱</p>
+        <p class="dsb-id">ID  1271543621</p>
+    </div>
 </div>
 
-<script>
-$(document).ready(function() {
-	
-	var str='${basePath}';
-	var path2 = "${path}";
-	
-	$('.banner').unslider({
-		arrows: true,
-		fluid: true,
-		dots: true
-	});
+<div class="nav">
+	<ul>
+    	<li>
+        	<i class="idt"></i>
+            <p>订单</p>
+        </li>
+    	<li class="pt-line">
+        	<i class="clt"></i>
+            <p>收藏</p>
+        </li>
+    	<li>
+        	<i class="rcm"></i>
+            <p>推荐</p>
+        </li>
+    </ul>
+</div>
 
-	$("#content").accordion({
-		alwaysOpen: false,
-		autoheight: false,
-		header: '.info_integral',
-		clearStyle: true
-	});
-});
+<section class="mt-1"> 
+    <div class="ps-lt">
+        <div class="lt-dsb">
+            <p>修改个人资料</p>
+            <i class="arr-right"></i>
+        </div>
+        <div class="lt-dsb cl-bb">
+            <p>修改密码</p>
+            <i class="arr-right"></i>
+        </div>
+    </div>
+</section>
+
+<section class="mt-2"> 
+    <div class="ps-lt">
+        <div class="lt-dsb cl-bb">
+            <p>声音推送通知</p>
+            <i class="check-on"></i>
+        </div>
+    </div>
+</section>
+
+<section class="mt-3"> 
+    <div class="ps-lt">
+        <div class="lt-dsb">
+            <p>猜你喜欢</p>
+            <i class="arr-right"></i>
+        </div>
+    </div>
+    <div class="ps-lt">
+        <div class="lt-dsb">
+            <p>附近热门</p>
+            <i class="arr-right"></i>
+        </div>
+    </div>
+    <div class="ps-lt">
+        <div class="lt-dsb">
+            <p>推荐商家</p>
+            <i class="arr-right"></i>
+        </div>
+    </div>
+    <div class="ps-lt">
+        <div class="lt-dsb cl-bb">
+            <p>设置</p>
+            <i class="arr-right"></i>
+        </div>
+    </div>
+</section>
+
+<div class="jg"></div>
+</div>
+
+<c:set var="currIndex" value="3"></c:set>
+<%@ include file="/WEB-INF/jsp/public/footer.jsp"%>
+
+<script>
+	(function (doc, win) {
+	  var docEl = doc.documentElement,
+		resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+		recalc = function () {
+		  var clientWidth = docEl.clientWidth;
+		  if (!clientWidth) return;
+		  docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+		};
+
+	  if (!doc.addEventListener) return;
+	  win.addEventListener(resizeEvt, recalc, false);
+	  doc.addEventListener('DOMContentLoaded', recalc, false);
+	})(document, window);
+</script>
+<script type="text/javascript">
+	$('.check-on').click(function(){
+		$(this).toggleClass('check-off');
+		})
 </script>
 </body>
 </html>
