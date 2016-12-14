@@ -77,7 +77,6 @@
 	</insert>
 	
 	<insert id="insertBatch" parameterType="java.util.List" >
-		<![CDATA[
 	        INSERT INTO sys_data (
 	            target_table ,
 	            target_id ,
@@ -87,18 +86,17 @@
 	            lose_efficacy_date ,
 	            comment 
 	        ) VALUES 
-	        <foreach collection="list" item="item" index="index" separator=",">
+	        <foreach collection="list" item="items" index="index" separator=",">
 	        (
-	        	#{targetTable},
-	        	#{targetId},
+	        	#{items.targetTable},
+	        	#{items.targetId},
 	        	now(),
-	        	#{creater},
-	        	#{createrId},
-	        	#{loseEfficacyDate},
-	        	#{comment}
+	        	#{items.creater},
+	        	#{items.createrId},
+	        	#{items.loseEfficacyDate},
+	        	#{items.comment}
 	        )
 	        </foreach>
-	    ]]>
 	</insert>
 	
 	<update id="delete" parameterType="java.lang.Integer">

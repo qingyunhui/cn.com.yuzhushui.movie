@@ -9,64 +9,25 @@ import java.util.List;
  ** @email: 280672161@qq.com
  ** @createTime: 2016年11月29日上午10:05:57
  **/
-public class MyTest {
+public class MyTest4 {
 	
-	public static void main(String[] args){
+	public static void main(String[] args) throws Exception{
 
-		System.out.println("billRedeemId".length());
-		
-		StringBuffer sb=new StringBuffer();
-		sb.append("abcd");
-		sb.append("1234");
-		System.out.println(sb.toString());
-		
-		System.out.println("length:"+sb.length()+",length2:"+sb.toString().length());
-		
-		sb.setLength(0);
-		
-		System.out.println("sb:"+sb.toString()+",length:"+sb.length()+",length2:"+sb.toString().length());
-		
-		sb.append("我们是中国人");
-		
-		System.out.println("sb:"+sb.toString());
-		
-		/*int count=39;
-		int defaultCount=10;//默认处理10条数据
+		int count=50;
 		List<String> list=initList(count);
+//		println(list);
 		
-		println(list);
+		for(int i=0;i<list.size();i++){
+			if(i%2==0){
+				System.out.println("异常i="+i);
+				throw new Exception();
+			}
+			System.out.println("正常i="+i);
+		}
 		
-		int totalPageCount=getTotalPageCount(list, defaultCount);
-		
-		todoBatch(list, defaultCount, totalPageCount);*/
 	}
 	
-	public static void todoBatch(List<String> list,int defaultPageSize,int totalPageCount){
-		System.out.println("========================开始拆分:========================");
-		if(list.size()<=defaultPageSize){
-			System.out.println("==========第"+0+"页");
-			println(list);
-			return;
-		}
-		
-		for(int i=0;i<totalPageCount;i++){
-			System.out.println("==========第"+i+"页");
-			List<String> newList=null;
-			int index=0;
-			if(i==0){
-				newList=list.subList(i, defaultPageSize);
-			}else{
-				index=i*defaultPageSize;
-				int curCount=(i+1)*defaultPageSize;
-				if(i==totalPageCount-1){
-					curCount=list.size();
-				}
-				newList=list.subList(index, curCount);
-			}
-			println(newList);
-		}
-		System.out.println("========================拆分结束:========================");
-	}
+	
 	
 	public static void println(List<String> list){
 		for(String i:list){
