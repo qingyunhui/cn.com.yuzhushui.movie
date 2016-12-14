@@ -47,47 +47,22 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 	@RequestMapping(value = "addSysDatas3", method = { RequestMethod.POST,RequestMethod.GET })
 	public String addSysDatas3() {
 		logger.info("=====================多线程处理，调用baseService.add()=====================");
-		int count=0;
-		List<SysData> datas=initData(1000000);
-		Long startTime=System.currentTimeMillis();
-		int defaultCount=1000;
 		try {
-			int totalPage=getTotalPageCount(datas.size(), defaultCount);
-			for(int i=0;i<totalPage;i++){
+			for(int i=0;i<10;i++){
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
-						//TODO 
-						List<SysData> insertDatas=null;
-						int curPageCount=i+1;//当前页数;
-						logger.info("==========第"+curPageCount+"页==========");
-						int index=0;//索引开始位置..
-						if(i==0){
-							insertDatas=datas.subList(i, defaultCount);	//第一次循环索引位置从0开始，到defaultCount位置结束.
-						}else{
-							index=i*defaultCount;//第二次以后的循环以递增的方式处理:i*defaultCount位置开始，到(i+1)*defaultCount位置结束。
-							int curCount=(i+1)*defaultCount;
-							if(i==totalPage-1){
-								curCount=datas.size();
-							}
-							insertDatas=datas.subList(index, curCount);
-						}
-						count+=baseService.add(insertDatas);
-						logger.info("=============第"+curPageCount+"页处理成功，处理的条数为:"+insertDatas.size()+"条，处理成功的条数为:"+count+"条。==============");
-						
-						//TODO end
-						
+						int count=0;
+						List<SysData> datas=initData(1000000);
+						int defaultCount=1000;
+						int totalPage=getTotalPageCount(datas.size(), defaultCount);
+						System.out.println("线程："+count+"，");
 					}
 				});
 			}
-			Long endTime=System.currentTimeMillis();
-			Long ends=(endTime-startTime);
-			Long second=(ends/1000);
-			logger.info("{}条记录，插入数据库共耗时:{}毫秒，{}秒。成功处理{}条。",new Object[]{datas.size(),ends,second,count});
 		} catch (Exception e) {
 			logger.error("************数据库操作异常，异常原因，{}",new Object[]{e});
 		}
-		logger.info("受影响的行数:"+count+"条。");
 		logger.info("=====================调用baseService，end=====================");
 		return "redirect:"+ACTION_PATH+"/list.htm";
 	}
