@@ -100,9 +100,24 @@
 
 <div class="jg"></div>
 </div>
-
-<c:set var="currIndex" value="3"></c:set>
-<%@ include file="/WEB-INF/jsp/public/footer.jsp"%>
+<footer>
+	<div class="mune">
+    	<img src="${path}image/myself/1.png">
+        <p>首页2</p>
+    </div>
+	<div class="mune">
+    	<img src="${path}image/myself/2.png">
+        <p>商家2</p>
+    </div>
+	<div class="mune">
+    	<img src="${path}image/myself/3.png">
+        <p>申请加盟2</p>
+    </div>
+	<div class="mune">
+    	<img src="${path}image/myself/4.png">
+        <p>个人中心2</p>
+    </div>    
+</footer>
 
 <script>
 	(function (doc, win) {

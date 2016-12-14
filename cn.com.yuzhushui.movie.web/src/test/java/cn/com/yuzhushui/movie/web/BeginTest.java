@@ -36,8 +36,7 @@ public class BeginTest {
 		}
 
 		Date date2 = new Date();
-		System.out.println("----程序结束运行----，程序运行时间【"
-				+ (date2.getTime() - date1.getTime()) + "毫秒】");
+		System.out.println("----程序结束运行----，程序运行时间【"+ (date2.getTime() - date1.getTime()) + "毫秒】");
 	}
 }
 

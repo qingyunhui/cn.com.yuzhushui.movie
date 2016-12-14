@@ -46,7 +46,6 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 	 * **/
 	@RequestMapping(value = "addSysDatas3", method = { RequestMethod.POST,RequestMethod.GET })
 	public String addSysDatas3() {
-		logger.info("=====================多线程处理，调用baseService.add()=====================");
 		try {
 			for(int i=0;i<10;i++){
 				new Thread(new Runnable() {
@@ -54,9 +53,9 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 					public void run() {
 						int count=0;
 						List<SysData> datas=initData(1000000);
-						int defaultCount=1000;
-						int totalPage=getTotalPageCount(datas.size(), defaultCount);
-						System.out.println("线程："+count+"，");
+							
+						//addBatch(datas);
+
 					}
 				});
 			}
@@ -77,7 +76,7 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 		int count=0;
 		List<SysData> datas=initData(1000000);
 		Long startTime=System.currentTimeMillis();
-		int defaultCount=1000;
+		int defaultCount=10000;
 		try {
 			int totalPage=getTotalPageCount(datas.size(), defaultCount);
 			for(int i=0;i<totalPage;i++){

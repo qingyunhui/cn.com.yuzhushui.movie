@@ -95,6 +95,13 @@ public class AppMainAction {
 		return modelView;
 	}
 	
+	/**进入个人首页（第一个页面）**/
+	@RequestMapping(value = "/index")
+	public ModelAndView index(HttpServletRequest request,HttpServletResponse response, HttpSession session) {
+		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/index");
+		return modelView;
+	}
+	
 	/**商品分类（第二个页面）*/
 	@RequestMapping(value = "/goodsCategory")
 	public ModelAndView goodsCategory(HttpServletRequest request,HttpServletResponse response, HttpSession session) {
