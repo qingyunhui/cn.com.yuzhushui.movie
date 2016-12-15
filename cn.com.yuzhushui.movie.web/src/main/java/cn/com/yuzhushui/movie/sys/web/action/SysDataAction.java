@@ -4,6 +4,10 @@ package cn.com.yuzhushui.movie.sys.web.action;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,12 +50,47 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 	
 	/**
 	 * <p>分页插入</p>
-	 * 多线程
+	 * <p>有返回值的多线程处理、实现Callabler接口<p>
 	 * **/
-	@RequestMapping(value = "addDatasByThread", method = { RequestMethod.POST,RequestMethod.GET })
-	public String addDatasByThread() {
-		final List<SysData> datas=initData(100);
-		final int defaultCount=10;
+	@RequestMapping(value = "callableByBatchAdd", method = { RequestMethod.POST,RequestMethod.GET })
+	public String callableByBatchAdd() {
+		final List<SysData> datas=initData(200000);//20万条数据..
+		final int defaultCount=1000;//默认处理的条数
+		final int totalPage=getTotalPageCount(datas.size(), defaultCount);
+		Long startTime=System.currentTimeMillis();
+		ExecutorService executorService=Executors.newFixedThreadPool(2);//创建二个线程池.
+		List<Future<Boolean>> futures = new ArrayList<Future<Boolean>>();//创建有多个返回值的任务.
+		try {
+			for(int i=0;i<totalPage;i++){
+				final int curThread=i;
+				futures.add(executorService.submit(new Callable<Boolean>() {
+					@Override
+					public Boolean call() throws Exception {
+						addBatch(datas, curThread, totalPage, defaultCount);
+						return Boolean.TRUE;
+					}
+				}));
+			}
+		} catch (Exception e) {
+			logger.error(e+"");
+		}finally {
+			executorService.shutdown();
+		}
+		Long endTime=System.currentTimeMillis();
+		Long ends=(endTime-startTime);
+		Long second=(ends/1000);
+		logger.info("{}条记录，插入数据库共耗时:{}毫秒，{}秒。",new Object[]{datas.size(),ends,second});
+		return "redirect:"+ACTION_PATH+"/list.htm";
+	}
+	
+	/**
+	 * <p>分页插入</p>
+	 * <p>多线程处理、实现Runnable或者继承Thread类<p>
+	 * **/
+	@RequestMapping(value = "threadByBatchAdd", method = { RequestMethod.POST,RequestMethod.GET })
+	public String threadByBatchAdd() {
+		final List<SysData> datas=initData(200000);//20万条数据..
+		final int defaultCount=1000;//默认处理的条数
 		final int totalPage=getTotalPageCount(datas.size(), defaultCount);
 		Long startTime=System.currentTimeMillis();
 		try {
@@ -68,41 +107,11 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 			logger.error(e+"");
 		}
 		Long endTime=System.currentTimeMillis();
-		
 		Long ends=(endTime-startTime);
 		Long second=(ends/1000);
 		logger.info("{}条记录，插入数据库共耗时:{}毫秒，{}秒。",new Object[]{datas.size(),ends,second});
 		return "redirect:"+ACTION_PATH+"/list.htm";
 	}
-	
-	/**
-	 * @param datas 待处理的数据集
-	 * @param curThread 当前线程（第几个线程）
-	 * @param totalThread 总线程数(总页数)
-	 * @param defaultCount 默认处理条数
-	 * */
-	public void addBatch(List<SysData> datas,int curThread,int totalThread,int defaultCount){
-		if(null==datas||datas.size()==0) return;
-		int count=0;
-		for(int i=curThread;i<totalThread;i+=totalThread){
-			List<SysData> insertDatas=null;
-			logger.info("=====线程"+Thread.currentThread().getName()+"=====第"+i+"页==========");
-			int index=0;//索引开始位置..
-			if(i==0){
-				insertDatas=datas.subList(i, defaultCount);	//第一次循环索引位置从0开始，到defaultCount位置结束.
-			}else{
-				index=i*defaultCount;//第二次以后的循环以递增的方式处理:i*defaultCount位置开始，到(i+1)*defaultCount位置结束。
-				int curCount=(i+1)*defaultCount;
-				if(i==totalThread-1){
-					curCount=datas.size();
-				}
-				insertDatas=datas.subList(index, curCount);
-			}
-			count+=sysDataService.add(insertDatas);
-			logger.info("=============第"+i+"页处理成功，处理的条数为:"+insertDatas.size()+"条，处理成功的条数为:"+count+"条。==============");
-		}
-	}
-	
 	
 	/**
 	 * <p>分页插入</p>
@@ -147,25 +156,6 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 		return "redirect:"+ACTION_PATH+"/list.htm";
 	}
 	
-	/**
-	 * 获取总页数
-	 * @param totalCount 总记条数
-	 * @param defaultCount 默认一次性处理defaultCount条记录
-	 * @return 总页数
-	 * */
-	protected static int getTotalPageCount(int totalCount,int defaultCount){
-		int totalSize=totalCount;
-		int mod=-1;
-		int pageCount=0;
-		mod = totalSize % defaultCount;
-		if (mod != 0) {
-			pageCount = (totalSize / defaultCount) + 1;
-		} else {
-			pageCount = (totalSize / defaultCount);
-		}
-		return pageCount;
-	}
-	
 	@RequestMapping(value = "addSysDatas", method = { RequestMethod.POST,RequestMethod.GET })
 	public String addSysDatas() {
 		logger.info("=====================调用baseService.add()=====================");
@@ -186,7 +176,30 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 		return "redirect:"+ACTION_PATH+"/list.htm";
 	} 
 	
+	/**
+	 * 获取总页数
+	 * @param totalCount 总记条数
+	 * @param defaultCount 默认一次性处理defaultCount条记录
+	 * @return 总页数
+	 * */
+	protected static int getTotalPageCount(int totalCount,int defaultCount){
+		int totalSize=totalCount;
+		int mod=-1;
+		int pageCount=0;
+		mod = totalSize % defaultCount;
+		if (mod != 0) {
+			pageCount = (totalSize / defaultCount) + 1;
+		} else {
+			pageCount = (totalSize / defaultCount);
+		}
+		return pageCount;
+	}
 	
+	/**
+	 * <p>初始化count条数据</p>
+	 * @param count
+	 * @return List<SysData>
+	 * */
 	protected List<SysData> initData(int count){
 		Long startTime=System.currentTimeMillis();
 		List<SysData> datas=new ArrayList<SysData>();
@@ -205,11 +218,51 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 		System.out.println(count+"条记录耗时:"+(endTime-startTime)+"毫秒。");
 		return datas;
 	}
-}
-
-class Threads extends Thread{
-	@Override
-	public void run(){
-		
+	
+	/**
+	 * @param datas 待处理的数据集
+	 * @param curThread 当前线程（第几个线程）
+	 * @param totalThread 总线程数(总页数)
+	 * @param defaultCount 默认处理条数
+	 * */
+	protected void addBatch(List<SysData> datas,int curThread,int totalThread,int defaultCount){
+		if(null==datas||datas.size()==0) return;
+		int count=0;
+		for(int i=curThread;i<totalThread;i+=totalThread){
+			List<SysData> insertDatas=null;
+			logger.info("=====线程"+Thread.currentThread().getName()+"=====第"+i+"页==========");
+			int index=0;//索引开始位置..
+			if(i==0){
+				insertDatas=datas.subList(i, defaultCount);	//第一次循环索引位置从0开始，到defaultCount位置结束.
+			}else{
+				index=i*defaultCount;//第二次以后的循环以递增的方式处理:i*defaultCount位置开始，到(i+1)*defaultCount位置结束。
+				int curCount=(i+1)*defaultCount;
+				if(i==totalThread-1){
+					curCount=datas.size();
+				}
+				insertDatas=datas.subList(index, curCount);
+			}
+			count+=sysDataService.add(insertDatas);
+			logger.info("=============第"+i+"页处理成功，处理的条数为:"+insertDatas.size()+"条，处理成功的条数为:"+count+"条。==============");
+		}
 	}
 }
+
+//有返回值的多线程-
+class CallableHandl implements Callable<Boolean>{
+	
+	int curThread;	//当前线程【第几个线程】
+	int totalThread;//线程总数;
+	public CallableHandl(){}
+	
+	public CallableHandl(int curThread,int totalThread){
+		this.totalThread=totalThread;
+		this.curThread=curThread;
+	}
+	@Override
+	public Boolean call() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}
+
