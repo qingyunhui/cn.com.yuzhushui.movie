@@ -1,9 +1,12 @@
 package cn.com.yuzhushui.movie.sys.biz.service.impl;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.com.yuzhushui.movie.common.base.BaseServiceImpl;
-
+import cn.com.yuzhushui.movie.sys.biz.dao.SysDataDao;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysData;
 import cn.com.yuzhushui.movie.sys.biz.service.SysDataService;
 
@@ -16,4 +19,12 @@ import cn.com.yuzhushui.movie.sys.biz.service.SysDataService;
 @Service("sysDataService")
 public class SysDataServiceImpl extends BaseServiceImpl<SysData,Integer> implements SysDataService{
       
+	@Autowired
+	private SysDataDao sysDataDao;
+	
+	public int add(List<SysData> models) {
+		int count = sysDataDao.insertBatch(models);
+		return count;
+	}
+	
 }

@@ -6,7 +6,7 @@ import java.util.List;
 public class Demo {
 	public static void main(String[] rags) {
 		List<String> list=initData(10000);
-		MyThreads mt = new MyThreads(list);
+		MyThreads2 mt = new MyThreads2(list);
 		for (int i = 0; i < mt.list.size(); i++) {
 			new Thread(mt).start();
 		}
@@ -25,12 +25,12 @@ public class Demo {
 	}
 }
 
-class MyThreads implements Runnable{
+class MyThreads2 implements Runnable{
 	List<String> list;
 	
-	public MyThreads(){}
+	public MyThreads2(){}
 	
-	public MyThreads(List<String> list){
+	public MyThreads2(List<String> list){
 		this.list=list;
 	}
 	

@@ -1,7 +1,8 @@
 package cn.com.yuzhushui.movie.sys.biz.service;
 
-import cn.com.yuzhushui.movie.common.base.BaseService;
+import java.util.List;
 
+import cn.com.yuzhushui.movie.common.base.BaseService;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysData;
 /**
  * @author qing.yunhui 
@@ -10,5 +11,7 @@ import cn.com.yuzhushui.movie.sys.biz.entity.SysData;
  * @history
  */
 public interface SysDataService extends BaseService<SysData,Integer>{
+	
+	public int add(List<SysData> models);
     
 }

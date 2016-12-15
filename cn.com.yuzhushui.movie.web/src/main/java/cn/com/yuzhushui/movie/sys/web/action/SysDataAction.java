@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import cn.com.yuzhushui.movie.common.base.BaseAction;
 import cn.com.yuzhushui.movie.common.base.BaseService;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysData;
+import cn.com.yuzhushui.movie.sys.biz.service.SysDataService;
 import cn.com.yuzhushui.movie.sys.web.vo.SysDataForm;
 
 /**
@@ -32,6 +33,9 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 	@Autowired
 	private BaseService<SysData,Integer> baseService;
 	
+	@Autowired
+	private SysDataService sysDataService;
+	
 	//一般用于重定向用
 	protected static final String ACTION_PATH="/sys/sysData";
 	
@@ -42,29 +46,63 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 	
 	/**
 	 * <p>分页插入</p>
-	 * 对数据量比较大的情况下的处理..
+	 * 多线程
 	 * **/
-	@RequestMapping(value = "addSysDatas3", method = { RequestMethod.POST,RequestMethod.GET })
-	public String addSysDatas3() {
+	@RequestMapping(value = "addDatasByThread", method = { RequestMethod.POST,RequestMethod.GET })
+	public String addDatasByThread() {
+		final List<SysData> datas=initData(100);
+		final int defaultCount=10;
+		final int totalPage=getTotalPageCount(datas.size(), defaultCount);
+		Long startTime=System.currentTimeMillis();
 		try {
-			for(int i=0;i<10;i++){
+			for(int i=0;i<totalPage;i++){
+				final int curThread=i;
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
-						int count=0;
-						List<SysData> datas=initData(1000000);
-							
-						//addBatch(datas);
-
+						addBatch(datas, curThread, totalPage, defaultCount);
 					}
-				});
+				}).start();
 			}
 		} catch (Exception e) {
-			logger.error("************数据库操作异常，异常原因，{}",new Object[]{e});
+			logger.error(e+"");
 		}
-		logger.info("=====================调用baseService，end=====================");
+		Long endTime=System.currentTimeMillis();
+		
+		Long ends=(endTime-startTime);
+		Long second=(ends/1000);
+		logger.info("{}条记录，插入数据库共耗时:{}毫秒，{}秒。",new Object[]{datas.size(),ends,second});
 		return "redirect:"+ACTION_PATH+"/list.htm";
 	}
+	
+	/**
+	 * @param datas 待处理的数据集
+	 * @param curThread 当前线程（第几个线程）
+	 * @param totalThread 总线程数(总页数)
+	 * @param defaultCount 默认处理条数
+	 * */
+	public void addBatch(List<SysData> datas,int curThread,int totalThread,int defaultCount){
+		if(null==datas||datas.size()==0) return;
+		int count=0;
+		for(int i=curThread;i<totalThread;i+=totalThread){
+			List<SysData> insertDatas=null;
+			logger.info("=====线程"+Thread.currentThread().getName()+"=====第"+i+"页==========");
+			int index=0;//索引开始位置..
+			if(i==0){
+				insertDatas=datas.subList(i, defaultCount);	//第一次循环索引位置从0开始，到defaultCount位置结束.
+			}else{
+				index=i*defaultCount;//第二次以后的循环以递增的方式处理:i*defaultCount位置开始，到(i+1)*defaultCount位置结束。
+				int curCount=(i+1)*defaultCount;
+				if(i==totalThread-1){
+					curCount=datas.size();
+				}
+				insertDatas=datas.subList(index, curCount);
+			}
+			count+=sysDataService.add(insertDatas);
+			logger.info("=============第"+i+"页处理成功，处理的条数为:"+insertDatas.size()+"条，处理成功的条数为:"+count+"条。==============");
+		}
+	}
+	
 	
 	/**
 	 * <p>分页插入</p>
@@ -74,9 +112,9 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 	public String addSysDatas2() {
 		logger.info("=====================调用baseService.add()=====================");
 		int count=0;
-		List<SysData> datas=initData(1000000);
+		List<SysData> datas=initData(100);
 		Long startTime=System.currentTimeMillis();
-		int defaultCount=10000;
+		int defaultCount=10;
 		try {
 			int totalPage=getTotalPageCount(datas.size(), defaultCount);
 			for(int i=0;i<totalPage;i++){
