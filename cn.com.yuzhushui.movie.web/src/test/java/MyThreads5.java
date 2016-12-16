@@ -5,5 +5,9 @@
  ** @createTime: 2016年12月15日下午11:34:01
  **/
 public class MyThreads5 {
+	
+	public static void main(String[] args){
+		System.out.println(0/3==0);
+	}
 
 }

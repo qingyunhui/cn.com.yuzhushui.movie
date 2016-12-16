@@ -32,6 +32,10 @@ import cn.com.yuzhushui.movie.sys.web.vo.SysDataForm;
 @RequestMapping(SysDataAction.ACTION_PATH)
 public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 	
+	protected int initCount=1003;
+	
+	protected int defaultCount=100;
+	
 	protected Logger logger=LoggerFactory.getLogger(SysDataAction.class);
 	
 	@Autowired
@@ -54,11 +58,10 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 	 * **/
 	@RequestMapping(value = "callableByBatchAdd", method = { RequestMethod.POST,RequestMethod.GET })
 	public String callableByBatchAdd() {
-		final List<SysData> datas=initData(200000);//20万条数据..
-		final int defaultCount=1000;//默认处理的条数
+		final List<SysData> datas=initData(initCount);
 		final int totalPage=getTotalPageCount(datas.size(), defaultCount);
 		Long startTime=System.currentTimeMillis();
-		ExecutorService executorService=Executors.newFixedThreadPool(2);//创建二个线程池.
+		ExecutorService executorService=Executors.newCachedThreadPool();//创建二个线程池.
 		List<Future<Boolean>> futures = new ArrayList<Future<Boolean>>();//创建有多个返回值的任务.
 		try {
 			for(int i=0;i<totalPage;i++){
@@ -66,10 +69,12 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 				futures.add(executorService.submit(new Callable<Boolean>() {
 					@Override
 					public Boolean call() throws Exception {
-						addBatch(datas, curThread, totalPage, defaultCount);
-						return Boolean.TRUE;
+						return addBatch(datas, curThread, totalPage, defaultCount);
 					}
 				}));
+			}
+			for(Future<Boolean> future:futures){
+				System.out.println("任务终止否:"+future.isDone()+",返回值:"+future.get());
 			}
 		} catch (Exception e) {
 			logger.error(e+"");
@@ -89,8 +94,7 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 	 * **/
 	@RequestMapping(value = "threadByBatchAdd", method = { RequestMethod.POST,RequestMethod.GET })
 	public String threadByBatchAdd() {
-		final List<SysData> datas=initData(200000);//20万条数据..
-		final int defaultCount=1000;//默认处理的条数
+		final List<SysData> datas=initData(initCount);
 		final int totalPage=getTotalPageCount(datas.size(), defaultCount);
 		Long startTime=System.currentTimeMillis();
 		try {
@@ -225,8 +229,9 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 	 * @param totalThread 总线程数(总页数)
 	 * @param defaultCount 默认处理条数
 	 * */
-	protected void addBatch(List<SysData> datas,int curThread,int totalThread,int defaultCount){
-		if(null==datas||datas.size()==0) return;
+	protected Boolean addBatch(List<SysData> datas,int curThread,int totalThread,int defaultCount){
+		if(null==datas||datas.size()==0) return Boolean.FALSE;
+		Boolean isSuccess=Boolean.TRUE;
 		int count=0;
 		for(int i=curThread;i<totalThread;i+=totalThread){
 			List<SysData> insertDatas=null;
@@ -242,9 +247,17 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 				}
 				insertDatas=datas.subList(index, curCount);
 			}
-			count+=sysDataService.add(insertDatas);
-			logger.info("=============第"+i+"页处理成功，处理的条数为:"+insertDatas.size()+"条，处理成功的条数为:"+count+"条。==============");
+			try {
+				if(i%3==0){
+					logger.info("*********线程."+i+"，e."+(1/0));
+				}
+				count+=sysDataService.add(insertDatas);
+				logger.info("=============第"+i+"页处理成功，处理的条数为:"+insertDatas.size()+"条，处理成功的条数为:"+count+"条。==============");
+			} catch (Exception e) {
+				isSuccess=Boolean.FALSE;
+			}
 		}
+		return isSuccess;
 	}
 }
 
