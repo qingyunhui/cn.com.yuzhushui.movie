@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -16,8 +17,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.alibaba.fastjson.JSONObject;
+
 import cn.com.yuzhushui.movie.common.base.BaseAction;
 import cn.com.yuzhushui.movie.common.base.BaseService;
+import cn.com.yuzhushui.movie.struct.CallableDataResult;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysData;
 import cn.com.yuzhushui.movie.sys.biz.service.SysDataService;
 import cn.com.yuzhushui.movie.sys.web.vo.SysDataForm;
@@ -32,9 +36,9 @@ import cn.com.yuzhushui.movie.sys.web.vo.SysDataForm;
 @RequestMapping(SysDataAction.ACTION_PATH)
 public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 	
-	protected int initCount=1003;
+	protected int initCount=1000000;
 	
-	protected int defaultCount=100;
+	protected final int defaultCount=1000;
 	
 	protected Logger logger=LoggerFactory.getLogger(SysDataAction.class);
 	
@@ -50,6 +54,42 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 	@Override
 	public String getActionPath() {
 		return ACTION_PATH;
+	}
+	
+	/**
+	 * <p>分页插入</p>
+	 * <p>（封装后的多线程）有返回值的多线程处理、实现Callabler接口<p>
+	 * **/
+	@RequestMapping(value = "callableByBatchAddDatas", method = { RequestMethod.POST,RequestMethod.GET })
+	public String callableByBatchAddDatas() {
+		List<SysData> datas=initData(initCount);
+		int totalPage=getTotalPageCount(datas.size(), defaultCount);
+		Long startTime=System.currentTimeMillis();
+		CallableDataResult callableResult=getCallableDataResult(datas, totalPage);
+		List<Future<Boolean>>  futures= callableResult.getFutures();
+		/*for(Future<Boolean> future:futures){
+			try {
+				//future.get();//  ● get()方法用来获取执行结果，这个方法会产生阻塞，会一直等到任务执行完毕才返回
+				logger.info("线程返回值："+future.get().toString());
+			} catch (InterruptedException e) {
+				logger.error("e.",new Object[]{JSONObject.toJSONString(e)});
+			} catch (ExecutionException e) {
+				logger.error("e.",new Object[]{JSONObject.toJSONString(e)});
+			}
+		}*/
+		logger.info("==============>恭喜您，总线程数：{}条，处理成功的有：{}条，处理失败的有：{}条.",new Object[]{callableResult.getTotalThread(),callableResult.getTotalSuccess(),callableResult.getTotalFail()});
+		if(callableResult.getTotalSuccess()==callableResult.getTotalThread()){
+			logger.info("===============>所有线程都处理成功....");
+		}else if(callableResult.getTotalSuccess()-callableResult.getTotalFail()>0 && callableResult.getTotalSuccess()!=callableResult.getTotalThread()){
+			logger.info("===============>部分线程线程处理成功，处理成功的线程有：{}条.处理失败的线程有：{}条.",new Object[]{callableResult.getTotalSuccess(),callableResult.getTotalFail()});
+		}else{
+			logger.info("===============>粗大事了、木有一条线程是处理成功的....草....");
+		}
+		Long endTime=System.currentTimeMillis();
+		Long ends=(endTime-startTime);
+		Long second=(ends/1000);
+		logger.info("{}条记录，插入数据库共耗时:{}毫秒，{}秒。",new Object[]{datas.size(),ends,second});
+		return "redirect:"+ACTION_PATH+"/list.htm";
 	}
 	
 	/**
@@ -86,6 +126,40 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 		Long second=(ends/1000);
 		logger.info("{}条记录，插入数据库共耗时:{}毫秒，{}秒。",new Object[]{datas.size(),ends,second});
 		return "redirect:"+ACTION_PATH+"/list.htm";
+	}
+	
+	public CallableDataResult getCallableDataResult(List<SysData> datas,int totalPage){
+		final CallableDataResult callableResult=new CallableDataResult();
+		ExecutorService executorService=Executors.newCachedThreadPool();//创建二个线程池.
+		List<Future<Boolean>> futures = new ArrayList<Future<Boolean>>();//创建有多个返回值的任务.
+		final List<SysData> curDatas=datas;
+		callableResult.setTotalThread(totalPage);
+		final int curTotalPage=totalPage;
+		try {
+			for(int i=0;i<totalPage;i++){
+				final int curThread=i;
+				futures.add(executorService.submit(new Callable<Boolean>() {
+					@Override
+					public Boolean call() throws Exception {
+						boolean success= addBatch(curDatas, curThread, curTotalPage,defaultCount);
+						if(success){
+							int totalSuccess=callableResult.getTotalSuccess();
+							callableResult.setTotalSuccess(totalSuccess+1);
+						}else{
+							int totalFail=callableResult.getTotalFail();
+							callableResult.setTotalFail(totalFail+1);
+						}
+						return success;
+					}
+				}));
+			}
+			callableResult.setFutures(futures);
+		} catch (Exception e) {
+			logger.error(e+"");
+		}finally {
+			executorService.shutdown();
+		}
+		return callableResult;
 	}
 	
 	/**
@@ -252,6 +326,7 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 					logger.info("*********线程."+i+"，e."+(1/0));
 				}
 				count+=sysDataService.add(insertDatas);
+				isSuccess=count>0;
 				logger.info("=============第"+i+"页处理成功，处理的条数为:"+insertDatas.size()+"条，处理成功的条数为:"+count+"条。==============");
 			} catch (Exception e) {
 				isSuccess=Boolean.FALSE;
