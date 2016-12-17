@@ -21,10 +21,11 @@ import com.alibaba.fastjson.JSONObject;
 
 import cn.com.yuzhushui.movie.common.base.BaseAction;
 import cn.com.yuzhushui.movie.common.base.BaseService;
-import cn.com.yuzhushui.movie.struct.CallableDataResult;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysData;
 import cn.com.yuzhushui.movie.sys.biz.service.SysDataService;
 import cn.com.yuzhushui.movie.sys.web.vo.SysDataForm;
+import qing.yun.hui.common.struct.CallableDataResult;
+import qing.yun.hui.common.utils.WebUtil;
 
 /**
  * @author qing.yunhui 
@@ -36,7 +37,7 @@ import cn.com.yuzhushui.movie.sys.web.vo.SysDataForm;
 @RequestMapping(SysDataAction.ACTION_PATH)
 public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 	
-	protected int initCount=1000000;
+	protected int initCount=200000;
 	
 	protected final int defaultCount=1000;
 	
@@ -63,24 +64,24 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 	@RequestMapping(value = "callableByBatchAddDatas", method = { RequestMethod.POST,RequestMethod.GET })
 	public String callableByBatchAddDatas() {
 		List<SysData> datas=initData(initCount);
-		int totalPage=getTotalPageCount(datas.size(), defaultCount);
+		int totalPage=WebUtil.getTotalPageCount(datas.size(), defaultCount);
 		Long startTime=System.currentTimeMillis();
-		CallableDataResult callableResult=getCallableDataResult(datas, totalPage);
+		CallableDataResult<Boolean> callableResult=getCallableDataResult(datas, totalPage);
 		List<Future<Boolean>>  futures= callableResult.getFutures();
-		/*for(Future<Boolean> future:futures){
+		for(Future<Boolean> future:futures){
 			try {
-				//future.get();//  ● get()方法用来获取执行结果，这个方法会产生阻塞，会一直等到任务执行完毕才返回
+				future.get();//  ● get()方法用来获取执行结果，这个方法会产生阻塞，会一直等到任务执行完毕才返回
 				logger.info("线程返回值："+future.get().toString());
 			} catch (InterruptedException e) {
 				logger.error("e.",new Object[]{JSONObject.toJSONString(e)});
 			} catch (ExecutionException e) {
 				logger.error("e.",new Object[]{JSONObject.toJSONString(e)});
 			}
-		}*/
-		logger.info("==============>恭喜您，总线程数：{}条，处理成功的有：{}条，处理失败的有：{}条.",new Object[]{callableResult.getTotalThread(),callableResult.getTotalSuccess(),callableResult.getTotalFail()});
-		if(callableResult.getTotalSuccess()==callableResult.getTotalThread()){
+		}
+		logger.info("==============>总线程数：{}条，处理成功的有：{}条，处理失败的有：{}条.",new Object[]{callableResult.getTotalThread(),callableResult.getTotalSuccess(),callableResult.getTotalFail()});
+		if(callableResult.isAllSuccess()){
 			logger.info("===============>所有线程都处理成功....");
-		}else if(callableResult.getTotalSuccess()-callableResult.getTotalFail()>0 && callableResult.getTotalSuccess()!=callableResult.getTotalThread()){
+		}else if(callableResult.isPartSuccess()){
 			logger.info("===============>部分线程线程处理成功，处理成功的线程有：{}条.处理失败的线程有：{}条.",new Object[]{callableResult.getTotalSuccess(),callableResult.getTotalFail()});
 		}else{
 			logger.info("===============>粗大事了、木有一条线程是处理成功的....草....");
@@ -99,7 +100,7 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 	@RequestMapping(value = "callableByBatchAdd", method = { RequestMethod.POST,RequestMethod.GET })
 	public String callableByBatchAdd() {
 		final List<SysData> datas=initData(initCount);
-		final int totalPage=getTotalPageCount(datas.size(), defaultCount);
+		final int totalPage=WebUtil.getTotalPageCount(datas.size(), defaultCount);
 		Long startTime=System.currentTimeMillis();
 		ExecutorService executorService=Executors.newCachedThreadPool();//创建二个线程池.
 		List<Future<Boolean>> futures = new ArrayList<Future<Boolean>>();//创建有多个返回值的任务.
@@ -128,9 +129,9 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 		return "redirect:"+ACTION_PATH+"/list.htm";
 	}
 	
-	public CallableDataResult getCallableDataResult(List<SysData> datas,int totalPage){
-		final CallableDataResult callableResult=new CallableDataResult();
-		ExecutorService executorService=Executors.newCachedThreadPool();//创建二个线程池.
+	public CallableDataResult<Boolean> getCallableDataResult(List<SysData> datas,int totalPage){
+		final CallableDataResult<Boolean> callableResult=new CallableDataResult<Boolean>();
+		ExecutorService executorService=Executors.newCachedThreadPool();
 		List<Future<Boolean>> futures = new ArrayList<Future<Boolean>>();//创建有多个返回值的任务.
 		final List<SysData> curDatas=datas;
 		callableResult.setTotalThread(totalPage);
@@ -143,11 +144,9 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 					public Boolean call() throws Exception {
 						boolean success= addBatch(curDatas, curThread, curTotalPage,defaultCount);
 						if(success){
-							int totalSuccess=callableResult.getTotalSuccess();
-							callableResult.setTotalSuccess(totalSuccess+1);
+							callableResult.setTotalSuccess(callableResult.getTotalSuccess()+1);
 						}else{
-							int totalFail=callableResult.getTotalFail();
-							callableResult.setTotalFail(totalFail+1);
+							callableResult.setTotalFail(callableResult.getTotalFail()+1);
 						}
 						return success;
 					}
@@ -169,7 +168,7 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 	@RequestMapping(value = "threadByBatchAdd", method = { RequestMethod.POST,RequestMethod.GET })
 	public String threadByBatchAdd() {
 		final List<SysData> datas=initData(initCount);
-		final int totalPage=getTotalPageCount(datas.size(), defaultCount);
+		final int totalPage=WebUtil.getTotalPageCount(datas.size(), defaultCount);
 		Long startTime=System.currentTimeMillis();
 		try {
 			for(int i=0;i<totalPage;i++){
@@ -199,11 +198,10 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 	public String addSysDatas2() {
 		logger.info("=====================调用baseService.add()=====================");
 		int count=0;
-		List<SysData> datas=initData(100);
+		List<SysData> datas=initData(initCount);
 		Long startTime=System.currentTimeMillis();
-		int defaultCount=10;
 		try {
-			int totalPage=getTotalPageCount(datas.size(), defaultCount);
+			int totalPage=WebUtil.getTotalPageCount(datas.size(), defaultCount);
 			for(int i=0;i<totalPage;i++){
 				List<SysData> insertDatas=null;
 				int curPageCount=i+1;//当前页数;
@@ -238,7 +236,7 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 	public String addSysDatas() {
 		logger.info("=====================调用baseService.add()=====================");
 		int count=0;
-		List<SysData> datas=initData(20000);
+		List<SysData> datas=initData(initCount);
 		Long startTime=System.currentTimeMillis();
 		try {
 			count=baseService.add(datas);
@@ -253,25 +251,6 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 		logger.info("=====================调用baseService，end=====================");
 		return "redirect:"+ACTION_PATH+"/list.htm";
 	} 
-	
-	/**
-	 * 获取总页数
-	 * @param totalCount 总记条数
-	 * @param defaultCount 默认一次性处理defaultCount条记录
-	 * @return 总页数
-	 * */
-	protected static int getTotalPageCount(int totalCount,int defaultCount){
-		int totalSize=totalCount;
-		int mod=-1;
-		int pageCount=0;
-		mod = totalSize % defaultCount;
-		if (mod != 0) {
-			pageCount = (totalSize / defaultCount) + 1;
-		} else {
-			pageCount = (totalSize / defaultCount);
-		}
-		return pageCount;
-	}
 	
 	/**
 	 * <p>初始化count条数据</p>
@@ -322,9 +301,6 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 				insertDatas=datas.subList(index, curCount);
 			}
 			try {
-				if(i%3==0){
-					logger.info("*********线程."+i+"，e."+(1/0));
-				}
 				count+=sysDataService.add(insertDatas);
 				isSuccess=count>0;
 				logger.info("=============第"+i+"页处理成功，处理的条数为:"+insertDatas.size()+"条，处理成功的条数为:"+count+"条。==============");
@@ -335,22 +311,3 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 		return isSuccess;
 	}
 }
-
-//有返回值的多线程-
-class CallableHandl implements Callable<Boolean>{
-	
-	int curThread;	//当前线程【第几个线程】
-	int totalThread;//线程总数;
-	public CallableHandl(){}
-	
-	public CallableHandl(int curThread,int totalThread){
-		this.totalThread=totalThread;
-		this.curThread=curThread;
-	}
-	@Override
-	public Boolean call() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-}
-
