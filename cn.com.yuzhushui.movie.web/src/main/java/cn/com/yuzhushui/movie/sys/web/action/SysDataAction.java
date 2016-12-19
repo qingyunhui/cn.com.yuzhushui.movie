@@ -24,6 +24,7 @@ import cn.com.yuzhushui.movie.common.base.BaseService;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysData;
 import cn.com.yuzhushui.movie.sys.biz.service.SysDataService;
 import cn.com.yuzhushui.movie.sys.web.vo.SysDataForm;
+import qing.yun.hui.common.struct.CallableData;
 import qing.yun.hui.common.struct.CallableDataResult;
 import qing.yun.hui.common.utils.WebUtil;
 
@@ -37,9 +38,9 @@ import qing.yun.hui.common.utils.WebUtil;
 @RequestMapping(SysDataAction.ACTION_PATH)
 public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 	
-	protected int initCount=200000;
+	protected int initCount=200000;//初始化数据条数
 	
-	protected final int defaultCount=1000;
+	protected final int defaultCount=50;//默认处理条数
 	
 	protected Logger logger=LoggerFactory.getLogger(SysDataAction.class);
 	
@@ -66,12 +67,12 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 		List<SysData> datas=initData(initCount);
 		int totalPage=WebUtil.getTotalPageCount(datas.size(), defaultCount);
 		Long startTime=System.currentTimeMillis();
-		CallableDataResult<Boolean> callableResult=getCallableDataResult(datas, totalPage);
-		List<Future<Boolean>>  futures= callableResult.getFutures();
-		for(Future<Boolean> future:futures){
+		CallableDataResult<CallableData<Boolean>> callableResult=getCallableDataResult(datas, totalPage);
+		List<Future<CallableData<Boolean>>>  futures= callableResult.getFutures();
+		for(Future<CallableData<Boolean>> future:futures){
 			try {
-				future.get();//  ● get()方法用来获取执行结果，这个方法会产生阻塞，会一直等到任务执行完毕才返回
-				logger.info("线程返回值："+future.get().toString());
+				CallableData<Boolean> callableData= future.get();//  ● get()方法用来获取执行结果，这个方法会产生阻塞，会一直等到任务执行完毕才返回
+				logger.info(callableData.getThreadName()+"，处理返回值："+callableData.getData());
 			} catch (InterruptedException e) {
 				logger.error("e.",new Object[]{JSONObject.toJSONString(e)});
 			} catch (ExecutionException e) {
@@ -100,7 +101,7 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 	@RequestMapping(value = "callableByBatchAdd", method = { RequestMethod.POST,RequestMethod.GET })
 	public String callableByBatchAdd() {
 		final List<SysData> datas=initData(initCount);
-		final int totalPage=WebUtil.getTotalPageCount(datas.size(), defaultCount);
+		final int totalPage=WebUtil.getTotalPageCount(datas.size(), defaultCount);//总页数;
 		Long startTime=System.currentTimeMillis();
 		ExecutorService executorService=Executors.newCachedThreadPool();//创建二个线程池.
 		List<Future<Boolean>> futures = new ArrayList<Future<Boolean>>();//创建有多个返回值的任务.
@@ -129,26 +130,35 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 		return "redirect:"+ACTION_PATH+"/list.htm";
 	}
 	
-	public CallableDataResult<Boolean> getCallableDataResult(List<SysData> datas,int totalPage){
-		final CallableDataResult<Boolean> callableResult=new CallableDataResult<Boolean>();
+	/**
+	 * @param datas 处理的总记录集
+	 * @param totalPage 总页 数
+	 * @return CallableDataResult
+	 * */
+	public CallableDataResult<CallableData<Boolean>> getCallableDataResult(List<SysData> datas,int totalPage){
+		final CallableDataResult<CallableData<Boolean>> callableResult=new CallableDataResult<CallableData<Boolean>>();
 		ExecutorService executorService=Executors.newCachedThreadPool();
-		List<Future<Boolean>> futures = new ArrayList<Future<Boolean>>();//创建有多个返回值的任务.
+		List<Future<CallableData<Boolean>>> futures = new ArrayList<Future<CallableData<Boolean>>>();//创建有多个返回值的任务.
 		final List<SysData> curDatas=datas;
 		callableResult.setTotalThread(totalPage);
 		final int curTotalPage=totalPage;
 		try {
 			for(int i=0;i<totalPage;i++){
 				final int curThread=i;
-				futures.add(executorService.submit(new Callable<Boolean>() {
+				futures.add(executorService.submit(new Callable<CallableData<Boolean>>() {
 					@Override
-					public Boolean call() throws Exception {
+					public CallableData<Boolean> call() throws Exception {
+						CallableData<Boolean> callableData=new CallableData<Boolean>();
 						boolean success= addBatch(curDatas, curThread, curTotalPage,defaultCount);
+						callableData.setData(success);
 						if(success){
 							callableResult.setTotalSuccess(callableResult.getTotalSuccess()+1);
 						}else{
 							callableResult.setTotalFail(callableResult.getTotalFail()+1);
 						}
-						return success;
+						logger.info("=============>【线程】"+curThread+"，启动...");
+						callableData.setThreadName("=============>【线程】"+curThread);
+						return callableData;
 					}
 				}));
 			}
@@ -276,6 +286,42 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 		return datas;
 	}
 	
+	
+	/**
+	 * @param datas 待处理的数据集
+	 * @param curThread 当前线程（第几个线程）
+	 * @param totalThread 总线程数
+	 * @param totalPage 总页数
+	 * @param defaultCount 默认处理条数
+	 * */
+	protected Boolean addBatch(List<SysData> datas,int curThread,int totalThread,int totalPage,int defaultCount){
+		if(null==datas||datas.size()==0) return Boolean.FALSE;
+		Boolean isSuccess=Boolean.TRUE;
+		int count=0;
+		for(int i=curThread;i<totalThread;i+=totalThread){
+			List<SysData> insertDatas=null;
+			int index=0;//索引开始位置..
+			if(i==0){
+				insertDatas=datas.subList(i, defaultCount);	//第一次循环索引位置从0开始，到defaultCount位置结束.
+			}else{
+				index=i*defaultCount;//第二次以后的循环以递增的方式处理:i*defaultCount位置开始，到(i+1)*defaultCount位置结束。
+				int curCount=(i+1)*defaultCount;
+				if(i==totalThread-1){
+					curCount=datas.size();
+				}
+				insertDatas=datas.subList(index, curCount);
+			}
+			try {
+				count+=sysDataService.add(insertDatas);
+				isSuccess=count>0;
+				logger.info("=============第"+i+"页处理成功，处理的条数为:"+insertDatas.size()+"条，处理成功的条数为:"+count+"条。==============");
+			} catch (Exception e) {
+				isSuccess=Boolean.FALSE;
+			}
+		}
+		return isSuccess;
+	}
+	
 	/**
 	 * @param datas 待处理的数据集
 	 * @param curThread 当前线程（第几个线程）
@@ -288,7 +334,6 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 		int count=0;
 		for(int i=curThread;i<totalThread;i+=totalThread){
 			List<SysData> insertDatas=null;
-			logger.info("=====线程"+Thread.currentThread().getName()+"=====第"+i+"页==========");
 			int index=0;//索引开始位置..
 			if(i==0){
 				insertDatas=datas.subList(i, defaultCount);	//第一次循环索引位置从0开始，到defaultCount位置结束.
