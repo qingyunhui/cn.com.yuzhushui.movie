@@ -138,8 +138,39 @@
 	            comment = #{comment},
 	        </if>
         </set>
+        WHERE 
+        	 data_id = #{dataId}
+	</update>
+	
+	<update id="updateBatch" parameterType="list">
+	<foreach collection="list" item="item" index="index" open="" close="" separator="">
+        UPDATE sys_data 
+        <set>
+        	<if test="@OGNL@isNotEmpty(targetTable)">
+	            target_table = #{targetTable},
+	        </if>
+        	<if test="@OGNL@isNotEmpty(targetId)">
+	            target_id = #{targetId},
+	        </if>
+        	<if test="@OGNL@isNotEmpty(ctime)">
+	            ctime = #{ctime},
+	        </if>
+        	<if test="@OGNL@isNotEmpty(creater)">
+	            creater = #{creater},
+	        </if>
+        	<if test="@OGNL@isNotEmpty(createrId)">
+	            creater_id = #{createrId},
+	        </if>
+        	<if test="@OGNL@isNotEmpty(loseEfficacyDate)">
+	            lose_efficacy_date = #{loseEfficacyDate},
+	        </if>
+        	<if test="@OGNL@isNotEmpty(comment)">
+	            comment = #{comment},
+	        </if>
+        </set>
         WHERE deleted=0
         	AND data_id = #{dataId}
+        </foreach>
 	</update>
 	
 	<select id="getById" parameterType="java.lang.Integer" resultMap="BaseResultMap">

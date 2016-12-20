@@ -27,4 +27,7 @@ public class SysDataServiceImpl extends BaseServiceImpl<SysData,Integer> impleme
 		return count;
 	}
 	
+	public int update(SysData data){
+		return sysDataDao.update(data);
+	}
 }

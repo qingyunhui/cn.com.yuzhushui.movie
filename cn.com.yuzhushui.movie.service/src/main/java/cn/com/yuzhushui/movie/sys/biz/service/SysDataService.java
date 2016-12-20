@@ -13,5 +13,7 @@ import cn.com.yuzhushui.movie.sys.biz.entity.SysData;
 public interface SysDataService extends BaseService<SysData,Integer>{
 	
 	public int add(List<SysData> models);
+	
+	public int update(SysData data);
     
 }
