@@ -3,13 +3,26 @@ package cn.com.yuzhushui.movie.web;
 import java.util.ArrayList;
 import java.util.List;
 
+import qing.yun.hui.common.utils.WebUtil;
+
 public class Demo {
 	public static void main(String[] rags) {
-		List<String> list=initData(10000);
+		
+		System.out.println(WebUtil.getTotalPageCount(10, 20));
+		
+		List<String> datas=initData(100);
+		int count=0;
+		for(int i=0;i<datas.size();i++){
+			count++;
+		}
+		System.out.println(count==datas.size());
+		
+		
+	/*	List<String> list=initData(10000);
 		MyThreads2 mt = new MyThreads2(list);
 		for (int i = 0; i < mt.list.size(); i++) {
 			new Thread(mt).start();
-		}
+		}*/
 
 	}
 	

@@ -42,9 +42,11 @@ import qing.yun.hui.common.utils.WebUtil;
 @RequestMapping(SysDataAction.ACTION_PATH)
 public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 	
-	protected int initCount=501;//初始化数据条数
+	protected int initCount=353;//初始化数据条数
 	
-	protected final int defaultCount=5;//默认处理条数
+	protected final int defaultCount=4;//默认处理条数
+	
+	final int totalThread=4;//总线程数量
 	
 	protected Logger logger=LoggerFactory.getLogger(SysDataAction.class);
 	
@@ -71,6 +73,55 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 	按照这个思路，然后在线程中加一个变量来处理，
 	那么每个线程就是100 / 3取整后的条数，最后多出的100 - 3 * 33的那一条就加在第3个线程里处理好了 
 	可以让每个线程处理自己的，不用都交给最后一个线程*/
+	
+	/**
+	 * <p>多线程且进行、分页插入</p>
+	 * 对数据量比较大的情况下的处理..
+	 * **/
+	@RequestMapping(value = "addSysDatas3", method = { RequestMethod.POST,RequestMethod.GET })
+	public String addSysDatas3() {
+		logger.info("=====================调用baseService.add()=====================");
+		final List<SysData> datas=initData(initCount);
+		try {
+			for(int thread=0;thread<totalThread;thread++){
+				final int curthread=thread;
+				new Thread(new Runnable() {
+					public void run() {
+						int count=0;
+						int totalPage=WebUtil.getTotalPageCount(datas.size(), defaultCount);
+						Long startTime=System.currentTimeMillis();
+						String threadName="线程【"+Thread.currentThread().getName()+curthread+"】";
+						for(int i=curthread;i<totalPage;i+=totalThread){
+							List<SysData> insertDatas=null;
+							int curPageCount=i+1;//当前页数;
+							logger.info("=========={}，处理第"+curPageCount+"页==========",new Object[]{threadName});
+							int index=0;//索引开始位置..
+							if(i==0){
+								insertDatas=datas.subList(i, defaultCount);	//第一次循环索引位置从0开始，到defaultCount位置结束.
+							}else{
+								index=i*defaultCount;//第二次以后的循环以递增的方式处理:i*defaultCount位置开始，到(i+1)*defaultCount位置结束。
+								int curCount=(i+1)*defaultCount;
+								if(i==totalPage-1){
+									curCount=datas.size();
+								}
+								insertDatas=datas.subList(index, curCount);
+							}
+							count+=baseService.add(insertDatas);
+							logger.info("============={}，处理第"+curPageCount+"页处理成功，处理的条数为:"+insertDatas.size()+"条，处理成功的条数为:"+count+"条。==============",new Object[]{threadName});
+						}
+						Long endTime=System.currentTimeMillis();
+						Long ends=(endTime-startTime);
+						Long second=(ends/1000);
+						logger.info("#^_^#{}处理结束，共耗时{}毫秒，{}秒，处理的有{}条，处理成功的有{}条。^_^",new Object[]{threadName,ends,second,datas.size(),count});
+					}
+				}).start();
+			}
+		} catch (Exception e) {
+			logger.error("************数据库操作异常，异常原因，{}",new Object[]{e});
+		}
+		logger.info("=====================调用baseService，end=====================");
+		return "redirect:"+ACTION_PATH+"/list.htm";
+	}
 	
 	/**
 	 * <p>开多个线程跑</p>
