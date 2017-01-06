@@ -4,8 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import qing.yun.hui.mailtool.MailTool;
 import cn.com.yuzhushui.schedule.job.core.Job;
-import qing.yun.hui.common.utils.StringUtil;
+
+import com.alibaba.fastjson.JSONObject;
 
 /***
  ** @category 请用一句话来描述其用途...
@@ -23,12 +25,17 @@ public class EmailNotificationJob implements Job{
 		logger.info("==================hello word==================");
 		logger.info("==================>>execute successEmailNotificationJob<==================");
 		logger.info("==================good by.==================");
-		
-		if(StringUtil.isEmpty(parameters)) {
-			logger.error("===========>调用EmailNotificationJob.参数不能为null。");
-			return "fail";
-		}
+		//开始发送邮件
+		sendEmail();
 		logger.info("=================>success.........");
 		return "success。";
 	}	
+	
+	private void sendEmail(){
+		try {
+			MailTool.sendTextMail(null,"Hello word!","说点什么呢？",new String[]{"280672161@qq.com"});
+		} catch (Exception e) {
+			logger.error("=======>邮件发送失败，异常原因：{}",new Object[]{JSONObject.toJSONString(e)});
+		}
+	}
 }
