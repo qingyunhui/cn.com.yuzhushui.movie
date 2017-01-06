@@ -13,6 +13,7 @@ http://www.springframework.org/schema/util/spring-util-4.1.xsd">
 	<!-- 自动扫描(自动注入) -->
 	<context:component-scan base-package="cn.com.yuzhushui.movie.**.biz.service" />
 	<context:component-scan base-package="cn.com.yuzhushui.movie.common.base" />
+	<context:component-scan base-package="cn.com.yuzhushui.movie.job" />
 	<!-- 引入属性文件 -->
 	<!-- <context:property-placeholder location="classpath:movie.properties" /> -->
 	<util:properties id="properties" location="classpath:movie.properties"/>
