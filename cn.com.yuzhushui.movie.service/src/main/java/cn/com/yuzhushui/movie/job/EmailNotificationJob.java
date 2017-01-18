@@ -4,8 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import qing.yun.hui.common.struct.weather.WeatherUtil;
-import qing.yun.hui.common.struct.weather.WetherConstant;
+import qing.yun.hui.common.struct.baidu.BaiduConstant;
+import qing.yun.hui.common.utils.api.WeatherUtil;
 import qing.yun.hui.mailtool.MailTool;
 import cn.com.yuzhushui.schedule.job.core.Job;
 
@@ -53,10 +53,10 @@ public class EmailNotificationJob implements Job{
 	}	
 	
 	private void sendEmail(){
-		String httpUrl=WetherConstant.httpUrl;
+		String httpUrl=BaiduConstant.httpUrl;
 		String location="杭州";
 		String output="xml";
-		String ak=WetherConstant.ak;
+		String ak=BaiduConstant.ak;
 		String subject =location+"未来四天，天气预报状态。";
 		String content =null;
 		String[] emails=null;
