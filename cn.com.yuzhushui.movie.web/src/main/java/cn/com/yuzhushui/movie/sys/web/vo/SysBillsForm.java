@@ -64,6 +64,11 @@ public class SysBillsForm extends BaseForm<Integer> {
 	private Integer status;
 	
 	/**
+	 * @Fields keyword 关键字
+	 * */
+	private Integer keyword;
+	
+	/**
 	 * @Fields trade_type:交易类型
 	 */
 	private Integer tradeType;

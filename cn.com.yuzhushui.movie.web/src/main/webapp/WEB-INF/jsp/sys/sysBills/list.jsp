@@ -19,41 +19,18 @@
 	<header class="topHd"><a onClick="history.back();return false;" href="javascript:void(0);" class="back">返回</a><a href="${path}app/appMain/myMain.htm" class="home">首页</a><span>我的账单</span></header>
 	<section class="mContent">
 		<ul class="proList clearfix" id="dataUl">
-			<li>
-				<a href="goods-29449218.html"><p class="tt"><i class="ico icoJi">寄</i>7300银两=100元</p></a>
+			
+		  <c:forEach var="result" items="${entitys}" >
+		  	<li>
+				<a href="goods-29449218.html"><p class="tt"><i class="ico icoJi">${result.keyword}</i>${result.subject}</p></a>
 				<p>
-					<a href="goods-29449218.html"><ins class="sbtn right">购买</ins></a>
-					<a href="goods-29449218.html"><span class="price">¥100</span><br>三区/万剑逍遥/游戏币</a>
+					<a href="goods-29449218.html"><ins class="sbtn right">购买${result.keyword}</ins></a>
+					<a href="goods-29449218.html"><span class="price">¥${result.money}</span><br>${result.content}</a>
 				</p>
 			</li>
-			<li>
-				<a href="goods-29449218.html"><p class="tt"><i class="ico icoJi">寄</i>7300银两=100元</p></a>
-				<p>
-					<a href="goods-29449218.html"><ins class="sbtn right">购买</ins></a>
-					<a href="goods-29449218.html"><span class="price">¥120</span><br>三区/万剑逍遥/游戏币</a>
-				</p>
-			</li>
-			<li>
-				<a href="goods-29449218.html"><p class="tt"><i class="ico icoJi">寄</i>7300银两=100元</p></a>
-				<p>
-					<a href="goods-29449218.html"><ins class="sbtn right">购买</ins></a>
-					<a href="goods-29449218.html"><span class="price">¥130</span><br>三区/万剑逍遥/游戏币</a>
-				</p>
-			</li>
-			<li>
-				<a href="goods-29449218.html"><p class="tt"><i class="ico icoJi">寄</i>7300银两=100元</p></a>
-				<p>
-					<a href="goods-29449218.html"><ins class="sbtn right">购买</ins></a>
-					<a href="goods-29449218.html"><span class="price">¥150</span><br>三区/万剑逍遥/游戏币</a>
-				</p>
-			</li>
-			<li>
-				<a href="goods-29449218.html"><p class="tt"><i class="ico icoJi">寄</i>7300银两=100元</p></a>
-				<p>
-					<a href="goods-29449218.html"><ins class="sbtn right">购买</ins></a>
-					<a href="goods-29449218.html"><span class="price">¥160</span><br>三区/万剑逍遥/游戏币</a>
-				</p>
-			</li>
+		  </c:forEach>
+		
+			
 		<div id="dataappend"></div>
 		</ul>
 			

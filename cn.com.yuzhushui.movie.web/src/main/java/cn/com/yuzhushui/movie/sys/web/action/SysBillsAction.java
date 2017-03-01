@@ -41,18 +41,21 @@ public class SysBillsAction extends BaseAction<SysBills, SysBillsForm, Integer>{
 	
 	@RequestMapping(value = "list")
 	public ModelAndView list() {
-		SysUser user=SessionUtil.getSysUser();
-		SysBills bills=new SysBills();
-		//查询-借款人or出借人的所有账单
-		bills.setDebtorId(user.getAccountId());
-		bills.setLenderId(user.getAccountId());
-		Map<String,Object>map=BeanUtil.pojoToMap(bills);
-		List<SysBills> sysBillsList=sysBillsService.query(map);
-		
-		logger.info("==============>查询到的账单有:{}条。",new Object[]{sysBillsList.size()});
-		
-		ModelAndView modelAndView = new ModelAndView(getActionPath() + "/list");
-		modelAndView.addObject(MovieConstant.ENTITYS, sysBillsList);
+		ModelAndView modelAndView =new ModelAndView(getActionPath() + "/list");
+		try {
+			SysUser user=SessionUtil.getSysUser();
+			SysBills bills=new SysBills();
+			//查询-借款人or出借人的所有账单
+			bills.setDebtorId(user.getAccountId());
+			bills.setLenderId(user.getAccountId());
+			bills.setQueryDebtorIdWithlenderId("true");
+			Map<String,Object>map=BeanUtil.pojoToMap(bills);
+			List<SysBills> sysBillsList=sysBillsService.query(map);
+			logger.info("==============>查询到的账单有:{}条。",new Object[]{sysBillsList.size()});
+			modelAndView.addObject(MovieConstant.ENTITYS, sysBillsList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return modelAndView;
 	}
 	

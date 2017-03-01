@@ -9,8 +9,21 @@
 		<name>getEnumValues</name>
 		<function-class>qing.yun.hui.common.utils.EnumUtil</function-class>
 		<function-signature>java.lang.Object[] getEnumValues(java.lang.String)</function-signature>
-		<example>${lbs.getEnumValues('')}</example>
+		<example>${yzsTld:getEnumValues('')}</example>
 	</function>
+	<function>
+		<name>getNameByCode</name>
+		<function-class>qing.yun.hui.common.utils.EnumUtil</function-class>
+		<function-signature>java.lang.String getNameByCode(java.lang.String,java.lang.String)</function-signature>
+		<example>${yzsTld:getNameByCode('','')}</example>
+	</function>
+	
+	<function>
+		<name>getNameByValue</name>
+		<function-class>qing.yun.hui.common.utils.EnumUtil</function-class>
+		<function-signature>java.lang.String getNameByValue(java.lang.String,java.lang.Integer)</function-signature>
+	</function>
+	
 	<function>
 		<name>getNameByDate</name>
 		<function-class>qing.yun.hui.common.utils.HandleTime</function-class>

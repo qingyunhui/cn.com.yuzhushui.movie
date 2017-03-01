@@ -69,12 +69,11 @@
 
 	<!-- 适合集群、可以连接主从rebdis服务 -->
 	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
-        <property name="maxTotal" 		value="${redis.maxTotal}" />
-        <!-- <property name="maxActive" 		value="${redis.maxActive}"/> -->
-        <property name="maxIdle" 	    value="${redis.maxIdle}" />
-        <property name="maxWaitMillis"  value="${redis.maxWaitMillis}" />
-        <property name="testOnBorrow"   value="${redis.testOnBorrow}" />
-        <property name="testOnReturn"   value="${redis.testOnReturn}" />
+        <property name="maxTotal" 		value="600"/>
+        <property name="maxIdle" 	    value="300"/>
+        <property name="maxWaitMillis"  value="2000"/>
+        <property name="testOnBorrow"   value="true"/>
+        <property name="testOnReturn"   value="false"/>
     </bean>
     
     <bean id="shardedJedisPool" class="redis.clients.jedis.ShardedJedisPool">

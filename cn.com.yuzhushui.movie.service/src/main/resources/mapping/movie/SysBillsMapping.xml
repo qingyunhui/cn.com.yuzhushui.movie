@@ -11,6 +11,7 @@
         <result property="lender" column="lender" javaType="String"/>
         <result property="lenderId" column="lender_id" javaType="Integer"/>
         <result property="status" column="status" javaType="Integer"/>
+        <result property="keyword" column="keyword" javaType="Integer"/>
         <result property="tradeType" column="trade_type" javaType="Integer"/>
         <result property="ctime" column="ctime" javaType="Date"/>
         <result property="creater" column="creater" javaType="String"/>
@@ -32,6 +33,7 @@
         t.lender,
         t.lender_id,
         t.status,
+        t.keyword,
         t.trade_type,
         t.ctime,
         t.creater,
@@ -57,8 +59,17 @@
 		 <if test="@OGNL@isNotEmpty(debtor)">
             AND t.debtor = #{debtor}
          </if>
-		 <if test="@OGNL@isNotEmpty(debtorId)">
-            AND t.debtor_id = #{debtorId}
+         <!-- 查询借款人 or 出借人的账单 -->
+         <if test="@OGNL@isNotEmpty(queryDebtorIdWithlenderId)">
+         	AND (t.debtor_id = #{debtorId} OR t.lender_id = #{lenderId}) 
+         </if>
+         <if test="@OGNL@isEmpty(queryDebtorIdWithlenderId)">
+         	 <if test="@OGNL@isNotEmpty(lenderId)">
+            	AND t.lender_id = #{lenderId}
+         	</if>
+         	<if test="@OGNL@isNotEmpty(debtorId)">
+            	AND t.debtor_id = #{debtorId}
+         	</if>
          </if>
 		 <if test="@OGNL@isNotEmpty(money)">
             AND t.money = #{money}
@@ -66,11 +77,11 @@
 		 <if test="@OGNL@isNotEmpty(lender)">
             AND t.lender = #{lender}
          </if>
-		 <if test="@OGNL@isNotEmpty(lenderId)">
-            AND t.lender_id = #{lenderId}
-         </if>
 		 <if test="@OGNL@isNotEmpty(status)">
             AND t.status = #{status}
+         </if>
+         <if test="@OGNL@isNotEmpty(keyword)">
+            AND t.keyword = #{keyword}
          </if>
 		 <if test="@OGNL@isNotEmpty(tradeType)">
             AND t.trade_type = #{tradeType}
@@ -112,6 +123,7 @@
 	            lender ,
 	            lender_id ,
 	            status ,
+	            keyword ,
 	            trade_type ,
 	            ctime ,
 	            creater ,
@@ -130,6 +142,7 @@
 	        	#{lender},
 	        	#{lenderId},
 	        	#{status},
+	        	#{keyword},
 	        	#{tradeType},
 	        	now(),
 	        	#{creater},
@@ -157,6 +170,7 @@
 	            lender ,
 	            lender_id ,
 	            status ,
+	            keyword ,
 	            trade_type ,
 	            ctime ,
 	            creater ,
@@ -177,6 +191,7 @@
 	        	#{lender},
 	        	#{lenderId},
 	        	#{status},
+	        	#{keyword},
 	        	#{tradeType},
 	        	now(),
 	        	#{creater},
@@ -231,6 +246,9 @@
 	        </if>
         	<if test="@OGNL@isNotEmpty(status)">
 	            status = #{status},
+	        </if>
+	        <if test="@OGNL@isNotEmpty(keyword)">
+	            keyword = #{keyword},
 	        </if>
         	<if test="@OGNL@isNotEmpty(tradeType)">
 	            trade_type = #{tradeType},

@@ -63,6 +63,11 @@ public class SysBills extends BaseModel<Integer>{
 	private Integer status;
 	
 	/**
+	 * @Fields keyword 关键字
+	 * */
+	private Integer keyword;
+	
+	/**
 	 * @Fields tradeType:交易类型
 	 */
 	private Integer tradeType;
@@ -108,5 +113,7 @@ public class SysBills extends BaseModel<Integer>{
 	private Integer deleted;
 	
 	//columns END
+	
+	private String queryDebtorIdWithlenderId;
 
 }
