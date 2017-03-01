@@ -12,33 +12,23 @@
     	<img src="${path}image/myMain/footer/3.png">
         <p>申请加盟</p>
     </div>
-	<div class="mune" data-menu3="${path}app/appMain/myself.htm">
+	<div class="mune" data-menu3="${path}sys/sysUser/list.htm">
     	<img src="${path}image/myMain/footer/4.png">
         <p>个人中心</p>
     </div>    
 </div>
 <script type="text/javascript">
-  $(function(){
-	  
+   $(function(){
 	  //处理footer的切换后的背景及颜色的变化。
 	  var index=${currIndex};
 	  var objs=$(".footer .mune");
 	  $.each(objs, function(i,o) {    
 		    var curObj=this;
-		    var curImg=$(this).find("img");
-	    	var curP=$(this).find("p");
-		    if(index==i){
-		    	$(curP).css("color","#20e23a");//addClass
-		    	$(curImg).css("background","#14c760");
-		    }else{
-		    	$(curP).css("background-color");
-		    }
 		    $(curObj).click(function(){
 		        //处理页面跳转
 			    var curUrl=$(curObj).data("menu"+i);
 			    location.href=curUrl;
 		    });
 		});    
-	  
   });
 </script>

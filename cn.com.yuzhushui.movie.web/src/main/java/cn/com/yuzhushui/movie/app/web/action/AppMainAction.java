@@ -218,9 +218,6 @@ public class AppMainAction {
 			List<SysUser> users=sysUserService.query(userMap);
 			if(users.size()==1){
 				if(account.getStatus().intValue()==SysAccountEnum.STATUS.AUDIT_SUCCESS.getValue()){
-					
-					logger.error("登录成功，用户信息将记录到Cookie中且存储到Shiro中!");
-					
 					//登陆成功-把用户存储到cookie中。
 					modeView.setViewName("redirect:"+ACTION_PATH+"/myMain.htm");
 					SysUser sysUser=users.get(0);
@@ -232,6 +229,7 @@ public class AppMainAction {
 					//设置cookie有效期
 					CookieUtil.setCookie(request, response, MovieConstant.SESSION_INFO, sessionId, MovieConstant.DOMAIN, MovieConstant.ROOT_PATH,MovieConstant.COOKIE_VALIDITY_TIME);
 					shardedJedisCached.set(sessionId, sessionInfo, MovieConstant.COOKIE_VALIDITY_TIME);
+					logger.error("登录成功，用户信息将记录到Cookie中且存储到Shiro中!");
 					return modeView;
 				}else{
 					String enumName=EnumUtil.getNameByValue(SysAccountEnum.STATUS.class, account.getStatus());
