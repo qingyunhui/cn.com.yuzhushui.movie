@@ -14,19 +14,30 @@
 	<function>
 		<name>getNameByCode</name>
 		<function-class>qing.yun.hui.common.utils.EnumUtil</function-class>
-		<function-signature>java.lang.String getNameByCode(java.lang.String,java.lang.String)</function-signature>
-		<example>${yzsTld:getNameByCode('','')}</example>
+		<function-signature>java.lang.String  getNameByCode(java.lang.String,java.lang.Object)</function-signature>
+		<example>${yzsTld:getNameByCode(x,y)}</example>
 	</function>
-	
 	<function>
 		<name>getNameByValue</name>
 		<function-class>qing.yun.hui.common.utils.EnumUtil</function-class>
 		<function-signature>java.lang.String getNameByValue(java.lang.String,java.lang.Integer)</function-signature>
 	</function>
-	
 	<function>
 		<name>getNameByDate</name>
 		<function-class>qing.yun.hui.common.utils.HandleTime</function-class>
 		<function-signature>java.lang.String getNameByDate(java.lang.Object)</function-signature>
+	</function>
+	<!-- sessionUser -->
+	<function>
+		<name>getSysAccount</name>
+		<function-class>cn.com.yuzhushui.movie.common.util.SessionUtil</function-class>
+		<function-signature>cn.com.yuzhushui.movie.sys.biz.entity.SysAccount getSysAccount()</function-signature>
+		<example>${yzsTld:getSysAccount()}</example>
+	</function>
+	<function>
+		<name>getSysUser</name>
+		<function-class>cn.com.yuzhushui.movie.common.util.SessionUtil</function-class>
+		<function-signature>cn.com.yuzhushui.movie.sys.biz.entity.SysUser getSysUser()</function-signature>
+		<example>${yzsTld:getSysUser()}</example>
 	</function>
 </taglib>

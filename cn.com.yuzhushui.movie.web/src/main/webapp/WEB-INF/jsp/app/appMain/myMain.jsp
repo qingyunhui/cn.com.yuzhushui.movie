@@ -39,6 +39,40 @@
 .mune p {
     font-size: 0.22rem;
 }
+body .mainmenu li.UL_Li_CLSS{
+	float: left;
+    margin-left: 2.5%;
+    margin-top: 5.5%;
+    width: 95%;
+    border-radius: 3px;
+    overflow: hidden;
+}
+body .mainmenu li.UL_Li_CLSS a span{
+	display: block;
+    height: 35px;
+    line-height: 35px;
+    color: #999;
+    font-size: 16px;
+}
+body .mainmenu li.subject a span{
+	background:#eee;
+}
+body .mainmenu li.query a span{
+	background:#fc5366;
+	color:#151515;
+}
+body .mainmenu li.audit a span{
+	background:#8c67df;
+	color:#151515;
+}
+body .mainmenu li.robot a span{
+	background:#678ce1;
+	color:#151515;
+}
+body .mainmenu li.api a span{
+	background:#14c760;
+	color:#151515;
+}
 </style>
 </head>
 
@@ -167,7 +201,12 @@ $(document).ready(function(){
 </div>
 
 <ul class="mainmenu">
-	<li><a href="javascript:void(0);" ><b><img src="${path}image/myMain/tb01.png" /></b><span>关于我们</span></a></li>
+	<li class="UL_Li_CLSS subject"><a><span>欢迎光临，${yzsTld:getSysUser().name}</span></a></li>
+	<li class="UL_Li_CLSS query"><a href="${path}sys/sysBills/list.htm"><span>查看我的账单</span></a></li>
+	<li class="UL_Li_CLSS audit"><a href="${path}sys/sysBills/list.htm"><span>申请账单</span></a></li>
+	<li class="UL_Li_CLSS robot"><a href="${path}sys/sysBills/list.htm"><span>机器人</span></a></li>
+	<li class="UL_Li_CLSS api"><a href="${path}sys/sysBills/list.htm"><span>API</span></a></li>
+	<%-- <li><a href="javascript:void(0);" ><b><img src="${path}image/myMain/tb01.png" /></b><span>关于我们</span></a></li>
 	<li><a href="javascript:void(0);" ><b><img src="${path}image/myMain/tb02.png" /></b><span>新闻中心</span></a></li>
 	<li><a href="javascript:void(0);" ><b><img src="${path}image/myMain/tb03.png" /></b><span>产品展示</span></a></li>
 	<li><a href="javascript:void(0);" ><b><img src="${path}image/myMain/tb04.png" /></b><span>成功案例</span></a></li>
@@ -175,7 +214,7 @@ $(document).ready(function(){
 	<li><a href="javascript:void(0);" ><b><img src="${path}image/myMain/tb06.png" /></b><span>团队介绍</span></a></li>
 	<li><a href="javascript:void(0);" ><b><img src="${path}image/myMain/tb06.png" /></b><span>人才招聘</span></a></li>
 	<li><a href="javascript:void(0);" ><b><img src="${path}image/myMain/tb07.png" /></b><span>联系我们</span></a></li>
-	<li><a href="javascript:void(0);" ><b><img src="${path}image/myMain/tb08.png" /></b><span>在线留言</span></a></li>     	 
+	<li><a href="javascript:void(0);" ><b><img src="${path}image/myMain/tb08.png" /></b><span>在线留言</span></a></li>     	  --%>
 </ul>
 
 

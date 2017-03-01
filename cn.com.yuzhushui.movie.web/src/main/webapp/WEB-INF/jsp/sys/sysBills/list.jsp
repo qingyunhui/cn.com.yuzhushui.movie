@@ -22,7 +22,7 @@
 			
 		  <c:forEach var="result" items="${entitys}" >
 		  	<li>
-				<a href="goods-29449218.html"><p class="tt"><i class="ico icoJi">${result.keyword}</i>${result.subject}</p></a>
+				<a href="goods-29449218.html"><p class="tt"><i class="ico icoJi">${yzsTld:getNameByCode('cn.com.yuzhushui.movie.enums.SysBillsEnum$Keyword',result.keyword)}</i>${result.subject}</p></a>
 				<p>
 					<a href="goods-29449218.html"><ins class="sbtn right">购买${result.keyword}</ins></a>
 					<a href="goods-29449218.html"><span class="price">¥${result.money}</span><br>${result.content}</a>
@@ -34,7 +34,7 @@
 		<div id="dataappend"></div>
 		</ul>
 			
-			<div class="moreList" id="goodsload">+点击加载后20条+</div>
+		<!-- 	<div class="moreList" id="goodsload">+点击加载后20条+</div> -->
 		
 	</section>
 
