@@ -16,9 +16,6 @@ import lombok.Setter;
 @Setter
 public class SysBills extends BaseModel<Integer>{
 	
-	//alias
-	public static final String TABLE_ALIAS = "SysBills";
-	
 	//columns START
 	/**
 	 * @Fields id:主键id
@@ -53,7 +50,7 @@ public class SysBills extends BaseModel<Integer>{
 	/**
 	 * @Fields lender:出借人
 	 */
-	private Integer lender;
+	private String lender;
 	
 	/**
 	 * @Fields lenderId:出借人id

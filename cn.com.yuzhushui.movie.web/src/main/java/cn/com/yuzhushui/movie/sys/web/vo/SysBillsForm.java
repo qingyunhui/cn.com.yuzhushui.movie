@@ -51,7 +51,7 @@ public class SysBillsForm extends BaseForm<Integer> {
 	/**
 	 * @Fields lender:出借人
 	 */
-	private Integer lender;
+	private String lender;
 	
 	/**
 	 * @Fields lender_id:出借人id

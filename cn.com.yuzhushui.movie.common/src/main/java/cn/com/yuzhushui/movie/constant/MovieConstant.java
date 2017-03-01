@@ -37,4 +37,11 @@ public class MovieConstant {
 	/**根目录*/
 	public static final String ROOT_PATH = "/";
 	
+	
+	//=================================前后台，通用常量========================================>
+	
+	public static final String ENTITY="entity";
+	
+	public static final String ENTITYS="entitys";
+	
 }

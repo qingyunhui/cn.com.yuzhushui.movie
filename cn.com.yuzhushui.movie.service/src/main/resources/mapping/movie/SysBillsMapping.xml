@@ -8,7 +8,7 @@
         <result property="debtor" column="debtor" javaType="String"/>
         <result property="debtorId" column="debtor_id" javaType="Integer"/>
         <result property="money" column="money" javaType="Long"/>
-        <result property="lender" column="lender" javaType="Integer"/>
+        <result property="lender" column="lender" javaType="String"/>
         <result property="lenderId" column="lender_id" javaType="Integer"/>
         <result property="status" column="status" javaType="Integer"/>
         <result property="tradeType" column="trade_type" javaType="Integer"/>
