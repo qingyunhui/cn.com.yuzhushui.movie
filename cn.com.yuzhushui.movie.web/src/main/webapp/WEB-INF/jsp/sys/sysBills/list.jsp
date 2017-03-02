@@ -23,8 +23,8 @@
 		  	<li>
 				<a href="${path}sys/sysBills/detail.htm?id=${result.id}"><p class="tt"><i class="ico icoJi" style="${yzsTld:getCodeByValue('cn.com.yuzhushui.movie.enums.SysBillsEnum$Keyword',result.keyword)}">${yzsTld:getNameByValue('cn.com.yuzhushui.movie.enums.SysBillsEnum$Keyword',result.keyword)}</i>${result.subject}</p></a>
 				<p>
-					<a href="goods-29449218.html"><ins class="sbtn right" style="${yzsTld:getCodeByValue('cn.com.yuzhushui.movie.enums.SysBillsEnum$Status',result.status)}">${yzsTld:getNameByValue('cn.com.yuzhushui.movie.enums.SysBillsEnum$Status',result.status)}</ins></a>
-					<a href="javascript:void(0);"><span class="price">¥${result.money}</span><br>${result.content}</a>
+					<a href="${path}sys/sysBills/detail.htm?id=${result.id}"><ins class="sbtn right" style="${yzsTld:getCodeByValue('cn.com.yuzhushui.movie.enums.SysBillsEnum$Status',result.status)}">${yzsTld:getNameByValue('cn.com.yuzhushui.movie.enums.SysBillsEnum$Status',result.status)}</ins></a>
+					<a href="${path}sys/sysBills/detail.htm?id=${result.id}"><span class="price">¥${result.money}</span><br>${result.content}</a>
 				</p>
 			</li>
 		  </c:forEach>

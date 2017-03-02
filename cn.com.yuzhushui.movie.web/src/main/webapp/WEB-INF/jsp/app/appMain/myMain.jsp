@@ -73,6 +73,11 @@ body .mainmenu li.api a span{
 	background:#14c760;
 	color:#151515;
 }
+body .mainmenu li.pool a span{
+	background:#84d018;
+	color:#151515;
+}
+
 </style>
 </head>
 
@@ -204,6 +209,7 @@ $(document).ready(function(){
 	<li class="UL_Li_CLSS subject"><a><span>欢迎光临，${yzsTld:getSysUser().name}</span></a></li>
 	<li class="UL_Li_CLSS query"><a href="${path}sys/sysBills/list.htm"><span>查看我的账单</span></a></li>
 	<li class="UL_Li_CLSS audit"><a href="${path}sys/sysBills/add.htm"><span>申请账单</span></a></li>
+	<li class="UL_Li_CLSS pool"><a href="${path}sys/sysFundPool/detail.htm"><span>资金池剩余额度</span></a></li>
 	<li class="UL_Li_CLSS robot"><a href="${path}sys/sysAPI/rebot.htm"><span>机器人</span></a></li>
 	<li class="UL_Li_CLSS api"><a href="${path}sys/sysAPI/list.htm"><span>API</span></a></li>
 	<%-- <li><a href="javascript:void(0);" ><b><img src="${path}image/myMain/tb01.png" /></b><span>关于我们</span></a></li>

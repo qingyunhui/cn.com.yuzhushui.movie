@@ -120,6 +120,9 @@ public class SysBills extends BaseModel<Integer>{
 	//关键字，样式
 	private String keywordStyle;
 	
+	//是否显示
+	private String isShow;
+	
 	private String queryDebtorIdWithlenderId;
 
 }

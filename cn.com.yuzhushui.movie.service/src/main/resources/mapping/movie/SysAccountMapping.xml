@@ -216,7 +216,7 @@
         	AND account_id = #{accountId}
 	</update>
 	
-	<select id="getById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+	<select id="queryById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
 	   	SELECT <include refid="full-columns" />
        	<![CDATA[
        	FROM sys_account t

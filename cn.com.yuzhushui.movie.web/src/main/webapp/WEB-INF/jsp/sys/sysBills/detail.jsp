@@ -34,8 +34,8 @@
 				<a href="${path}app/appMain/myMain.htm" class="aBlue right">返回列表页</a></li>
 			</ul>
 		</article>
-		<ul class="form pusht">
-			<li><input type="button" class="btn" value="立即购买" onClick="window.location.href='goods-buying-29449218.html'" /></li>
+		<ul class="form pusht" style="display:${entity.isShow}">
+			<li><input type="button" class="btn" value="审核" onClick="window.location.href='${path}sys/sysBills/doAudit.htm?id=${entity.id}'" /></li>
 		</ul>
 	</section>
 </body>
