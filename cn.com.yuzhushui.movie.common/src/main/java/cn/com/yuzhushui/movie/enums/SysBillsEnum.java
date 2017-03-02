@@ -13,44 +13,50 @@ public class SysBillsEnum {
 	
 	@Getter
 	public enum Keyword implements ICommonEnum{
-		//关键字(0.借,1.寄,2.欠,3.其它)
-		BORROW(0,"借"),
-		SEND(1,"寄"),
-		OWE(2,"欠"),
-		OTHER(3,"其它");
+		//关键字(0.借,1.寄,2.欠,3.拿,4.其它)
+		BORROW(0,"借","background:#8bc34a"),
+		SEND(1,"寄","background:#cddc39"),
+		OWE(2,"欠","background:#ffc107"),
+		TAKE(3,"拿","background:#ff9800"),
+		OTHER(4,"其它","background:#ffeb3b");
 		
 		private final int value;
 	    private final String name;
 	    
-	    private Keyword(int value, String name) {
+	    private final String code;
+	    
+	    private Keyword(int value, String name,String code) {
 	        this.value = value;
 	        this.name = name;
+	        this.code=code;
 	    }
 
 		@Override
 		public String getCode() {
-			return String.valueOf(value);
+			return code;
 		}
 	}
 	
 	@Getter
 	public enum Status implements ICommonEnum{
 		//状态：0.待审核，1.审核不通过，2.审核通过
-		AUDIT_WAIT(0,"待审核"),
-		AUDIT_UN_PASS(1,"审核不通过"),
-		AUDIT_PASS(2,"审核通过");
+		AUDIT_WAIT(0,"待审核","background:#e91e63"),
+		AUDIT_UN_PASS(1,"审核不通过","background:#f44336"),
+		AUDIT_PASS(2,"审核通过","background:#4caf50");
 		
 		private final int value;
 	    private final String name;
+	    private final String code;
 	    
-	    private Status(int value, String name) {
+	    private Status(int value, String name,String code) {
 	        this.value = value;
 	        this.name = name;
+	        this.code=code;
 	    }
 
 		@Override
 		public String getCode() {
-			return String.valueOf(value);
+			return code;
 		}
 	}
 	

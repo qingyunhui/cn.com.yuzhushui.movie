@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>个人列表</title>
+<title>账单列表</title>
 <meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,maximum-scale=1.0,user-scalable=no;">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -16,16 +16,15 @@
 </head>
 <body class="mWrap">
 	<!-- 页头 -->
-	<header class="topHd"><a onClick="history.back();return false;" href="javascript:void(0);" class="back">返回</a><a href="${path}app/appMain/myMain.htm" class="home">首页</a><span>我的账单</span></header>
+	<header class="topHd"><a onClick="history.back();return false;" href="javascript:void(0);" class="back">返回</a><a href="${path}app/appMain/myMain.htm" class="home">首页</a><span>我的账单列表</span></header>
 	<section class="mContent">
 		<ul class="proList clearfix" id="dataUl">
-			
 		  <c:forEach var="result" items="${entitys}" >
 		  	<li>
-				<a href="goods-29449218.html"><p class="tt"><i class="ico icoJi">${yzsTld:getNameByCode('cn.com.yuzhushui.movie.enums.SysBillsEnum$Keyword',result.keyword)}</i>${result.subject}</p></a>
+				<a href="${path}sys/sysBills/detail.htm?id=${result.id}"><p class="tt"><i class="ico icoJi" style="${yzsTld:getCodeByValue('cn.com.yuzhushui.movie.enums.SysBillsEnum$Keyword',result.keyword)}">${yzsTld:getNameByValue('cn.com.yuzhushui.movie.enums.SysBillsEnum$Keyword',result.keyword)}</i>${result.subject}</p></a>
 				<p>
-					<a href="goods-29449218.html"><ins class="sbtn right">购买${result.keyword}</ins></a>
-					<a href="goods-29449218.html"><span class="price">¥${result.money}</span><br>${result.content}</a>
+					<a href="goods-29449218.html"><ins class="sbtn right" style="${yzsTld:getCodeByValue('cn.com.yuzhushui.movie.enums.SysBillsEnum$Status',result.status)}">${yzsTld:getNameByValue('cn.com.yuzhushui.movie.enums.SysBillsEnum$Status',result.status)}</ins></a>
+					<a href="javascript:void(0);"><span class="price">¥${result.money}</span><br>${result.content}</a>
 				</p>
 			</li>
 		  </c:forEach>

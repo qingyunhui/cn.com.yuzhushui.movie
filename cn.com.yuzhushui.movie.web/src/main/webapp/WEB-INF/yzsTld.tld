@@ -12,6 +12,12 @@
 		<example>${yzsTld:getEnumValues('')}</example>
 	</function>
 	<function>
+		<name>getEnumToJSON</name>
+		<function-class>qing.yun.hui.common.utils.EnumUtil</function-class>
+		<function-signature>java.lang.String getEnumToJSON(java.lang.String)</function-signature>
+		<example>${yzsTld:getEnumToJSON('')}</example>
+	</function>
+	<function>
 		<name>getNameByCode</name>
 		<function-class>qing.yun.hui.common.utils.EnumUtil</function-class>
 		<function-signature>java.lang.String  getNameByCode(java.lang.String,java.lang.Object)</function-signature>
@@ -20,7 +26,13 @@
 	<function>
 		<name>getNameByValue</name>
 		<function-class>qing.yun.hui.common.utils.EnumUtil</function-class>
-		<function-signature>java.lang.String getNameByValue(java.lang.String,java.lang.Integer)</function-signature>
+		<function-signature>java.lang.String getNameByValue(java.lang.String,java.lang.String)</function-signature>
+	</function>
+	<function>
+		<name>getCodeByValue</name>
+		<function-class>qing.yun.hui.common.utils.EnumUtil</function-class>
+		<function-signature>java.lang.String  getCodeByValue(java.lang.String,java.lang.String)</function-signature>
+		<example>${yzsTld:getCodeByValue(x,y)}</example>
 	</function>
 	<function>
 		<name>getNameByDate</name>

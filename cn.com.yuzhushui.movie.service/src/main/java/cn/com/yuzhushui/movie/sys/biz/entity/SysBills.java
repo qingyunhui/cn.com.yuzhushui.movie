@@ -114,6 +114,12 @@ public class SysBills extends BaseModel<Integer>{
 	
 	//columns END
 	
+	//状态，样式
+	private String statusStyle;
+	
+	//关键字，样式
+	private String keywordStyle;
+	
 	private String queryDebtorIdWithlenderId;
 
 }
