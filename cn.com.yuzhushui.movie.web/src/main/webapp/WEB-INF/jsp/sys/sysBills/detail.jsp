@@ -20,8 +20,9 @@
 		<article class="cttBg">
 			<ul class="form">
 				<li>
-				<i class="ico icoJi">${yzsTld:getNameByValue('cn.com.yuzhushui.movie.enums.SysBillsEnum$Keyword',entity.keyword)}</i>
-				<span class="blue">${entity.subject}</span></li>
+				  <i class="ico icoJi">${yzsTld:getNameByValue('cn.com.yuzhushui.movie.enums.SysBillsEnum$Keyword',entity.keyword)}</i>
+				  <span class="blue">${entity.subject}</span>
+				</li>
 				<li>关键字：${yzsTld:getNameByValue('cn.com.yuzhushui.movie.enums.SysBillsEnum$Keyword',entity.keyword)}</li>
 				<li>借款人：${entity.debtor}</li>
 				<li>借款金额¥：${entity.money}</li>

@@ -23,7 +23,7 @@ import cn.com.yuzhushui.movie.sys.web.vo.SysMenuForm;
  */
 @Controller
 @RequestMapping(SysFundPoolAction.ACTION_PATH)
-public class SysFundPoolAction extends BaseAction<SysMenu, SysMenuForm, Integer>{
+public class SysFundPoolAction {
 	
 	//一般用于重定向用
 	protected static final String ACTION_PATH="/sys/sysFundPool";
@@ -44,7 +44,6 @@ public class SysFundPoolAction extends BaseAction<SysMenu, SysMenuForm, Integer>
 		return modelAndView;
 	}
 	
-	@Override
 	public String getActionPath() {
 		return ACTION_PATH;
 	}
