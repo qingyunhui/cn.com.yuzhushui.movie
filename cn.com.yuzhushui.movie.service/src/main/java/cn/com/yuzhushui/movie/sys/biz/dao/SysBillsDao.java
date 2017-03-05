@@ -12,5 +12,6 @@ import cn.com.yuzhushui.movie.sys.biz.entity.SysBills;
  */
 public interface SysBillsDao extends BaseDao<SysBills,Integer>{
 	
-	
+	/**<!-- 统计借款人历史支出总额 -->*/
+	public Long getTotalMoneyByDebtorId(Integer debtorId);
 }

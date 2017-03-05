@@ -28,7 +28,7 @@ public class BaseServiceImpl<MODEL extends BaseModel<KEY_TYPE>, KEY_TYPE> implem
 	}
 	
 	public int add(MODEL model) {
-		beforeHand(model);
+		/*beforeHand(model)*/;
 		int count = getBaseDao().insert(model);
 		return count;
 	}
@@ -40,7 +40,7 @@ public class BaseServiceImpl<MODEL extends BaseModel<KEY_TYPE>, KEY_TYPE> implem
 		return count;
 	}
 	public int update(MODEL model) {
-		afterHand(model);
+		/*afterHand(model);*/
 		int count = getBaseDao().update(model);
 		return count;
 	}

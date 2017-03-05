@@ -26,4 +26,9 @@ public class SysFundPoolServiceImpl extends BaseServiceImpl<SysFundPool,Integer>
 	public List<SysFundPool> queryFundPoolsByAccountId(Integer id) {
 		return sysFundPoolDao.queryFundPoolsByAccountId(id);
 	}
+
+	@Override
+	public Long getTotalGoldByAccountId(Integer accountId) {
+		return sysFundPoolDao.getTotalGoldByAccountId(accountId);
+	}
 }

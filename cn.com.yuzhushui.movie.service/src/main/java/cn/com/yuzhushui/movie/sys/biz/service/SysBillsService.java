@@ -11,5 +11,8 @@ import cn.com.yuzhushui.movie.sys.biz.entity.SysBills;
  * @history
  */
 public interface SysBillsService extends BaseService<SysBills,Integer>{
+	
+	/**<!-- 统计借款人历史支出总额 -->*/
+	public Long getTotalMoneyByDebtorId(Integer debtorId);
     
 }

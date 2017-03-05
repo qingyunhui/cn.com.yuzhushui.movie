@@ -1,8 +1,10 @@
 package cn.com.yuzhushui.movie.sys.biz.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.com.yuzhushui.movie.common.base.BaseServiceImpl;
+import cn.com.yuzhushui.movie.sys.biz.dao.SysBillsDao;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysBills;
 import cn.com.yuzhushui.movie.sys.biz.service.SysBillsService;
 
@@ -16,5 +18,13 @@ import cn.com.yuzhushui.movie.sys.biz.service.SysBillsService;
  */
 @Service("sysBillsService")
 public class SysBillsServiceImpl extends BaseServiceImpl<SysBills,Integer> implements SysBillsService{
+
+	@Autowired
+	private SysBillsDao sysBillsDao;
+	
+	@Override
+	public Long getTotalMoneyByDebtorId(Integer debtorId) {
+		return sysBillsDao.getTotalMoneyByDebtorId(debtorId);
+	}
       
 }

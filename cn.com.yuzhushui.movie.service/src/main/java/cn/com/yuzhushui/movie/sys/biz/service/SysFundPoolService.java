@@ -13,5 +13,8 @@ import cn.com.yuzhushui.movie.sys.biz.entity.SysFundPool;
 public interface SysFundPoolService extends BaseService<SysFundPool,Integer>{
 	
 	public List<SysFundPool> queryFundPoolsByAccountId(java.lang.Integer id);
+	
+	/***统计用户历史充值总额 **/
+    public Long getTotalGoldByAccountId(Integer accountId);
     
 }

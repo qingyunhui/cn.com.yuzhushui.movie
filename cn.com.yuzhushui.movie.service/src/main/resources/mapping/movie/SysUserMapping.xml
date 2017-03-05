@@ -307,6 +307,14 @@
        	WHERE t.user_id = #{value}
 		]]>
     </select>
+    
+    <select id="queryByAccountId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+	   	SELECT <include refid="full-columns" />
+       	<![CDATA[
+       	FROM sys_user t
+       	WHERE t.account_id = #{value}
+		]]>
+    </select>
 	
 	<select id="query" parameterType="map" resultMap="BaseResultMap">
 		SELECT <include refid="full-columns" />

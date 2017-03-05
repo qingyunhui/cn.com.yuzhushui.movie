@@ -142,9 +142,10 @@
     <select id="queryFundPoolsByAccountId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
 	   	SELECT <include refid="full-columns" />
        	<![CDATA[
-       	FROM sys_fund_pool t
+       		FROM sys_fund_pool t
        	WHERE t.account_id = #{value}
 		]]>
+		ORDER BY t.ctime DESC
     </select>
 	
 	<select id="queryAll" parameterType="map" resultMap="BaseResultMap">
@@ -246,4 +247,12 @@
 	        	</if>
         </where>
 	</select>
+	
+	<!-- 统计用户历史充值总额 -->
+	<select id="getTotalGoldByAccountId" parameterType="java.lang.Integer" resultType="java.lang.Long">
+	   	SELECT  SUM(t.gold)
+       		FROM sys_fund_pool t
+       	WHERE t.account_id = #{value}
+    </select>
+	
 </mapper>

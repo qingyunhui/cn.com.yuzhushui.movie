@@ -13,12 +13,12 @@ public class SysBillsEnum {
 	
 	@Getter
 	public enum Keyword implements ICommonEnum{
-		//关键字(0.借,1.寄,2.欠,3.拿,4.其它)
+		//关键字(0.借,1.寄,2.欠,3.拿,4.支)
 		BORROW(0,"借","background:#8bc34a"),
-		SEND(1,"寄","background:#cddc39"),
-		OWE(2,"欠","background:#ffc107"),
-		TAKE(3,"拿","background:#ff9800"),
-		OTHER(4,"其它","background:#ffeb3b");
+		/*SEND(1,"寄","background:#cddc39"),*/
+		OWE(1,"欠","background:#ffc107"),
+		TAKE(2,"拿","background:#ff9800"),
+		PAY(3,"预支","background:#ffeb3b");
 		
 		private final int value;
 	    private final String name;

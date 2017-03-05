@@ -14,8 +14,11 @@ import cn.com.yuzhushui.movie.sys.biz.entity.SysFundPool;
  */
 public interface SysFundPoolDao extends BaseDao<SysFundPool,Integer>{
 	
-	
+	/***查询用户历史资金池充值记录集 **/
     public List<SysFundPool> queryFundPoolsByAccountId(java.lang.Integer id);
+    
+    /***统计用户历史充值总额 **/
+    public Long getTotalGoldByAccountId(Integer accountId);
     
 	
 }

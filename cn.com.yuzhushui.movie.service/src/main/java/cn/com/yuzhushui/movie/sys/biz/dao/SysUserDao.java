@@ -12,5 +12,9 @@ import cn.com.yuzhushui.movie.sys.biz.entity.SysUser;
  */
 public interface SysUserDao extends BaseDao<SysUser,Integer>{
 	
+	/**
+	 * 根据账号查询用户
+	 * */
+	public SysUser queryByAccountId(Integer accountId);
 	
 }

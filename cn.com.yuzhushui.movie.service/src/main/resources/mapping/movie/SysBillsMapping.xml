@@ -294,9 +294,7 @@
 		SELECT <include refid="full-columns" />
 	    FROM sys_bills t
 		<where> <include refid="queryCriteria"/>  </where>
-		<if test="@OGNL@isNotEmpty(orderColumn) ">
-        ORDER BY t.${orderColumn} <if test="@OGNL@isNotEmpty(orderDirection) ">${orderDirection}</if>
-        </if>
+        ORDER BY t.ctime DESC
 	</select>
 	
 	<select id="queryPage" parameterType="map" resultMap="BaseResultMap">
@@ -314,4 +312,12 @@
 		select count(id) FROM sys_bills 
         <where> <include refid="queryCriteria"/>  </where>
 	</select>
+	
+	<!-- 统计借款人历史支出总额 -->
+	<select id="getTotalMoneyByDebtorId" parameterType="java.lang.Integer" resultType="java.lang.Long">
+	   	SELECT  SUM(t.money)
+       		FROM sys_bills t
+       	WHERE t.debtor_id = #{value}
+    </select>
+	
 </mapper>

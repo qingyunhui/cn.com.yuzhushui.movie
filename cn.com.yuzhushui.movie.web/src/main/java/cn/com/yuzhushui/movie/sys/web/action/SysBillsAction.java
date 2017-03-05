@@ -13,10 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONObject;
 
-import qing.yun.hui.common.utils.BeanUtil;
-import qing.yun.hui.common.utils.StringUtil;
-import qing.yun.hui.mailtool.MailTool;
-import cn.com.yuzhushui.movie.common.base.BaseAction;
 import cn.com.yuzhushui.movie.common.util.SessionUtil;
 import cn.com.yuzhushui.movie.constant.MovieConstant;
 import cn.com.yuzhushui.movie.enums.SysBillsEnum;
@@ -26,7 +22,9 @@ import cn.com.yuzhushui.movie.sys.biz.entity.SysUser;
 import cn.com.yuzhushui.movie.sys.biz.service.SysAccountService;
 import cn.com.yuzhushui.movie.sys.biz.service.SysBillsService;
 import cn.com.yuzhushui.movie.sys.biz.service.SysUserService;
-import cn.com.yuzhushui.movie.sys.web.vo.SysBillsForm;
+import qing.yun.hui.common.utils.BeanUtil;
+import qing.yun.hui.common.utils.StringUtil;
+import qing.yun.hui.mailtool.MailTool;
 
 
 /**
@@ -37,7 +35,7 @@ import cn.com.yuzhushui.movie.sys.web.vo.SysBillsForm;
  */
 @Controller
 @RequestMapping(SysBillsAction.ACTION_PATH)
-public class SysBillsAction extends BaseAction<SysBills, SysBillsForm, Integer>{
+public class SysBillsAction{
 	
 	protected Logger logger=LoggerFactory.getLogger(SysBillsAction.class);
 	
@@ -46,6 +44,9 @@ public class SysBillsAction extends BaseAction<SysBills, SysBillsForm, Integer>{
 	
 	@Autowired
 	SysAccountService sysAccountService;
+	
+	@Autowired
+	SysUserService sysUserService;
 	
 	//一般用于重定向用
 	protected static final String ACTION_PATH="/sys/sysBills";
@@ -156,7 +157,55 @@ public class SysBillsAction extends BaseAction<SysBills, SysBillsForm, Integer>{
 	}
 	
 	
-	@Override
+	@RequestMapping(value = "add")
+	public ModelAndView add(SysBills bills) {
+		ModelAndView modelAndView = new ModelAndView(getActionPath() + "/add");
+		modelAndView.addObject(MovieConstant.ENTITY, bills);
+		//出借人-管理员qing.yunhui
+		SysUser debtorUser=sysUserService.queryByAccountId(MovieConstant.accountId);
+		modelAndView.addObject("debtorUser", debtorUser);
+		return modelAndView;
+	}
+	
+	/**
+	 * <p>只能审核，账单的出借人是对应自己的</p>
+	 * */
+	@RequestMapping(value = "doAdd")
+	public ModelAndView doAdd(SysBills sysBills) {
+		ModelAndView modelAndView = new ModelAndView(getActionPath() + "/list");
+		try {
+			if(null==sysBills){
+				logger.error("===========>账单不能为null!");
+				return modelAndView;
+			}
+			//借款人
+			SysUser user=SessionUtil.getSysUser();
+			sysBills.setStatus(SysBillsEnum.Status.AUDIT_WAIT.getValue());
+			sysBills.setDebtor(user.getName());
+			sysBills.setDebtorId(user.getAccountId());
+			//出借人
+			SysUser debtorUser=sysUserService.queryByAccountId(MovieConstant.accountId);
+			sysBills.setLender(debtorUser.getName());
+			sysBills.setLenderId(debtorUser.getAccountId());
+			sysBills.setCreater(user.getName());
+			sysBills.setCreaterId(user.getAccountId());
+			sysBills.setComments("借款条【借款证明】");
+			int count=sysBillsService.add(sysBills);
+			logger.info("==============>账单，申请"+(count>0?"成功":"失败")+"。");
+			String subject="账单审核通过啦。";
+			String content=sysBills.getContent();
+			String lenderEmial=sysAccountService.query(sysBills.getLenderId()).getEmail();
+			String debtorEmail=sysAccountService.query(sysBills.getDebtorId()).getEmail();
+			String[] sendEmails=new String[]{lenderEmial,debtorEmail};
+			MailTool.sendMail(subject, content, sendEmails);
+			modelAndView.addObject(MovieConstant.ENTITY, sysBills);
+		} catch (Exception e) {
+			logger.error("=================>账单申请失败，失败原因:{}",new Object[]{JSONObject.toJSONString(e)});
+			e.printStackTrace();
+		}
+		return modelAndView;
+	}
+	
 	public String getActionPath() {
 		return ACTION_PATH;
 	}
