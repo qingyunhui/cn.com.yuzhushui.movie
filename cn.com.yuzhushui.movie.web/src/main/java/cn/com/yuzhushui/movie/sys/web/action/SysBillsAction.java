@@ -172,7 +172,7 @@ public class SysBillsAction{
 	 * */
 	@RequestMapping(value = "doAdd")
 	public ModelAndView doAdd(SysBills sysBills) {
-		ModelAndView modelAndView = new ModelAndView(getActionPath() + "/list");
+		ModelAndView modelAndView = new ModelAndView("redirect"+ACTION_PATH+"/list.htm");
 		try {
 			if(null==sysBills){
 				logger.error("===========>账单不能为null!");
