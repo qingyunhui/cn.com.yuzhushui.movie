@@ -24,9 +24,9 @@
 				  <span class="blue">${entity.subject}</span>
 				</li>
 				<li>关键字：${yzsTld:getNameByValue('cn.com.yuzhushui.movie.enums.SysBillsEnum$Keyword',entity.keyword)}</li>
-				<li>借款人：${entity.debtor}</li>
-				<li>借款金额¥：${entity.money}</li>
-				<li>出借人：${entity.lender}</li>
+				<li>预支人：${entity.debtor}</li>
+				<li>预支金额¥：${entity.money}</li>
+				<li>预支对象：${entity.lender}</li>
 				<li>状态：${yzsTld:getNameByValue('cn.com.yuzhushui.movie.enums.SysBillsEnum$Status',entity.status)}</li>
 				<li>交易类型：${yzsTld:getNameByCode('cn.com.yuzhushui.movie.enums.SysBillsEnum$TradeType',entity.tradeType)}</li>
 				<li>账单创建时间：<fmt:formatDate value='${entity.ctime}' type='date' pattern='yyyy-MM-dd HH:mm:ss'/></li>

@@ -74,19 +74,19 @@
 				</li>
 				<li>
 					<p>
-					  <span class="input_span">借款人</span>
+					  <span class="input_span">预支人</span>
 					  <input type="text" class="inputs" name="debtor" readonly="readonly" value="${yzsTld:getSysUser().name}"/>
 					</p>
 				</li>
 				<li>
 					<p>
-					  <span class="input_span">借款金额</span>
+					  <span class="input_span">预支金额</span>
 					  <input type="number" id="money" maxlength="5" oninput="if(value.length>5)value=value.slice(0,5)"  name="money" class="inputs"  />
 					</p>
 				</li>
 				<li>
 					<p>
-					  <span class="input_span">出借人</span>
+					  <span class="input_span">预支对方</span>
 					  <input type="text" name="lender" class="inputs" readonly="readonly" value="${debtorUser.name}" />
 					</p>
 				</li>
