@@ -78,9 +78,7 @@ $(document).ready(function(){
   </div>
   <div class="copyright">Copyright © 2011-2016 www.smiles8.top 版权所有.</div>
 </div>
-</body>
-</html>
-    <script type="text/javascript" >
+<script type="text/javascript" >
     $(function() {
 		$(".input-close").hide();
 		displayPwd();
@@ -149,3 +147,5 @@ $(document).ready(function(){
 		}
     });
 </script> 
+</body>
+</html>
