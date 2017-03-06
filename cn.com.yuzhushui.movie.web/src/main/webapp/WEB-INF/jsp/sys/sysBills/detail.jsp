@@ -29,6 +29,7 @@
 				<li>预支对象：${entity.lender}</li>
 				<li>状态：${yzsTld:getNameByValue('cn.com.yuzhushui.movie.enums.SysBillsEnum$Status',entity.status)}</li>
 				<li>交易类型：${yzsTld:getNameByCode('cn.com.yuzhushui.movie.enums.SysBillsEnum$TradeType',entity.tradeType)}</li>
+				<li>详情：${entity.content}</li>
 				<li>账单创建时间：<fmt:formatDate value='${entity.ctime}' type='date' pattern='yyyy-MM-dd HH:mm:ss'/></li>
 				<li>账单创建人:${entity.creater}</li>
 				<li><span class="ftBig orange">¥${entity.money}</span>

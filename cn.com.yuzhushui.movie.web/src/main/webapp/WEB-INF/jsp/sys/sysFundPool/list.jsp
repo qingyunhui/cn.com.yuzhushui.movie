@@ -64,7 +64,7 @@
 		<ul class="proList clearfix" id="dataUl">
 		  <c:forEach var="result" items="${entitys}" >
 		  	<li>
-				<a href="javascript:void(0);"><p class="tt">资金池剩余额度¥:${result.gold}</p></a>
+				<a href="javascript:void(0);"><p class="tt">资金池历史充值金额¥:${result.gold}</p></a>
 				<p>
 					<a href="javascript:void(0);"><ins class="sbtn right">充值时间:<fmt:formatDate value='${result.ctime}' type='date' pattern='yyyy-MM-dd HH:mm:ss'/></ins></a>
 					<a href="javascript:void(0);"><span class="price">¥${result.gold}</span><br>${result.comments}</a>
@@ -81,9 +81,11 @@
 		 <c:forEach var="result" items="${sysBillsList}" >
 		  	<li>
 				<span>
-					<fmt:formatDate value='${result.ctime}' type='date' pattern='yyyy-MM-dd HH:mm:ss'/> &nbsp;
-					${yzsTld:getNameByValue('cn.com.yuzhushui.movie.enums.SysBillsEnum$Keyword',result.keyword)} &nbsp;
-					${result.money}元人民币
+					<a href="${path}sys/sysBills/detail.htm?id=${result.id}">
+					  <fmt:formatDate value='${result.ctime}' type='date' pattern='yyyy-MM-dd HH:mm:ss'/> &nbsp;
+					  ${yzsTld:getNameByValue('cn.com.yuzhushui.movie.enums.SysBillsEnum$Keyword',result.keyword)} &nbsp;
+					  ${result.money}元人民币
+					</a>
 				</span>
 			</li>
 		  </c:forEach>
