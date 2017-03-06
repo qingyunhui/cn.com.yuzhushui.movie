@@ -1,7 +1,6 @@
 package cn.com.yuzhushui.movie.sys.biz.service;
 
 import cn.com.yuzhushui.movie.common.base.BaseService;
-
 import cn.com.yuzhushui.movie.sys.biz.entity.SysAccount;
 /**
  * @author qing.yunhui 
@@ -11,4 +10,9 @@ import cn.com.yuzhushui.movie.sys.biz.entity.SysAccount;
  */
 public interface SysAccountService extends BaseService<SysAccount,Integer>{
     
+	/**
+	 * 根据账号查询账户
+	 * */
+	public SysAccount queryByAccount(String account);
+	
 }

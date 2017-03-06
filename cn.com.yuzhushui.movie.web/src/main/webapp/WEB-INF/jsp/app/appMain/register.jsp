@@ -51,7 +51,7 @@ $(window).load(function() {
             <b id="validateCodeclose" class="input-close" onClick="validateCodeclose();" style="display: block; margin-right:15px;"></b> <span id="captcha-img"> <img id="code" src="${path}image/login/code.jpg" style="width:63px;height:25px;" onClick="closeAndFlush();"> </span> </div>
           <div class="err-tips"> 注册即视为同意 <a target="_blank" href="#">用户服务协议</a> </div>
         </div>
-        <div class="ui-btn-wrap"> <a class="ui-btn-lg ui-btn-primary" href="#">用户注册</a> </div>
+        <div class="ui-btn-wrap"> <a class="ui-btn-lg ui-btn-primary" href="javascript:void(0);">用户注册</a> </div>
         <div class="ui-btn-wrap"> <a class="ui-btn-lg ui-btn-danger" href="${path}app/appMain/login.htm">已有账号？立即登录</a> </div>
       </form>
   </div>

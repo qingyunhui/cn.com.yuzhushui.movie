@@ -211,7 +211,7 @@ public class SysBillsAction{
 			sysBills.setComments("借款条【借款证明】");
 			int count=sysBillsService.add(sysBills);
 			logger.info("==============>账单，申请"+(count>0?"成功":"失败")+"。");
-			String subject="您于："+DateUtil.getStringDate(DateUtil.YYYY_MM_DD_HH_MM_SS+" 申请的账单已经申请成功，请耐心等待相关出借人员审核。");
+			String subject="您于："+DateUtil.getStringDate(DateUtil.YYYY_MM_DD_HH_MM_SS)+" 申请的账单已经申请成功，请耐心等待相关出借人员审核。";
 			StringBuffer sb=new StringBuffer();
 			sb.append("<p>").append("<span>").append(sysBills.getSubject()).append("</span>").append("</p>");
 			//关键字，转换

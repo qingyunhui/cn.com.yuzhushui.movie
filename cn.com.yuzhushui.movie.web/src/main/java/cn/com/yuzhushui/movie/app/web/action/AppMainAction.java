@@ -1,8 +1,11 @@
 package cn.com.yuzhushui.movie.app.web.action;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,11 +34,13 @@ import cn.com.yuzhushui.movie.sys.biz.entity.SysUser;
 import cn.com.yuzhushui.movie.sys.biz.service.SysAccountService;
 import cn.com.yuzhushui.movie.sys.biz.service.SysUserService;
 import qing.yun.hui.common.utils.CookieUtil;
+import qing.yun.hui.common.utils.DateUtil;
 import qing.yun.hui.common.utils.EnumUtil;
 import qing.yun.hui.common.utils.GenerateRuleUtil;
 import qing.yun.hui.common.utils.MD5Util;
 import qing.yun.hui.common.utils.StringUtil;
 import qing.yun.hui.common.utils.ValidateUtil;
+import qing.yun.hui.mailtool.MailTool;
 
 /***
  ** @category 请用一句话来描述其用途...
@@ -246,5 +251,87 @@ public class AppMainAction {
 			logger.error("登录失败，用户名或密码错误！");
 		}
 		return modeView;
+	}
+	
+	/**找回密码页面*/
+	@RequestMapping(value = "/findPassword")
+	public ModelAndView findPassword(String messages) {
+		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/findPassword");
+		modelView.addObject(MovieConstant.MESSAGES_INFO, messages);
+		return modelView;
+	}
+	/**获取验证码页面*/
+	@RequestMapping(value = "/getCode")
+	public ModelAndView getCode(String account,String email,RedirectAttributes redirectAttributes) {
+		ModelAndView modelView = new ModelAndView("redirect:"+ACTION_PATH+"/findPassword.htm");
+		if(StringUtil.isEmpty(account,email)){
+			logger.error("==========>邮箱，账号不能为空。");
+			redirectAttributes.addAttribute(MovieConstant.MESSAGES_INFO,"邮箱，账号不能为空。");
+			return modelView;
+		}
+		SysAccount sysAccount=sysAccountService.queryByAccount(account);
+		if(null==sysAccount){
+			logger.error("==========>账号：{}，在数据库中不存在。",new Object[]{account});
+			redirectAttributes.addAttribute(MovieConstant.MESSAGES_INFO,"账号:"+account+"，不存在。");
+			return modelView;
+		}
+		if(!email.equals(sysAccount.getEmail())){
+			logger.error("==========>输入的邮箱:{},与您注册时的邮箱:{}不一致。",new Object[]{email,sysAccount.getEmail()});
+			redirectAttributes.addAttribute(MovieConstant.MESSAGES_INFO,"输入的邮箱与注册时的邮箱不一致。");
+			return modelView;
+		}
+		//开始发送邮箱
+		try {
+			String subject="找回密码-获取验证码";
+			StringBuffer sb=new StringBuffer();
+			sb.append("<div>");
+			String code=getRandom(10000);
+			sb.append("您于：").append(DateUtil.getStringDate(DateUtil.YYYY_MM_DD_HH_MM_SS)).append("申请的密码找回，验证码为:").append(code);
+			sb.append("</div>");
+			sb.append("<a ").append("href=").append("'").append("javascript:void(0);").append("'").append(">");
+			sb.append("请单击此处连接进行修改密码，");
+			sb.append("</a>");
+			sb.append("<span>").append("如果浏览器打不开，请复制该URL到你的浏览器打开。").append("</span>");
+			MailTool.sendMail(subject, sb.toString(), new String[]{email});
+		} catch (Exception e) {
+			logger.error("============>邮件发送失败，失败原因:{}。",new Object[]{JSONObject.toJSONString(e)});
+		}
+		return modelView;
+	}
+	
+	public static String getRandom(int maxNumber){
+		Random random=new Random();
+		int result=random.nextInt(maxNumber);
+		int length=String.valueOf(maxNumber).length();
+		int resultlength=String.valueOf(result).length();
+		String[] hexs={"A", "b", "C", "d", "E", "f","g","h","i","j","k","m","x","y","z","v","u","w" ,"p","q","n"};
+		StringBuffer sbs=new StringBuffer();
+		if(resultlength<length){
+			int count=length-resultlength;
+			String resultStr=String.valueOf(result);
+			String[] chars=new String[length];
+			for(int i=0;i<resultStr.length();i++){
+				chars[i]=resultStr.charAt(i)+"";
+			}
+			for(int i=0;i<count;i++){
+				String str=hexs[random.nextInt(hexs.length-1)];
+				chars[resultlength+i]=str;
+			}
+			List<String> list=new ArrayList<String>(Arrays.asList(chars));
+			for(int i=0;i<chars.length;i++){
+				getValue(random, list, sbs);
+			}
+		}else{
+			sbs.append(result);
+		}
+		return sbs.toString();
+	}
+	
+	public static void getValue(Random random,List<String> list,StringBuffer sbs){
+		int number= list.size();
+		int c=random.nextInt(number);
+		String value=list.get(c);
+		sbs.append(value);
+		list.remove(c);
 	}
 }

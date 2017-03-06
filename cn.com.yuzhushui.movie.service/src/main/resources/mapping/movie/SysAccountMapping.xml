@@ -220,7 +220,15 @@
 	   	SELECT <include refid="full-columns" />
        	<![CDATA[
        	FROM sys_account t
-       	WHERE t.account_id = #{value}
+       	WHERE t.account_id = #{value} AND t.deleted=0
+		]]>
+    </select>
+    
+    <select id="queryByAccount" parameterType="java.lang.String" resultMap="BaseResultMap">
+	   	SELECT <include refid="full-columns" />
+       	<![CDATA[
+       	FROM sys_account t
+       	WHERE t.account = #{value} AND t.deleted=0
 		]]>
     </select>
 	

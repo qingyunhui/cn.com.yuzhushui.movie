@@ -46,10 +46,10 @@ $(document).ready(function(){
   <div class="w main">
   	<form id="frm_login" method="post" action="${path}app/appMain/doLogin.htm">
         <div class="item item-username">
-          <input id="accounts" class="txt-input txt-username" type="text" placeholder="请输入用户名/邮箱/手机号" value="admin" name="accounts">
+          <input id="accounts" class="txt-input txt-username" type="text" placeholder="请输入用户名/邮箱/手机号" name="accounts">
           <b class="input-close" style="display: none;"></b> </div>
         <div class="item item-password">
-          <input id="passwords" class="txt-input txt-password ciphertext" type="password" placeholder="请输入密码" value="111111" name="passwords" style="display: inline;">
+          <input id="passwords" class="txt-input txt-password ciphertext" type="password" placeholder="请输入密码" name="passwords" style="display: inline;">
           <input id="ptext" class="txt-input txt-password plaintext" type="text" placeholder="请输入密码" style="display: none;" name="ptext">
           <b class="tp-btn btn-off"></b>
         </div>
@@ -59,7 +59,7 @@ $(document).ready(function(){
                     <input type="checkbox" name="checkbox" checked/>一个月内免登录
                 </label>
             </div>
-            <span class="retrieve-password"> <a class="" href="getpwd_email.html"> 找回密码</a> </span>
+            <span class="retrieve-password"> <a class="" href="${path}app/appMain/findPassword.htm"> 找回密码</a> </span>
         </div>
         <div class="ui-btn-wrap"><input name="" type="submit" value="用户登录"  class="ui-btn-lg ui-btn-primary" /> </div>
         <div class="ui-btn-wrap"> <a class="ui-btn-lg ui-btn-danger" href="${path}app/appMain/register.htm">没有账号？立即注册</a> </div>
@@ -73,7 +73,7 @@ $(document).ready(function(){
   </div>
 	
   <div class="m_user w">
-  	<a href="getpwd_email.html">找回密码</a>
+  	<a href="${path}app/appMain/findPassword.htm">找回密码</a>
     <a href="${path}app/appMain/register.htm">注册</a>
   </div>
   <div class="copyright">Copyright © 2011-2016 www.smiles8.top 版权所有.</div>
