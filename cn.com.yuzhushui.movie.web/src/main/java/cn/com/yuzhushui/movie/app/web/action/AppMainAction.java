@@ -17,12 +17,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.alibaba.fastjson.JSONObject;
 
 import cn.com.yuzhushui.movie.cache.ShardedJedisCached;
+import cn.com.yuzhushui.movie.common.base.ResponseData;
 import cn.com.yuzhushui.movie.common.bean.LogParameter;
 import cn.com.yuzhushui.movie.common.bean.SessionInfo;
 import cn.com.yuzhushui.movie.common.util.SessionUtil;
@@ -58,6 +60,11 @@ public class AppMainAction {
 	protected static final String ACTION_PATH = "/app/appMain";
 	
 	public static final String SHOWED_INTRODUCE = "showed_introduce";
+	
+	//邮箱验证码有效时间为10分钟
+	private static final int expireSecond=10*60;
+	
+	private static final String SEND_MAIL_KEY="send_mail_key";
 	
 	@Autowired
 	private ShardedJedisCached shardedJedisCached;
@@ -261,24 +268,31 @@ public class AppMainAction {
 		return modelView;
 	}
 	/**获取验证码页面*/
-	@RequestMapping(value = "/getCode")
-	public ModelAndView getCode(String account,String email,RedirectAttributes redirectAttributes) {
-		ModelAndView modelView = new ModelAndView("redirect:"+ACTION_PATH+"/findPassword.htm");
+	@RequestMapping(value="getCode.json", method={RequestMethod.POST})
+	@ResponseBody
+	public ResponseData getCode(HttpServletRequest request,String account,String email) {
+		ResponseData rd=new ResponseData();
 		if(StringUtil.isEmpty(account,email)){
 			logger.error("==========>邮箱，账号不能为空。");
-			redirectAttributes.addAttribute(MovieConstant.MESSAGES_INFO,"邮箱，账号不能为空。");
-			return modelView;
+			rd.setMsg("邮箱，账号不能为空。");
+			return rd;
+		}
+		String key=SEND_MAIL_KEY+"_"+account+"_"+email;
+		String send_mail_key=shardedJedisCached.get(key);
+		if(!StringUtil.isEmpty(send_mail_key)){
+			rd.setMsg("10分钟内，只能发送一封邮件。");
+			return rd;
 		}
 		SysAccount sysAccount=sysAccountService.queryByAccount(account);
 		if(null==sysAccount){
 			logger.error("==========>账号：{}，在数据库中不存在。",new Object[]{account});
-			redirectAttributes.addAttribute(MovieConstant.MESSAGES_INFO,"账号:"+account+"，不存在。");
-			return modelView;
+			rd.setMsg("账号:"+account+"，不存在。");
+			return rd;
 		}
 		if(!email.equals(sysAccount.getEmail())){
 			logger.error("==========>输入的邮箱:{},与您注册时的邮箱:{}不一致。",new Object[]{email,sysAccount.getEmail()});
-			redirectAttributes.addAttribute(MovieConstant.MESSAGES_INFO,"输入的邮箱与注册时的邮箱不一致。");
-			return modelView;
+			rd.setMsg("输入的邮箱与注册时的邮箱不一致。");
+			return rd;
 		}
 		//开始发送邮箱
 		try {
@@ -286,17 +300,28 @@ public class AppMainAction {
 			StringBuffer sb=new StringBuffer();
 			sb.append("<div>");
 			String code=getRandom(10000);
+			String path=request.getContextPath();//项目名
+			int port=request.getServerPort();//端口
+			String serverName=request.getServerName();//域名 or localhost
+			String URL_Address=serverName+":"+port+path+ACTION_PATH+"/updatePassword.htm";
 			sb.append("您于：").append(DateUtil.getStringDate(DateUtil.YYYY_MM_DD_HH_MM_SS)).append("申请的密码找回，验证码为:").append(code);
 			sb.append("</div>");
-			sb.append("<a ").append("href=").append("'").append("javascript:void(0);").append("'").append(">");
-			sb.append("请单击此处连接进行修改密码，");
+			sb.append("<a ").append("href=").append("'").append(URL_Address).append("'").append(">");
+			sb.append("请单击此处连接进行修改密码。");
 			sb.append("</a>");
 			sb.append("<span>").append("如果浏览器打不开，请复制该URL到你的浏览器打开。").append("</span>");
 			MailTool.sendMail(subject, sb.toString(), new String[]{email});
+			rd.setMsg("邮件发送成功，请登陆邮箱查看.");
+			rd.addData("account", account);
+			rd.addData("url","app/appMain/updatePassword.htm");
+			rd.addData("email", email);
+			rd.addData("success_code", 10000);
+			shardedJedisCached.set(key, code, expireSecond);
 		} catch (Exception e) {
 			logger.error("============>邮件发送失败，失败原因:{}。",new Object[]{JSONObject.toJSONString(e)});
+			rd.setMsg(e.getMessage());
 		}
-		return modelView;
+		return rd;
 	}
 	
 	public static String getRandom(int maxNumber){

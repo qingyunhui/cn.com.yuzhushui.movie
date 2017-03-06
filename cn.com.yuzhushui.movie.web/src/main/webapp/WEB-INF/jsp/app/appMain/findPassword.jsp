@@ -24,6 +24,9 @@
 	    text-decoration: none;
 	    float:right;
 	}
+	.codeDisplay{
+		background:#c8c7cc;
+	}
 </style>
 
 <%@ include file="/WEB-INF/jsp/public/head.jsp"%>
@@ -39,21 +42,6 @@ $(window).load(function() {
 })
 </script>
 </head>
-<script type="text/javascript">
-$(document).ready(function(){
-	$("form").submit(function(e){
-	  	var accounts = $.trim($("#account").val());
-		var email = $.trim($("#email").val());
-		if(accounts == ''){
-			layer.tips('请输入账号','#account', {tips: 1});
-			return false;
-		}else if(email == ''){
-			layer.tips('请输入注册时的邮箱','#email', {tips: 1});
-			return false;
-		}
-	});
-});
-</script>
 <body>
 <div class="mobile">
 	<!--页面加载 开始-->
@@ -72,20 +60,79 @@ $(document).ready(function(){
   <!--header 结束-->
   
   <div class="w main">
-  	<form id="frm_login" method="post" action="${path}app/appMain/getCode.htm">
+  	<form id="frm_login" method="post" action="javascript:void(0);">
   		<div class="item item-username">
           <input id="account" class="txt-input txt-username" type="text" placeholder="请输入您的账号" name="account">
           <b class="input-close" style="display: none;"></b> 
         </div>
         <div class="item item-username">
           <input id="email" class="txt-input-email" type="text" placeholder="请输入注册时的邮箱" name="email">
-          <b><input name="" type="submit" value="获取验证码"  class="ui-btn-lg-emailBtn ui-btn-primary" /></b> 
+          <b><input name="" type="button" id="CodeBtn" value="获取验证码"  class="ui-btn-lg-emailBtn ui-btn-primary" /></b> 
         </div>
       </form>
   </div>
   <div class="copyright">Copyright © 2011-2016 www.smiles8.top 版权所有.</div>
 </div>
 <script type="text/javascript" >
+	var start=false;
+	$(document).ready(function(){
+		$("#CodeBtn").click(function(){
+			if(start) return false;
+			var accounts = $.trim($("#account").val());
+			var email = $.trim($("#email").val());
+			if(accounts == ''){
+				layer.tips('请输入账号','#account', {tips: 1});
+				return false;
+			}else if(email == ''){
+				layer.tips('请输入注册时的邮箱','#email', {tips: 1});
+				return false;
+			}
+			//发送ajax请求
+			$.ajax({
+	              type: "POST",
+	              url: "${path}app/appMain/getCode.json",
+				  data: {account:accounts,email:email},
+				  beforeSend: function() { startTimer(); },
+				  error:function(){ $(".getyzm").html("获取验证码");},
+	              success: function(result) {
+	            	  var datas=result.data;
+	            	  if(datas && datas.success_code==10000){
+	            		  layer.alert(result.msg, {
+		            		  skin: 'layui-layer-molv' //样式类名
+		            		  ,closeBtn: 0
+		            		}, function(index){
+		            			layer.close(index);
+		            			location.href='${path}'+datas.url;
+		            		});
+	            	  }else{
+	            		  layer.msg(result.msg);
+	            	  }
+				  }
+	          });
+		});
+		/**定时器**/
+		var timer; //timer定时函数
+		var second = 60;//60秒发送一次
+		function startTimer() {
+			start=true;
+			$("#Codebtn").addClass(".codeDisplay");
+		    timer = window.setInterval(timerHandle, 1000); //启动计时器，1秒执行一次
+		}
+		//timer处理函数
+		function timerHandle() {
+		    if (second == 1) {
+		        window.clearInterval(timer);//停止计时器
+		        $("#CodeBtn").val("获取验证码");
+		        second=60;
+		        start=false;
+		        $("#Codebtn").removeClass(".codeDisplay");
+		    } else {
+		  	  second--;
+		  	  $("#CodeBtn").val(second+"s");
+		    }
+		}
+	});
+	
 	//监控用户输入
 	$(":input").bind('input propertychange', function() {
 		if($(this).val()!=""){
