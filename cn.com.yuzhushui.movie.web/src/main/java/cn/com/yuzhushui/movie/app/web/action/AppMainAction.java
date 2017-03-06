@@ -267,6 +267,17 @@ public class AppMainAction {
 		modelView.addObject(MovieConstant.MESSAGES_INFO, messages);
 		return modelView;
 	}
+	
+	
+	//TODO and page
+	/**修改密码页面*/  
+	@RequestMapping(value = "/updatePassword")
+	public ModelAndView updatePassword(String messages) {
+		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/updatePassword");
+		modelView.addObject(MovieConstant.MESSAGES_INFO, messages);
+		return modelView;
+	}
+	
 	/**获取验证码页面*/
 	@RequestMapping(value="getCode.json", method={RequestMethod.POST})
 	@ResponseBody
