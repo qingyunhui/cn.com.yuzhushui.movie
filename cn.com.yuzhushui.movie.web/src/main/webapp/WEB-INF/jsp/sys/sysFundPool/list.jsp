@@ -100,13 +100,9 @@
 	</section>
 <script type="text/javascript">
 	$(function(){
-		var mesg = $.trim(${messages});
+		var mesg = '${messages}';
 		if(mesg != ''){
-			layer.open({
-				  content: mesg
-				  ,style: 'background-color:#09C1FF; color:#fff; border:none;' //自定风格
-				  ,time: 3
-				});
+			layer.msg(mesg);
 		}
 	})
 </script>

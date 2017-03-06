@@ -167,7 +167,6 @@ public class SysBillsAction{
 			String debtorEmail=sysAccountService.query(sysBills.getDebtorId()).getEmail();
 			String[] sendEmails=new String[]{lenderEmial,debtorEmail};
 			MailTool.sendMail(subject, sb.toString(), sendEmails);
-			modelAndView.addObject(MovieConstant.ENTITY, sysBills);
 			redirectAttributes.addAttribute(MovieConstant.MESSAGES_INFO,"账单申请成功啦！"); 
 		} catch (Exception e) {
 			logger.error("=================>账单.id={}，审核失败，失败原因:{}",new Object[]{id,JSONObject.toJSONString(e)});
@@ -192,7 +191,7 @@ public class SysBillsAction{
 	 * */
 	@RequestMapping(value = "doAdd")
 	public ModelAndView doAdd(SysBills sysBills,RedirectAttributes redirectAttributes) {
-		ModelAndView modelAndView = new ModelAndView("redirect:/sys/sysBills/list");
+		ModelAndView modelAndView = new ModelAndView("redirect:/sys/sysBills/list.htm");
 		try {
 			if(null==sysBills){
 				logger.error("===========>账单不能为null!");
@@ -227,7 +226,6 @@ public class SysBillsAction{
 			String debtorEmail=sysAccountService.query(sysBills.getDebtorId()).getEmail();
 			String[] sendEmails=new String[]{lenderEmial,debtorEmail};
 			MailTool.sendMail(subject, sb.toString(), sendEmails);
-			modelAndView.addObject(MovieConstant.ENTITY, sysBills);
 			redirectAttributes.addAttribute(MovieConstant.MESSAGES_INFO,"账单申请成功啦！");
 		} catch (Exception e) {
 			logger.error("=================>账单申请失败，失败原因:{}",new Object[]{JSONObject.toJSONString(e)});
