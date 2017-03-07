@@ -87,6 +87,7 @@ $(window).load(function() {
 				layer.tips('请输入注册时的邮箱','#email', {tips: 1});
 				return false;
 			}
+			var params="?account="+accounts;
 			//发送ajax请求
 			$.ajax({
 	              type: "POST",
@@ -97,13 +98,20 @@ $(window).load(function() {
 	              success: function(result) {
 	            	  var datas=result.data;
 	            	  if(datas && datas.success_code==10000){
+	            		  //发送成功，跳转到修改密码页面。
 	            		  layer.alert(result.msg, {
 		            		  skin: 'layui-layer-molv' //样式类名
 		            		  ,closeBtn: 0
 		            		}, function(index){
 		            			layer.close(index);
-		            			location.href='${path}'+datas.url;
-		            		});
+		            			location.href='${path}'+datas.url+params;
+		            	   });
+	            	  }else if(datas && datas.success_code==20000){
+	            		  //5分钟前，已发送过一封邮件
+	            		  layer.confirm(result.msg, function(index){
+	            			  location.href='${path}'+datas.url+params;
+							  layer.close(index);
+						  }); 
 	            	  }else{
 	            		  layer.msg(result.msg);
 	            	  }

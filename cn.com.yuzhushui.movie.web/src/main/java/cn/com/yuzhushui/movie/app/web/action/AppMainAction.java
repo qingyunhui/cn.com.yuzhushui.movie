@@ -61,8 +61,8 @@ public class AppMainAction {
 	
 	public static final String SHOWED_INTRODUCE = "showed_introduce";
 	
-	//邮箱验证码有效时间为10分钟
-	private static final int expireSecond=10*60;
+	//邮箱验证码有效时间为5分钟
+	private static final int expireSecond=5*60;
 	
 	private static final String SEND_MAIL_KEY="send_mail_key";
 	
@@ -268,13 +268,11 @@ public class AppMainAction {
 		return modelView;
 	}
 	
-	
-	//TODO and page
 	/**修改密码页面*/  
 	@RequestMapping(value = "/updatePassword")
-	public ModelAndView updatePassword(String messages) {
+	public ModelAndView updatePassword(String account) {
 		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/updatePassword");
-		modelView.addObject(MovieConstant.MESSAGES_INFO, messages);
+		modelView.addObject("account", account);
 		return modelView;
 	}
 	
@@ -291,7 +289,10 @@ public class AppMainAction {
 		String key=SEND_MAIL_KEY+"_"+account+"_"+email;
 		String send_mail_key=shardedJedisCached.get(key);
 		if(!StringUtil.isEmpty(send_mail_key)){
-			rd.setMsg("10分钟内，只能发送一封邮件。");
+			//说明已经发送过邮件，且有可能已经成功了，那么直接跳转到修改密码页面即可。  
+			rd.setMsg("5分钟前已发送一封邮件,进入修改密码页面?");
+			rd.addData("url","app/appMain/updatePassword.htm");
+			rd.addData("success_code", 20000);
 			return rd;
 		}
 		SysAccount sysAccount=sysAccountService.queryByAccount(account);
@@ -323,9 +324,7 @@ public class AppMainAction {
 			sb.append("<span>").append("如果浏览器打不开，请复制该URL到你的浏览器打开。").append("</span>");
 			MailTool.sendMail(subject, sb.toString(), new String[]{email});
 			rd.setMsg("邮件发送成功，请登陆邮箱查看.");
-			rd.addData("account", account);
 			rd.addData("url","app/appMain/updatePassword.htm");
-			rd.addData("email", email);
 			rd.addData("success_code", 10000);
 			shardedJedisCached.set(key, code, expireSecond);
 		} catch (Exception e) {

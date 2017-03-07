@@ -4,29 +4,6 @@
 <html>
 <head>
 <style type="text/css">
-	.main .item .txt-input-email{
-		background: none repeat scroll 0 0 #fff;
-	    border: 1px solid #D1D1D1;
-	    border-radius: 5px;
-	    color: #252525;
-	    font-size: 14px;
-	    height: 44px;
-	    width: 65%;
-	}
-	.ui-btn-lg-emailBtn {
-	    cursor: pointer;
-	    border-radius: 5px;
-	    font-size: 14px;
-	    height: 40px;
-	    line-height: 40px;
-	    width: 28%;
-	    text-align: center;
-	    text-decoration: none;
-	    float:right;
-	}
-	.codeDisplay{
-		background:#c8c7cc;
-	}
 </style>
 
 <%@ include file="/WEB-INF/jsp/public/head.jsp"%>
@@ -54,7 +31,7 @@ $(window).load(function() {
   <!--header 开始-->
   <header>
     <div class="header"> <a class="new-a-back" href="javascript:history.back();"> <span><img src="${path}image/login/iconfont-fanhui.png"></span> </a>
-      <h2>找回密码</h2>
+      <h2>修改密码</h2>
       </div>
   </header>
   <!--header 结束-->
@@ -62,13 +39,18 @@ $(window).load(function() {
   <div class="w main">
   	<form id="frm_login" method="post" action="javascript:void(0);">
   		<div class="item item-username">
-          <input id="account" class="txt-input txt-username" type="text" placeholder="请输入您的账号" name="account">
-          <b class="input-close" style="display: none;"></b> 
+          <input id="account" class="txt-input txt-username" type="text" maxlength="10" value="${account}" placeholder="请输入要修改的账号" name="account">
         </div>
         <div class="item item-username">
-          <input id="email" class="txt-input-email" type="text" placeholder="请输入注册时的邮箱" name="email">
-          <b><input name="" type="button" id="CodeBtn" value="获取验证码"  class="ui-btn-lg-emailBtn ui-btn-primary" /></b> 
+          <input id="code" class="txt-input txt-username" type="text" maxlength="5" placeholder="请输入5位数的验证码" name="code">
         </div>
+        <div class="item item-password">
+        	<input id="passwords" class="txt-input txt-password ciphertext" maxlength="12" type="password" placeholder="请输入密码" name="passwords" style="display: inline;">
+        </div>
+        <div class="item item-password">
+        	<input id="confirmPasswords" class="txt-input txt-password ciphertext" maxlength="12" type="password" placeholder="输入确认密码" name="confirmPasswords" style="display: inline;">
+        </div>
+        <div class="ui-btn-wrap"><input name="" type="submit" value="提交"  class="ui-btn-lg ui-btn-primary" /> </div>
       </form>
   </div>
   <div class="copyright">Copyright © 2011-2016 www.smiles8.top 版权所有.</div>
@@ -110,37 +92,7 @@ $(window).load(function() {
 				  }
 	          });
 		});
-		/**定时器**/
-		var timer; //timer定时函数
-		var second = 60;//60秒发送一次
-		function startTimer() {
-			start=true;
-			$("#Codebtn").addClass(".codeDisplay");
-		    timer = window.setInterval(timerHandle, 1000); //启动计时器，1秒执行一次
-		}
-		//timer处理函数
-		function timerHandle() {
-		    if (second == 1) {
-		        window.clearInterval(timer);//停止计时器
-		        $("#CodeBtn").val("获取验证码");
-		        second=60;
-		        start=false;
-		        $("#Codebtn").removeClass(".codeDisplay");
-		    } else {
-		  	  second--;
-		  	  $("#CodeBtn").val(second+"s");
-		    }
-		}
 	});
-	
-	//监控用户输入
-	$(":input").bind('input propertychange', function() {
-		if($(this).val()!=""){
-			$(this).siblings(".input-close").show();
-		}else{
-			$(this).siblings(".input-close").hide();
-		}
-    });
 </script> 
 </body>
 </html>
