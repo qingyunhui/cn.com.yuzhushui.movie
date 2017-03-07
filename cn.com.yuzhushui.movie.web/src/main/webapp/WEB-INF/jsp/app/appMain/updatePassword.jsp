@@ -78,6 +78,9 @@ $(window).load(function() {
 			else if(confirmPassword == ''){
 				layer.tips('请输入确认密码','#confirmPassword', {tips: 1});
 				return false;
+			}else if(password!=confirmPassword){
+				layer.tips('二次密码输入不一致.','#confirmPassword', {tips: 1});
+				return false;
 			}
 			//发送ajax请求
 			$.ajax({

@@ -1,6 +1,7 @@
 package cn.com.yuzhushui.movie.cache;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -14,6 +15,7 @@ import redis.clients.jedis.ScanResult;
 import redis.clients.jedis.ShardedJedis;
 import redis.clients.jedis.ShardedJedisPool;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 /***
@@ -30,6 +32,9 @@ public class ShardedJedisCached {
 	
 	
 	public static void main(String[] args){
+		
+		
+		
 	}
 	
 
@@ -751,7 +756,7 @@ public class ShardedJedisCached {
 		ShardedJedis shardedJedis = null;
 		try {
 			shardedJedis = jedisPool.getResource();
-			shardedJedis.setex(key, second, JSONObject.toJSONString(value));
+			shardedJedis.setex(key, second, resetObjectToJson(value));
 			return true;
 		} catch (Exception ex) {
 			logger.error("set error.", ex);
@@ -772,7 +777,7 @@ public class ShardedJedisCached {
 		ShardedJedis shardedJedis = null;
 		try {
 			shardedJedis = jedisPool.getResource();
-			shardedJedis.set(key, JSONObject.toJSONString(value));
+			shardedJedis.set(key, resetObjectToJson(value));
 			return true;
 		} catch (Exception ex) {
 			logger.error("set error.", ex);
@@ -872,6 +877,15 @@ public class ShardedJedisCached {
 	
 	public void setJedisPool(ShardedJedisPool jedisPool){
 		this.jedisPool= jedisPool;
+	}
+	
+	protected String resetObjectToJson(Object object){
+		if(object instanceof String)return object+"";
+		if(object instanceof Integer)return object+"";
+		if(object instanceof Collection)return JSONObject.toJSONString(object);
+		if(object instanceof Map)return JSONObject.toJSONString(object);
+		if(object.getClass().isArray())return JSONObject.toJSONString(object);
+		return object+"";
 	}
 	
 	/*@PreDestroy
