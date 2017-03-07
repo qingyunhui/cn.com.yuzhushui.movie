@@ -45,12 +45,12 @@ $(window).load(function() {
           <input id="code" class="txt-input txt-username" type="text" maxlength="5" placeholder="请输入5位数的验证码" name="code">
         </div>
         <div class="item item-password">
-        	<input id="passwords" class="txt-input txt-password ciphertext" maxlength="12" type="password" placeholder="请输入密码" name="passwords" style="display: inline;">
+        	<input id="password" class="txt-input txt-password ciphertext" maxlength="12" type="password" placeholder="请输入密码" name="password" style="display: inline;">
         </div>
         <div class="item item-password">
-        	<input id="confirmPasswords" class="txt-input txt-password ciphertext" maxlength="12" type="password" placeholder="输入确认密码" name="confirmPasswords" style="display: inline;">
+        	<input id="confirmPassword" class="txt-input txt-password ciphertext" maxlength="12" type="password" placeholder="输入确认密码" name="confirmPassword" style="display: inline;">
         </div>
-        <div class="ui-btn-wrap"><input name="" type="submit" value="提交"  class="ui-btn-lg ui-btn-primary" /> </div>
+        <div class="ui-btn-wrap"><input name="" type="button" id="updatePwdBtn" value="提交"  class="ui-btn-lg ui-btn-primary" /> </div>
       </form>
   </div>
   <div class="copyright">Copyright © 2011-2016 www.smiles8.top 版权所有.</div>
@@ -58,24 +58,34 @@ $(window).load(function() {
 <script type="text/javascript" >
 	var start=false;
 	$(document).ready(function(){
-		$("#CodeBtn").click(function(){
+		$("#updatePwdBtn").click(function(){
 			if(start) return false;
 			var accounts = $.trim($("#account").val());
-			var email = $.trim($("#email").val());
+			var code = $.trim($("#code").val());
+			var password = $.trim($("#password").val());
+			var confirmPassword = $.trim($("#confirmPassword").val());
 			if(accounts == ''){
 				layer.tips('请输入账号','#account', {tips: 1});
 				return false;
-			}else if(email == ''){
-				layer.tips('请输入注册时的邮箱','#email', {tips: 1});
+			}else if(code == ''){
+				layer.tips('请输入验证码','#code', {tips: 1});
+				return false;
+			}
+			else if(password == ''){
+				layer.tips('请输入密码','#password', {tips: 1});
+				return false;
+			}
+			else if(confirmPassword == ''){
+				layer.tips('请输入确认密码','#confirmPassword', {tips: 1});
 				return false;
 			}
 			//发送ajax请求
 			$.ajax({
 	              type: "POST",
-	              url: "${path}app/appMain/getCode.json",
-				  data: {account:accounts,email:email},
-				  beforeSend: function() { startTimer(); },
-				  error:function(){ $(".getyzm").html("获取验证码");},
+	              url: "${path}app/appMain/doUpdatePassword.json",
+				  data: {account:accounts,code:code,password:password,confirmPassword:confirmPassword},
+				  beforeSend: function() { },
+				  error:function(){ layer.msg("系统异常.");},
 	              success: function(result) {
 	            	  var datas=result.data;
 	            	  if(datas && datas.success_code==10000){

@@ -276,6 +276,57 @@ public class AppMainAction {
 		return modelView;
 	}
 	
+	/**修改密码提交*/  
+	@RequestMapping(value = "/doUpdatePassword.json",method={RequestMethod.POST})
+	@ResponseBody
+	public ResponseData doUpdatePassword(String account,String code,String password,String confirmPassword) {
+		ResponseData rd=new ResponseData();
+		if(StringUtil.isEmpty(account,code,password,confirmPassword)){
+			logger.error("===============>account,code,password,confirmPassword 不能为null ！");
+			rd.setMsg("参数不能为空.");
+			return rd;
+		}
+		SysAccount sysAccount=sysAccountService.queryByAccount(account);
+		if(null==sysAccount){
+			logger.error("=================>账号:{}，未查询到。",new Object[]{account});
+			rd.setMsg(account+"用户不存在。");
+			return rd;
+		}
+		//判断redis中是否有对应验证码(redis中的code有效期为5分钟.)
+		String key=SEND_MAIL_KEY+"_"+account+"_"+sysAccount.getEmail();
+		String value= shardedJedisCached.get(key);
+		if(StringUtil.isEmpty(value)){
+			logger.error("=================>验证码已过期或重新发送邮件获取验证码。");
+			rd.setMsg("验证码已过期，重新发送邮件获取验证码.");
+			return rd;
+		}
+		//判断输入的验证码与redis中的验证码是否一致
+		if(!value.equals(code)){
+			logger.error("=================>验证码输入错误。");
+			rd.setMsg("验证码输入错误。");
+			return rd;
+		}
+		//判断二次输入的密码是否一致;
+		if(!password.equals(confirmPassword)){
+			logger.error("=================>二次输入的密码不一致。");
+			rd.setMsg("二次输入的密码不一致。");
+			return rd;
+		}
+		//加密-对明文密码进行加密
+		String encryptionPassword=MD5Util.getMD5Encryption(password);
+		sysAccount.setPassword(encryptionPassword);
+		try {
+			sysAccountService.update(sysAccount);
+			rd.setMsg("密码修改成功啦!");
+			rd.addData("url", ACTION_PATH+"/login.htm");
+			rd.addData("success_code", 10000);
+		} catch (Exception e) {
+			logger.error("=================>修改密码时出现异常，异常原因:{}.",new Object[]{JSONObject.toJSONString(e)});
+			rd.setMsg("系统异常.");
+		}
+		return rd;
+	}
+	
 	/**获取验证码页面*/
 	@RequestMapping(value="getCode.json", method={RequestMethod.POST})
 	@ResponseBody
