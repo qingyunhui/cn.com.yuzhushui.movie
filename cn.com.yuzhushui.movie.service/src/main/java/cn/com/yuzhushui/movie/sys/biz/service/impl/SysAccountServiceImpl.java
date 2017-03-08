@@ -57,7 +57,9 @@ public class SysAccountServiceImpl extends BaseServiceImpl<SysAccount,Integer> i
 			SysUser user=new SysUser();
 			user.setAccountId(sysAccount.getAccountId());
 			user.setEmail(sysAccount.getEmail());
-			user.setEmail(sysAccount.getComments());
+			user.setEmail(sysAccount.getEmail());
+			user.setComments(sysAccount.getComments());
+			user.setName(sysAccount.getAccount());
 			count=sysUserDao.insert(user);
 			success=true;
 		}
