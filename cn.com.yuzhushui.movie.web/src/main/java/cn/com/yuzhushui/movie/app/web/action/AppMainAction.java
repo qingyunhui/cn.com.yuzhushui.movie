@@ -262,7 +262,7 @@ public class AppMainAction {
 		boolean success=sysAccountService.saveSysAccountWithSysUser(sysAccount);
 		if(success){
 			rd.setMsg("注册成功啦！");
-			rd.addData("url", ACTION_PATH+"/login.htm");
+			rd.addData("url", "app/appMain/login.htm");
 			rd.addData("success_code", 10000);
 		}
 		return rd;

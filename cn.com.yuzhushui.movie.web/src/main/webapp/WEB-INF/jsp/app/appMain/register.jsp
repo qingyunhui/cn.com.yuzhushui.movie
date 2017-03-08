@@ -125,13 +125,8 @@ $(window).load(function() {
 		              success: function(result) {
 		            	  var datas=result.data;
 		            	  if(datas && datas.success_code==10000){
-		            		  layer.alert(result.msg, {
-			            		  skin: 'layui-layer-molv' //样式类名
-			            		  ,closeBtn: 0
-			            		}, function(index){
-			            			layer.close(index);
-			            			location.href='${path}'+datas.url;
-			            		});
+		            		  layer.msg(result.msg);
+		            		  location.href='${path}'+datas.url;
 		            	  }else{
 		            		  layer.msg(result.msg);
 		            	  }

@@ -885,7 +885,7 @@ public class ShardedJedisCached {
 		if(object instanceof Collection)return JSONObject.toJSONString(object);
 		if(object instanceof Map)return JSONObject.toJSONString(object);
 		if(object.getClass().isArray())return JSONObject.toJSONString(object);
-		return object+"";
+		return JSONObject.toJSONString(object);
 	}
 	
 	/*@PreDestroy
