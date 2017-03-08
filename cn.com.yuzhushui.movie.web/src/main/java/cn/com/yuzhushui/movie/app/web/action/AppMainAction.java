@@ -287,7 +287,7 @@ public class AppMainAction {
 		SysUser user=SessionUtil.getSysUser();
 		if(null!=user){
 			rd.addData("success_code", 10000);
-			rd.addData("url", "redirect:"+ACTION_PATH+"/myMain.htm");
+			rd.addData("url", "app/appMain/myMain.htm");
 			return rd;
 		}
 		//@1.非空校验
@@ -354,7 +354,7 @@ public class AppMainAction {
 					shardedJedisCached.set(sessionId, sessionInfo, MovieConstant.COOKIE_VALIDITY_TIME);
 					logger.error("登录成功，用户信息将记录到Cookie中且存储到Shiro中!");
 					rd.addData("success_code", 10000);
-					rd.addData("url","redirect:"+ACTION_PATH+"/myMain.htm");
+					rd.addData("url", "app/appMain/myMain.htm");
 					return rd;
 				}else{
 					String enumName=EnumUtil.getNameByValue(SysAccountEnum.STATUS.class, account.getStatus());
@@ -431,7 +431,7 @@ public class AppMainAction {
 		try {
 			sysAccountService.update(sysAccount);
 			rd.setMsg("密码修改成功啦!");
-			rd.addData("url", ACTION_PATH+"/login.htm");
+			rd.addData("url", "app/appMain/login.htm");
 			rd.addData("success_code", 10000);
 		} catch (Exception e) {
 			logger.error("=================>修改密码时出现异常，异常原因:{}.",new Object[]{JSONObject.toJSONString(e)});
