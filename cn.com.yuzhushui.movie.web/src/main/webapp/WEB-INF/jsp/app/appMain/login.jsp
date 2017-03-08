@@ -13,8 +13,8 @@ $(window).load(function() {
 </head>
 <script type="text/javascript">
 $(document).ready(function(){
-	$("form").submit(function(e){
-	  	var accounts = $.trim($("#accounts").val());
+	$("#userLoginBtn").click(function(){
+		var accounts = $.trim($("#accounts").val());
 		var passwords = $.trim($("#passwords").val());
 		if(accounts == ''){
 			layer.tips('请输入用户名/邮箱/手机号码','#accounts', {tips: 1});
@@ -23,6 +23,23 @@ $(document).ready(function(){
 			layer.tips('请输入登录密码','#passwords', {tips: 1});
 			return false;
 		}
+		//发送ajax请求.
+		$.ajax({
+            type: "POST",
+            url: "${path}app/appMain/doLogin.json",
+			  data: {accounts:accounts,passwords:passwords},
+			  beforeSend: function() {  },
+			  error:function(){ layer.msg("系统错误.");},
+              success: function(result) {
+            	  var datas=result.data;
+            	  if(datas && datas.success_code==10000){
+            		  layer.msg(result.msg);
+            		  location.href='${path}'+datas.url;
+            	  }else{
+            		  layer.msg(result.msg);
+            	  }
+			  }
+        });
 	});
 });
 </script>
@@ -44,7 +61,7 @@ $(document).ready(function(){
   <!--header 结束-->
   
   <div class="w main">
-  	<form id="frm_login" method="post" action="${path}app/appMain/doLogin.htm">
+  	<form id="frm_login" method="post">
         <div class="item item-username">
           <input id="accounts" class="txt-input txt-username" type="text" placeholder="请输入用户名/邮箱/手机号" name="accounts">
           <b class="input-close" style="display: none;"></b> </div>
@@ -61,9 +78,9 @@ $(document).ready(function(){
             </div>
             <span class="retrieve-password"> <a class="" href="${path}app/appMain/findPassword.htm"> 找回密码</a> </span>
         </div>
-        <div class="ui-btn-wrap"><input name="" type="submit" value="用户登录"  class="ui-btn-lg ui-btn-primary" /> </div>
+        <div class="ui-btn-wrap"><input id="userLoginBtn" type="button" value="用户登录"  class="ui-btn-lg ui-btn-primary" /> </div>
         <div class="ui-btn-wrap"> <a class="ui-btn-lg ui-btn-danger" href="${path}app/appMain/register.htm">没有账号？立即注册</a> </div>
-    <div class="item item-login-other">
+    	<div class="item item-login-other">
           <dl>
             <dt>其它登录方式</dt>
             <dd> <a class="qq" href="#"> <span><img alt="" src="${path}image/login/login_qq.png" width="40" height="40"></span> </a> </dd>

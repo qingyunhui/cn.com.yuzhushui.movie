@@ -59,7 +59,12 @@ public class SessionUtil {
 		if(StringUtil.isEmpty(sessionId)) return null;
 		ShardedJedisCached shardedJedisCached = getBeanOfType(ShardedJedisCached.class);
 		String sessionJson= shardedJedisCached.get(sessionId);
-		return JSONObject.parseObject(sessionJson, SessionInfo.class);
+		try {
+			return JSONObject.parseObject(sessionJson, SessionInfo.class);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 //		return (SessionInfo)getSession().getAttribute(MovieConstant.SESSION_INFO);
 	}
 	

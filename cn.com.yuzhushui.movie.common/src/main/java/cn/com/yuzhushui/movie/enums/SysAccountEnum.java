@@ -32,4 +32,25 @@ public class SysAccountEnum{
 			return String.valueOf(value);
 		}
 	}
+	
+	@Getter
+	public enum Exist implements ICommonEnum{
+		//是否已存在
+		UN_EXIST(0,"未注册."),
+		EMAIL_EXIST(1,"邮箱已注册."),
+		ACCOUNT_EXIST(2,"账号已注册.");
+		
+		private final int value;
+	    private final String name;
+	    
+	    private Exist(int value, String name) {
+	        this.value = value;
+	        this.name = name;
+	    }
+
+		@Override
+		public String getCode() {
+			return String.valueOf(value);
+		}
+	}
 }

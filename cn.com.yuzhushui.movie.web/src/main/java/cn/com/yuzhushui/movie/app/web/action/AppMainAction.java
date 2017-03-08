@@ -31,6 +31,7 @@ import cn.com.yuzhushui.movie.common.util.SessionUtil;
 import cn.com.yuzhushui.movie.constant.MovieConstant;
 import cn.com.yuzhushui.movie.enums.LoginType;
 import cn.com.yuzhushui.movie.enums.SysAccountEnum;
+import cn.com.yuzhushui.movie.enums.SysAccountEnum.Exist;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysAccount;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysUser;
 import cn.com.yuzhushui.movie.sys.biz.service.SysAccountService;
@@ -61,8 +62,11 @@ public class AppMainAction {
 	
 	public static final String SHOWED_INTRODUCE = "showed_introduce";
 	
-	//邮箱验证码有效时间为5分钟
+	//找回密码-邮箱验证码有效时间为5分钟
 	private static final int expireSecond=5*60;
+	
+	//用户注册-邮箱验证码有效时间为10分钟
+	private static final int registerExpireSecond=10*60;
 	
 	private static final String SEND_MAIL_KEY="send_mail_key";
 	
@@ -155,6 +159,115 @@ public class AppMainAction {
 		return modelView;
 	}
 	
+	//注册-获取验证码  
+	@RequestMapping(value="getRegisterCode.json", method={RequestMethod.POST})
+	@ResponseBody
+	public ResponseData getRegisterCode(HttpServletRequest request,String email) {
+		ResponseData rd=new ResponseData();
+		//@1.非空判断
+		//@2.判断输入的邮箱是否正确
+		//@3.查看输入的邮箱，是否已经有用户注册
+		if(StringUtil.isEmpty(email)){
+			logger.error("==========>邮箱不能为空。");
+			rd.setMsg("邮箱不能为空。");
+			return rd;
+		}
+		boolean isEmail=ValidateUtil.isEmail(email);
+		if(!isEmail){
+			logger.error("==========>输入的邮箱({})格式不正确。",new Object[]{email});
+			rd.setMsg("输入的邮箱格式不正确.");
+			return rd;
+		}
+		SysAccount sysAccount=sysAccountService.queryByEmail(email);
+		if(null!=sysAccount){
+			logger.error("==========>{}邮箱已注册，请更换其它邮箱。",new Object[]{email});
+			rd.setMsg(email+"已注册，请更换。");
+			return rd;
+		}
+		String key=SEND_MAIL_KEY+"_"+email;
+		String send_mail_key=shardedJedisCached.get(key);
+		if(!StringUtil.isEmpty(send_mail_key)){
+			rd.setMsg("10分钟前已发送一封邮件.");
+			rd.addData("success_code", 20000);
+			return rd;
+		}
+		//开始发送邮箱
+		try {
+			String subject="用户注册-获取验证码";
+			StringBuffer sb=new StringBuffer();
+			sb.append("<div>");
+			String code=getRandom(10000);
+			sb.append("您于：").append(DateUtil.getStringDate(DateUtil.YYYY_MM_DD_HH_MM_SS)).append("申请的用户注册，验证码为:").append(code);
+			sb.append("</div>");
+			sb.append("<div>");
+			sb.append("<h4>验证码将在10分钟后过期，请不要将验证码告知其它人，以免造成损失。</h4>");
+			sb.append("</div>");
+			MailTool.sendMail(subject, sb.toString(), new String[]{email});
+			rd.setMsg("邮件发送成功，请登陆邮箱查看.");
+			rd.addData("success_code", 10000);
+			shardedJedisCached.set(key, code, registerExpireSecond);
+		} catch (Exception e) {
+			logger.error("============>邮件发送失败，失败原因:{}。",new Object[]{JSONObject.toJSONString(e)});
+			rd.setMsg(e.getMessage());
+		}
+		return rd;
+	}
+	
+	/**提交注册*/ 
+	@RequestMapping(value="doRegister.json", method={RequestMethod.POST})
+	@ResponseBody
+	public ResponseData doRegister(HttpServletRequest request,String account,String password,String email,String code) {
+		ResponseData rd=new ResponseData();
+		if(StringUtil.isEmpty(account,email,password,code)){
+			logger.error("===============>account={},email={},password={},code={} 不能为null！",new Object[]{account,email,password,code});
+			rd.setMsg("参数不能为空.");
+			return rd;
+		}
+		//@1.判断输入的邮箱是否正确
+		//@2.查看输入的邮箱是否与发送邮件时的邮箱一致(redis中)
+		//@3.查看输入的邮箱，是否已经有用户注册
+		//@4.查看注册的账号是否已经存在
+		//@5.查看验证码是否与redis中的一致。
+		
+		//@1.
+		boolean isEmail=ValidateUtil.isEmail(email);
+		if(!isEmail){
+			logger.error("==========>输入的邮箱({})格式不正确。",new Object[]{email});
+			rd.setMsg("输入的邮箱格式不正确.");
+			return rd;
+		}
+		//@2.
+		String key=SEND_MAIL_KEY+"_"+email;
+		String value=shardedJedisCached.get(key);
+		if(StringUtil.isEmpty(value)){
+			logger.error("==========>验证码已过期或输入的邮箱与发送的邮箱不一致。",new Object[]{email});
+			rd.setMsg("请先获取验证码。");
+		}
+		//@3.
+		Exist exist=sysAccountService.isExist(email, account);
+		if(Exist.UN_EXIST.getValue()!=exist.getValue()){
+			rd.setMsg(EnumUtil.getNameByValue(SysAccountEnum.Exist.class, exist.getValue()));
+			return rd;
+		}
+		//@4.
+		if(!code.equalsIgnoreCase(value)){
+			logger.error("==========>验证码({},redis.{})输入有误。",new Object[]{code,value});
+			rd.setMsg("验证码输入有误。");
+			return rd;
+		}
+		SysAccount sysAccount=new SysAccount();
+		sysAccount.setAccount(account);
+		sysAccount.setEmail(email);
+		sysAccount.setPassword(password);
+		boolean success=sysAccountService.saveSysAccountWithSysUser(sysAccount);
+		if(success){
+			rd.setMsg("注册成功啦！");
+			rd.addData("url", ACTION_PATH+"/login.htm");
+			rd.addData("success_code", 10000);
+		}
+		return rd;
+	}
+	
 	/**
 	 * <p>判断登陆方式[0:账号登陆、1:手机号、2:邮箱]</p>
 	 * @return 登陆方式
@@ -166,31 +279,30 @@ public class AppMainAction {
 	}
 	
 	/**登陆*/
-	@RequestMapping(value = "/doLogin", method = RequestMethod.POST)
-	public ModelAndView doLogin(HttpServletRequest request,HttpServletResponse response, HttpSession session,LogParameter logParam,RedirectAttributes attributes) {
-		ModelAndView modeView = new ModelAndView("redirect:" + ACTION_PATH + "/login.htm");
+	@RequestMapping(value="doLogin.json", method={RequestMethod.POST})
+	@ResponseBody
+	public ResponseData doLogin(HttpServletRequest request,HttpServletResponse response, HttpSession session,LogParameter logParam,RedirectAttributes attributes) {
+		ResponseData rd=new ResponseData();
 		Map<String, Object> map = new HashMap<String, Object>();
-		
 		SysUser user=SessionUtil.getSysUser();
 		if(null!=user){
-			modeView.setViewName("redirect:"+ACTION_PATH+"/myMain.htm");
-			return modeView;
+			rd.addData("success_code", 10000);
+			rd.addData("url", "redirect:"+ACTION_PATH+"/myMain.htm");
+			return rd;
 		}
-		
 		//@1.非空校验
 		if(StringUtil.isEmpty(logParam.getAccounts())){
 			String message="请输入手机号/邮箱/账号!";
-			modeView.addObject(MovieConstant.MESSAGES_INFO,message);
 			logger.error("===========>"+message+"<===========");
-			return modeView;
+			rd.setMsg("请输入账号.");
+			return rd;
 		}
 		if(StringUtil.isEmpty(logParam.getPasswords())){
 			String message="请输入登陆密码!";
-			modeView.addObject(MovieConstant.MESSAGES_INFO,message);
 			logger.error("===========>"+message+"<===========");
-			return modeView;
+			rd.setMsg(message);
+			return rd;
 		}
-		
 		//@2.用户登陆密码输入错误次数校验
 		String userLogCount=logParam.getAccounts()+"_"+MovieConstant.MESSAGES_INFO;//当前用户登陆次数
 		String logCountStr=shardedJedisCached.get(userLogCount);
@@ -203,9 +315,9 @@ public class AppMainAction {
 				sb.append("次，请");
 				sb.append(MovieConstant.LOCK_TIME);
 				sb.append("分钟后重试。");
-				modeView.addObject(MovieConstant.MESSAGES_INFO,sb.toString());
+				rd.setMsg(sb.toString());
 				logger.error("===========>"+sb.toString()+"<===========");
-				return modeView;
+				return rd;
 			}
 		}
 		//@3.登陆类型校验
@@ -231,7 +343,6 @@ public class AppMainAction {
 			if(users.size()==1){
 				if(account.getStatus().intValue()==SysAccountEnum.STATUS.AUDIT_SUCCESS.getValue()){
 					//登陆成功-把用户存储到cookie中。
-					modeView.setViewName("redirect:"+ACTION_PATH+"/myMain.htm");
 					SysUser sysUser=users.get(0);
 					SessionInfo sessionInfo = new SessionInfo();
 					sessionInfo.setSysUser(sysUser);
@@ -242,22 +353,24 @@ public class AppMainAction {
 					CookieUtil.setCookie(request, response, MovieConstant.SESSION_INFO, sessionId, MovieConstant.DOMAIN, MovieConstant.ROOT_PATH,MovieConstant.COOKIE_VALIDITY_TIME);
 					shardedJedisCached.set(sessionId, sessionInfo, MovieConstant.COOKIE_VALIDITY_TIME);
 					logger.error("登录成功，用户信息将记录到Cookie中且存储到Shiro中!");
-					return modeView;
+					rd.addData("success_code", 10000);
+					rd.addData("url","redirect:"+ACTION_PATH+"/myMain.htm");
+					return rd;
 				}else{
 					String enumName=EnumUtil.getNameByValue(SysAccountEnum.STATUS.class, account.getStatus());
 					logger.error("登录失败，该用户已"+enumName+"!");
-					attributes.addFlashAttribute(MovieConstant.MESSAGES_INFO, "登录失败，该用户已"+enumName+"!");
-					return modeView;
+					rd.setMsg("登录失败，该用户已"+enumName+"!");
+					return rd;
 				}
 			}else{
-				attributes.addFlashAttribute(MovieConstant.MESSAGES_INFO, "登录失败，用户名或密码错误！");
+				rd.setMsg("登录失败，用户名或密码错误！");
 				logger.error("登录失败，accountId={}在SysUser中不存在。",new Object[]{account.getAccountId()});
 			}
 		} else {
-			attributes.addFlashAttribute(MovieConstant.MESSAGES_INFO, "登录失败，用户名或密码错误！");
+			rd.setMsg("登录失败，用户名或密码错误！");
 			logger.error("登录失败，用户名或密码错误！");
 		}
-		return modeView;
+		return rd;
 	}
 	
 	/**找回密码页面*/
@@ -327,7 +440,7 @@ public class AppMainAction {
 		return rd;
 	}
 	
-	/**获取验证码页面*/
+	/**找回密码-获取验证码*/
 	@RequestMapping(value="getCode.json", method={RequestMethod.POST})
 	@ResponseBody
 	public ResponseData getCode(HttpServletRequest request,String account,String email) {

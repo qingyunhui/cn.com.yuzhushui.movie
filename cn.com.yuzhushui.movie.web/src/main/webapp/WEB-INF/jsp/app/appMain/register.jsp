@@ -3,6 +3,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style type="text/css">
+	.main .item-captcha #captcha-imgs{
+		border-left: 1px solid #d7d7d7;
+	    padding-left: 5px;
+	    position: absolute;
+	    right: 0;
+	    top: 2px;
+	}
+</style>
 <%@ include file="/WEB-INF/jsp/public/head.jsp"%>
 <script>
 $(window).load(function() {
@@ -30,28 +39,24 @@ $(window).load(function() {
   <!--header 结束-->
   
   <div class="w main">
-  	<form id="frm_login" method="post" action="">
+  	<form id="frm_login" method="post">
         <div class="item item-username">
-          <input id="username" class="txt-input txt-username" type="text" placeholder="请输入用户名" value="" name="username">
+          <input id="account" class="txt-input txt-username" type="text"  maxlength="15" size="15" placeholder="请输入账号" name="account">
           <b class="input-close" style="display: none;"></b> 
         </div>
         <div class="item item-password">
-          <input id="password" class="txt-input txt-password ciphertext" type="password" placeholder="请输入密码" name="password" style="display: inline;">
-          <input id="ptext" class="txt-input txt-password plaintext" type="text" placeholder="请输入密码" style="display: none;" name="ptext">
-          <b class="tp-btn btn-off"></b> 
-        </div>
-        <div class="item item-password">
-          <input id="password_PwdTwo" class="txt-input txt-password_PwdTwo ciphertext_PwdTwo" type="password" placeholder="确认密码" name="password_PwdTwo" style="display: inline;">
-          <input id="ptext_PwdTwo" class="txt-input txt-password_PwdTwo plaintext_PwdTwo" type="text" placeholder="确认密码" style="display: none;" name="ptext_PwdTwo">
-          <b class="tp-btn_PwdTwo btn-off_PwdTwo"></b> 
+          <input id="password" class="txt-input txt-password ciphertext"  maxlength="15" size="15" type="password" placeholder="请输入密码" name="password" style="display: inline;">
         </div>
         <div class="item item-captcha">
           <div class="input-info">
-            <input id="validateCode" class="txt-input txt-captcha" type="text" placeholder="验证码" autocomplete="off" maxlength="6" size="11">
-            <b id="validateCodeclose" class="input-close" onClick="validateCodeclose();" style="display: block; margin-right:15px;"></b> <span id="captcha-img"> <img id="code" src="${path}image/login/code.jpg" style="width:63px;height:25px;" onClick="closeAndFlush();"> </span> </div>
-          <div class="err-tips"> 注册即视为同意 <a target="_blank" href="#">用户服务协议</a> </div>
+            <input id="email" class="txt-input txt-captcha" type="text" name="email" placeholder="请输入邮箱号" autocomplete="off" maxlength="28" size="28">
+            <b id="validateCodeclose" class="input-close" onClick="validateCodeclose();" style="display: block; margin-right:15px;"></b> <span id="captcha-imgs" class="codeBtns"> <input type="button" id="CodeBtn" class="ui-btn-lg ui-btn-primary" value="获取验证码" /> </span> </div>
+          	<div class="item item-username">
+          		<input id="code" class="txt-input txt-username" type="text"  maxlength="5" size="5" placeholder="请输入验证码" name="code">
+        	</div>
+          <div class="err-tips"> 注册即视为同意 <a target="_blank" href="javascript:void(0);">用户服务协议</a> </div>
         </div>
-        <div class="ui-btn-wrap"> <a class="ui-btn-lg ui-btn-primary" href="javascript:void(0);">用户注册</a> </div>
+        <div class="ui-btn-wrap"> <a class="ui-btn-lg ui-btn-primary" id="registerBtn" href="javascript:void(0);">用户注册</a> </div>
         <div class="ui-btn-wrap"> <a class="ui-btn-lg ui-btn-danger" href="${path}app/appMain/login.htm">已有账号？立即登录</a> </div>
       </form>
   </div>
@@ -59,99 +64,117 @@ $(window).load(function() {
   <div class="copyright">Copyright © 2011-2016 www.smiles8.top 版权所有</div>
   
 </div>
+	<script type="text/javascript" >
+		var start=false;
+	    $(function() {
+	    	//获取验证码-发送邮件
+	    	$(".codeBtns").click(function(){
+	    		if(start) return false;
+				var email = $.trim($("#email").val());
+				if(email == ''){
+					layer.tips('请输入邮箱号','#email', {tips: 1});
+					return false;
+				}
+				var params="?email="+email;
+				//发送ajax请求
+				$.ajax({
+		              type: "POST",
+		              url: "${path}app/appMain/getRegisterCode.json",
+					  data: {email:email},
+					  beforeSend: function() { startTimer(); },
+					  error:function(){ $("#CodeBtn").val("获取验证码");start=false;},
+		              success: function(result) {
+		            	  layer.msg(result.msg);
+					  }
+		          });
+	    	});
+	    	
+	    	//提交注册
+	    	$("#registerBtn").click(function(){
+	    		var email = $.trim($("#email").val());
+	    		var account = $.trim($("#account").val());
+	    		var password = $.trim($("#password").val());
+	    		var code = $.trim($("#code").val());
+	    		if(account == ''){
+					layer.tips('请输入账号','#account', {tips: 1});
+					return false;
+				}
+	    		if(password == ''){
+					layer.tips('请输入密码','#password', {tips: 1});
+					return false;
+				}
+	    		if(email == ''){
+					layer.tips('请输入邮箱号','#email', {tips: 1});
+					return false;
+				}
+	    		if(code == ''){
+					layer.tips('请输入验证码','#code', {tips: 1});
+					return false;
+				}
+	    		if(code.length<5){
+	    			layer.tips('验证码输入有误','#code', {tips: 1});
+					return false;
+	    		}
+	    		//发送ajax请求
+				$.ajax({
+		              type: "POST",
+		              url: "${path}app/appMain/doRegister.json",
+					  data: {email:email,account:account,password:password,code:code},
+					  beforeSend: function() {  },
+					  error:function(){ layer.msg("系统错误!");},
+		              success: function(result) {
+		            	  var datas=result.data;
+		            	  if(datas && datas.success_code==10000){
+		            		  layer.alert(result.msg, {
+			            		  skin: 'layui-layer-molv' //样式类名
+			            		  ,closeBtn: 0
+			            		}, function(index){
+			            			layer.close(index);
+			            			location.href='${path}'+datas.url;
+			            		});
+		            	  }else{
+		            		  layer.msg(result.msg);
+		            	  }
+					  }
+		          });
+	    	});
+	    	
+	    	/**定时器**/
+			var timer; //timer定时函数
+			var second = 60;//60秒发送一次
+			function startTimer() {
+				start=true;
+			    timer = window.setInterval(timerHandle, 1000); //启动计时器，1秒执行一次
+			}
+			//timer处理函数
+			function timerHandle() {
+			    if (second == 1) {
+			        window.clearInterval(timer);//停止计时器
+			        $("#CodeBtn").val("获取验证码");
+			        second=60;
+			        start=false;
+			    } else {
+			  	  second--;
+			  	  $("#CodeBtn").val(second+"s");
+			    }
+			}
+	    	
+		});	
+	    
+	    //========================================================//
+	    
+		//设置password字段的值	
+		$('.txt-password').bind('input',function(){
+			$('#password').val($(this).val());
+		});
+		//监控用户输入
+		$(":input").bind('input propertychange', function() {
+			if($(this).val()!=""){
+				$(this).siblings(".input-close").show();
+			}else{
+				$(this).siblings(".input-close").hide();
+			}
+	    });
+	</script> 
 </body>
 </html>
-<script type="text/javascript" >
-    $(function() {
-		$(".input-close").hide();
-		displayPwd();
-		displayPwd_PwdTwo();
-		displayClearBtn();
-		setTimeout(displayClearBtn, 200 ); //延迟显示,应对浏览器记住密码
-	});	
-
-	//是否显示清除按钮
-	function displayClearBtn(){
-		if(document.getElementById("username").value != ''){
-			$("#username").siblings(".input-close").show();
-		}
-		if(document.getElementById("password").value != ''){
-			$(".ciphertext").siblings(".input-close").show();
-		}
-		if(document.getElementById("password_PwdTwo").value != ''){
-			$(".ciphertext_PwdTwo").siblings(".input-close").show();
-		}
-	}
-
-	//清除input内容
-    $('.input-close').click(function(e){  
-		$(e.target).parent().find(":input").val("");
-		$(e.target).hide();
-		$($(e.target).parent().find(":input")).each(function(i){
-			if(this.id=="ptext" || this.id=="password"){
-				$("#password").val('');
-				$("#ptext").val('');
-			}
-			if(this.id=="ptext_PwdTwo" || this.id=="password_PwdTwo"){
-				$("#password_PwdTwo").val('');
-				$("#ptext_PwdTwo").val('');
-			}
-         });
-    });  
-	
-	//设置password字段的值	
-	$('.txt-password').bind('input',function(){
-		$('#password').val($(this).val());
-	});
-	$('.txt-password_PwdTwo').bind('input',function(){
-		$('#password_PwdTwo').val($(this).val());
-	});
-	
-	//显隐密码切换
-	function displayPwd(){
-    	$(".tp-btn").toggle(
-          function(){
-            $(this).addClass("btn-on");
-			var textInput = $(this).siblings(".plaintext");
-    		var pwdInput = $(this).siblings(".ciphertext");
-			pwdInput.hide();
-			textInput.val(pwdInput.val()).show().focusEnd();
-          },
-          function(){
-		  	$(this).removeClass("btn-on");
-		  	var textInput = $(this).siblings(".plaintext");
-    		var pwdInput = $(this).siblings(".ciphertext");
-            textInput.hide();
-			pwdInput.val(textInput.val()).show().focusEnd();
-          }
-    	);
-	}
-	//显隐密码切换
-	function displayPwd_PwdTwo(){
-    	$(".tp-btn_PwdTwo").toggle(
-          function(){
-            $(this).addClass("btn-on_PwdTwo");
-			var textInput = $(this).siblings(".plaintext_PwdTwo");
-    		var pwdInput = $(this).siblings(".ciphertext_PwdTwo");
-			pwdInput.hide();
-			textInput.val(pwdInput.val()).show().focusEnd();
-          },
-          function(){
-		  	$(this).removeClass("btn-on_PwdTwo");
-		  	var textInput = $(this).siblings(".plaintext_PwdTwo");
-    		var pwdInput = $(this).siblings(".ciphertext_PwdTwo");
-            textInput.hide();
-			pwdInput.val(textInput.val()).show().focusEnd();
-          }
-    	);
-	}
-	
-	//监控用户输入
-	$(":input").bind('input propertychange', function() {
-		if($(this).val()!=""){
-			$(this).siblings(".input-close").show();
-		}else{
-			$(this).siblings(".input-close").hide();
-		}
-    });
-</script> 

@@ -17,4 +17,9 @@ public interface SysAccountDao extends BaseDao<SysAccount,Integer>{
 	 * */
 	public SysAccount queryByAccount(String account);
 	
+	/**
+	 * 根据邮箱号查询账户
+	 * */
+	public SysAccount queryByEmail(String email);
+	
 }

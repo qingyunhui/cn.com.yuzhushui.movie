@@ -94,7 +94,7 @@ $(window).load(function() {
 	              url: "${path}app/appMain/getCode.json",
 				  data: {account:accounts,email:email},
 				  beforeSend: function() { startTimer(); },
-				  error:function(){ $(".getyzm").html("获取验证码");},
+				  error:function(){ $("#CodeBtn").val("获取验证码");},
 	              success: function(result) {
 	            	  var datas=result.data;
 	            	  if(datas && datas.success_code==10000){
