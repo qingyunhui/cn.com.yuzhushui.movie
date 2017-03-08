@@ -99,13 +99,8 @@ $(window).load(function() {
 	            	  var datas=result.data;
 	            	  if(datas && datas.success_code==10000){
 	            		  //发送成功，跳转到修改密码页面。
-	            		  layer.alert(result.msg, {
-		            		  skin: 'layui-layer-molv' //样式类名
-		            		  ,closeBtn: 0
-		            		}, function(index){
-		            			layer.close(index);
-		            			location.href='${path}'+datas.url+params;
-		            	   });
+	            		  layer.msg(result.msg);
+	            		  location.href='${path}'+datas.url+params;
 	            	  }else if(datas && datas.success_code==20000){
 	            		  //5分钟前，已发送过一封邮件
 	            		  layer.confirm(result.msg, function(index){
@@ -114,6 +109,7 @@ $(window).load(function() {
 						  }); 
 	            	  }else{
 	            		  layer.msg(result.msg);
+	            		  clearTimer();
 	            	  }
 				  }
 	          });
@@ -138,6 +134,11 @@ $(window).load(function() {
 		  	  second--;
 		  	  $("#CodeBtn").val(second+"s");
 		    }
+		}
+		function clearTimer(){
+			window.clearInterval(timer);//停止计时器
+	        $("#CodeBtn").val("获取验证码");
+	        start=false;
 		}
 	});
 	

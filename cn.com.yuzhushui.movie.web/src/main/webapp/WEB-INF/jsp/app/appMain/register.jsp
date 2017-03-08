@@ -84,7 +84,13 @@ $(window).load(function() {
 					  beforeSend: function() { startTimer(); },
 					  error:function(){ $("#CodeBtn").val("获取验证码");start=false;},
 		              success: function(result) {
-		            	  layer.msg(result.msg);
+		            	  var datas=result.data;
+		            	  if(datas && datas.success_code==10000){
+		            		  layer.msg(result.msg);
+		            	  }else{
+		            		  layer.msg(result.msg);
+		            		  clearTimer();
+		            	  }
 					  }
 		          });
 	    	});
@@ -152,6 +158,12 @@ $(window).load(function() {
 			  	  second--;
 			  	  $("#CodeBtn").val(second+"s");
 			    }
+			}
+			
+			function clearTimer(){
+				window.clearInterval(timer);//停止计时器
+		        $("#CodeBtn").val("获取验证码");
+		        start=false;
 			}
 	    	
 		});	
