@@ -35,6 +35,7 @@ import cn.com.yuzhushui.movie.enums.SysAccountEnum.Exist;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysAccount;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysUser;
 import cn.com.yuzhushui.movie.sys.biz.service.SysAccountService;
+import cn.com.yuzhushui.movie.sys.biz.service.SysFundPoolService;
 import cn.com.yuzhushui.movie.sys.biz.service.SysUserService;
 import qing.yun.hui.common.utils.CookieUtil;
 import qing.yun.hui.common.utils.DateUtil;
@@ -79,6 +80,9 @@ public class AppMainAction {
 	@Autowired
 	private SysAccountService sysAccountService;
 	
+	@Autowired
+	private SysFundPoolService sysFundPoolService;
+	
 	/**引导页*/
 	@RequestMapping(value = "/introduce")
 	public ModelAndView introduce(HttpServletRequest request,HttpServletResponse response, HttpSession session) {
@@ -108,6 +112,9 @@ public class AppMainAction {
 	@RequestMapping(value = "/myMain")
 	public ModelAndView myMain(HttpServletRequest request,HttpServletResponse response, HttpSession session) {
 		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/myMain");
+		Integer accountId=SessionUtil.getSysAccount().getAccountId();
+		Long totalBalance= sysFundPoolService.getTotalBalance(accountId);
+		modelView.addObject("totalBalance", null==totalBalance?0:totalBalance);
 		return modelView;
 	}
 	

@@ -14,7 +14,19 @@ public interface SysFundPoolService extends BaseService<SysFundPool,Integer>{
 	
 	public List<SysFundPool> queryFundPoolsByAccountId(java.lang.Integer id);
 	
-	/***统计用户历史充值总额 **/
+	/**
+	 * <p>统计用户历史充值总额</p>
+     * @param accountId
+     * @return 用户历史充值金额
+	 **/
     public Long getTotalGoldByAccountId(Integer accountId);
+    
+    /**
+     * @category 可用余额=资金池-预支金额
+     * <p>查询用户可用户余额</p>
+     * @param accountId
+     * @return 可用余额
+     * */
+    public Long getTotalBalance(Integer accountId);
     
 }

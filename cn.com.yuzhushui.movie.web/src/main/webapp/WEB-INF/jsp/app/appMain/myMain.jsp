@@ -207,6 +207,7 @@ $(document).ready(function(){
 
 <ul class="mainmenu">
 	<li class="UL_Li_CLSS subject"><a><span>欢迎光临，${yzsTld:getSysUser().name}</span></a></li>
+	<li class="UL_Li_CLSS subject"><a><span>账户可用余额为:﹩ ${totalBalance} 元人民币.</span></a></li>
 	<li class="UL_Li_CLSS query"><a href="${path}sys/sysBills/list.htm"><span>查看我的账单</span></a></li>
 	<li class="UL_Li_CLSS audit"><a href="${path}sys/sysBills/add.htm"><span>申请账单</span></a></li>
 	<li class="UL_Li_CLSS pool"><a href="${path}sys/sysFundPool/list.htm"><span>资金池剩余额度</span></a></li>
