@@ -84,6 +84,7 @@
                     <constructor-arg name="host" index="0" value="${redis.ip}"/>
                     <constructor-arg name="port" index="1" value="${redis.port}"/>
                     <constructor-arg name="timeout" index="2" value="${redis.timeout}"/>
+                    <property name="password" value="${redis.password}" />
                 </bean>
             </list>
         </constructor-arg>
