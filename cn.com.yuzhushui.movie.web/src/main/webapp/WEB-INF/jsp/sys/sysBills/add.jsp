@@ -45,7 +45,14 @@
 	}
 	textarea{ resize:none;}
 </style>
-</head>
+	<script type="text/javascript">
+		$(function(){
+			var mesg = '${messages}';
+			if(mesg != ''){
+				layer.msg(mesg,{time:2500});
+			} 
+		})
+	</script>
 </head>
 <body class="mWrap">
 	<header class="topHd">

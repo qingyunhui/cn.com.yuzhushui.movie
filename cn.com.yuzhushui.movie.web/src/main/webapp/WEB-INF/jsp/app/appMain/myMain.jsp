@@ -66,7 +66,7 @@ body .mainmenu li.balance1 a span{
 	display: block;
     height: 35px;
     line-height: 35px;
-    color: #ec1818;
+    color: #e88888;
     font-size: 18px;
 }
 body .mainmenu li.balance2 a span{
@@ -74,6 +74,13 @@ body .mainmenu li.balance2 a span{
     height: 35px;
     line-height: 35px;
     color: #40ad45;
+    font-size: 18px;
+}
+body .mainmenu li.balance3 a span{
+	display: block;
+    height: 35px;
+    line-height: 35px;
+    color: red;
     font-size: 18px;
 }
 

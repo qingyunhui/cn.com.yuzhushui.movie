@@ -11,12 +11,16 @@ import qing.yun.hui.common.enums.ICommonEnum;
  **/
 public class CapitalPoolEnum {
 	
+	/**资金池预警的值:1000元*/
+	public static final Integer EARLY_WARNING_MONEY=1000;
+	
 	@Getter
 	public enum CapitalPool implements ICommonEnum{
-		//资金池（0.无可用资金池，1.资金池充值金额不足，2.资金池金额充足）
+		//资金池（0.无可用资金池，1.资金池充值金额不足，2.资金池金额充足，3.资金池已透支.）
 		NOT_AVAILABLE_POOL(0,"无可用资金池"),
-		INSUFFICIENT_POOL_BALANCE(1,"资金池充值金额不足"),
-		SUFFICIENT_POOL_BALANCE(2,"资金池金额充足");
+		INSUFFICIENT_POOL_BALANCE(1,"资金池充值余额不足"),
+		SUFFICIENT_POOL_BALANCE(2,"资金池余额充足"),
+		OVERDRAFT_POOL_BALANCE(3,"资金池已透支");
 		
 		private final int value;
 	    private final String name;

@@ -49,10 +49,15 @@ public class SysFundPoolServiceImpl extends BaseServiceImpl<SysFundPool,Integer>
 		Long totalMoney=sysBillsService.getTotalMoneyByDebtorId(accountId);
 		if(null==totalMoney)totalMoney=0L;
 		Long balance=totalPool-totalMoney;
-		if(balance>0){
+		if(balance>CapitalPoolEnum.EARLY_WARNING_MONEY){
+			//资金池余额充足
 			struct.setCapitalPool(CapitalPoolEnum.CapitalPool.SUFFICIENT_POOL_BALANCE);
-		}else{
+		}else if(balance>0){
+			//资金池余额不足(须要补充)
 			struct.setCapitalPool(CapitalPoolEnum.CapitalPool.INSUFFICIENT_POOL_BALANCE);
+		}else{
+			//已透支(须要尽快补充)
+			struct.setCapitalPool(CapitalPoolEnum.CapitalPool.OVERDRAFT_POOL_BALANCE);
 		}
 		struct.setTotalBalance(balance);
 		return struct;
