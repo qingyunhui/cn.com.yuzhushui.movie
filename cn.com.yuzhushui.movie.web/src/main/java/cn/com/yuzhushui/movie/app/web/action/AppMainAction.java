@@ -71,6 +71,9 @@ public class AppMainAction {
 	//用户注册-邮箱验证码有效时间为10分钟
 	private static final int registerExpireSecond=10*60;
 	
+	//1分钟
+	private static final int ONE_MINUTE=1*60;
+	
 	private static final String SEND_MAIL_KEY="send_mail_key";
 	
 	@Autowired
@@ -325,9 +328,10 @@ public class AppMainAction {
 		//@2.用户登陆密码输入错误次数校验
 		String userLogCount=logParam.getAccounts()+"_"+MovieConstant.MESSAGES_INFO;//当前用户登陆次数
 		String logCountStr=shardedJedisCached.get(userLogCount);
+		int logCount=0;
 		if(!StringUtil.isEmpty(logCountStr)){
-			int logCount=Integer.parseInt(logCountStr);
-			if(logCount > MovieConstant.LOGON_COUNTS){
+			logCount=Integer.parseInt(logCountStr);
+			if(logCount >= MovieConstant.LOGON_COUNTS){
 				StringBuilder sb=new StringBuilder();
 				sb.append("密码输入错误超过");
 				sb.append(MovieConstant.LOGON_COUNTS);
@@ -348,9 +352,7 @@ public class AppMainAction {
 		}else{
 			map.put("account", logParam.getAccounts());
 		}
-		
 		logger.error("===========>登陆类型为:{}<===========",new Object[]{EnumUtil.getNameByValue(LoginType.class, loginType.intValue())});
-		
 		map.put("password", MD5Util.getMD5Encryption(logParam.getPasswords()));
 		//@4.判断数据库中是否存在该用户
 		List<SysAccount> accounts=sysAccountService.query(map);
@@ -382,10 +384,14 @@ public class AppMainAction {
 					return rd;
 				}
 			}else{
+				logCount++;
+				shardedJedisCached.set(userLogCount, logCount, MovieConstant.LOCK_TIME*ONE_MINUTE);
 				rd.setMsg("登录失败，用户名或密码错误！");
 				logger.error("登录失败，accountId={}在SysUser中不存在。",new Object[]{account.getAccountId()});
 			}
 		} else {
+			logCount++;
+			shardedJedisCached.set(userLogCount, logCount, MovieConstant.LOCK_TIME*ONE_MINUTE);
 			rd.setMsg("登录失败，用户名或密码错误！");
 			logger.error("登录失败，用户名或密码错误！");
 		}
