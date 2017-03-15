@@ -326,8 +326,8 @@ public class AppMainAction {
 			return rd;
 		}
 		//@2.用户登陆密码输入错误次数校验
-		String userLogCount=logParam.getAccounts()+"_"+MovieConstant.MESSAGES_INFO;//当前用户登陆次数
-		String logCountStr=shardedJedisCached.get(userLogCount);
+		String userLogCountKey=logParam.getAccounts()+"_"+MovieConstant.MESSAGES_INFO;//当前用户登陆次数
+		String logCountStr=shardedJedisCached.get(userLogCountKey);
 		int logCount=0;
 		if(!StringUtil.isEmpty(logCountStr)){
 			logCount=Integer.parseInt(logCountStr);
@@ -376,6 +376,8 @@ public class AppMainAction {
 					logger.error("登录成功，用户信息将记录到Cookie中且存储到Shiro中!");
 					rd.addData("success_code", 10000);
 					rd.addData("url", "app/appMain/myMain.htm");
+					//登陆成功后，须要把之前输入错误后已记录次数的key删掉..
+					shardedJedisCached.del(userLogCountKey);
 					return rd;
 				}else{
 					String enumName=EnumUtil.getNameByValue(SysAccountEnum.STATUS.class, account.getStatus());
@@ -385,13 +387,13 @@ public class AppMainAction {
 				}
 			}else{
 				logCount++;
-				shardedJedisCached.set(userLogCount, logCount, MovieConstant.LOCK_TIME*ONE_MINUTE);
+				shardedJedisCached.set(userLogCountKey, logCount, MovieConstant.LOCK_TIME*ONE_MINUTE);
 				rd.setMsg("登录失败，用户名或密码错误！");
 				logger.error("登录失败，accountId={}在SysUser中不存在。",new Object[]{account.getAccountId()});
 			}
 		} else {
 			logCount++;
-			shardedJedisCached.set(userLogCount, logCount, MovieConstant.LOCK_TIME*ONE_MINUTE);
+			shardedJedisCached.set(userLogCountKey, logCount, MovieConstant.LOCK_TIME*ONE_MINUTE);
 			rd.setMsg("登录失败，用户名或密码错误！");
 			logger.error("登录失败，用户名或密码错误！");
 		}
