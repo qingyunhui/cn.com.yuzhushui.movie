@@ -44,6 +44,8 @@ public class MovieConstant {
 	
 	public static final String ENTITYS="entitys";
 	
+	public static final String STRUCT="struct";
+	
 	//管理员的账号id
 	public static final Integer accountId=8888;
 	

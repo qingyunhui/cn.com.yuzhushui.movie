@@ -29,9 +29,11 @@ import cn.com.yuzhushui.movie.common.bean.LogParameter;
 import cn.com.yuzhushui.movie.common.bean.SessionInfo;
 import cn.com.yuzhushui.movie.common.util.SessionUtil;
 import cn.com.yuzhushui.movie.constant.MovieConstant;
+import cn.com.yuzhushui.movie.enums.CapitalPoolEnum.CapitalPool;
 import cn.com.yuzhushui.movie.enums.LoginType;
 import cn.com.yuzhushui.movie.enums.SysAccountEnum;
 import cn.com.yuzhushui.movie.enums.SysAccountEnum.Exist;
+import cn.com.yuzhushui.movie.struct.CapitalPoolStruct;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysAccount;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysUser;
 import cn.com.yuzhushui.movie.sys.biz.service.SysAccountService;
@@ -113,8 +115,18 @@ public class AppMainAction {
 	public ModelAndView myMain(HttpServletRequest request,HttpServletResponse response, HttpSession session) {
 		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/myMain");
 		Integer accountId=SessionUtil.getSysAccount().getAccountId();
-		Long totalBalance= sysFundPoolService.getTotalBalance(accountId);
-		modelView.addObject("totalBalance", null==totalBalance?0:totalBalance);
+		CapitalPoolStruct struct= sysFundPoolService.getTotalBalance(accountId);
+		if(struct.getCapitalPool().getValue()==CapitalPool.NOT_AVAILABLE_POOL.getValue()){
+			//无可用资金池
+			modelView.addObject("totalBalance", "暂无可用资金池.");
+		}else if(struct.getCapitalPool().getValue()==CapitalPool.INSUFFICIENT_POOL_BALANCE.getValue()){
+			//资金池余额不足
+			modelView.addObject("totalBalance", "截止今日你已透支¥："+struct.getTotalBalance()+"元人民币.");
+		}else{
+			//资金池余额充足
+			modelView.addObject("totalBalance", "账户可用余额¥："+struct.getTotalBalance()+"元人民币.");
+		}
+		modelView.addObject(MovieConstant.STRUCT, struct);
 		return modelView;
 	}
 	

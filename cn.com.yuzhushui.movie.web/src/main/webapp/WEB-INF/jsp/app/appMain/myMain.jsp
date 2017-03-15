@@ -54,6 +54,29 @@ body .mainmenu li.UL_Li_CLSS a span{
     color: #999;
     font-size: 16px;
 }
+
+body .mainmenu li.balance0 a span{
+	 display: block;
+     height: 35px;
+     line-height: 35px;
+     color: #080000;
+     font-size: 20px;
+}
+body .mainmenu li.balance1 a span{
+	display: block;
+    height: 35px;
+    line-height: 35px;
+    color: #ec1818;
+    font-size: 18px;
+}
+body .mainmenu li.balance2 a span{
+	display: block;
+    height: 35px;
+    line-height: 35px;
+    color: #40ad45;
+    font-size: 18px;
+}
+
 body .mainmenu li.subject a span{
 	background:#eee;
 }
@@ -207,7 +230,7 @@ $(document).ready(function(){
 
 <ul class="mainmenu">
 	<li class="UL_Li_CLSS subject"><a><span>欢迎光临，${yzsTld:getSysUser().name}</span></a></li>
-	<li class="UL_Li_CLSS subject"><a><span>账户可用余额为:﹩ ${totalBalance} 元人民币.</span></a></li>
+	<li class="UL_Li_CLSS balance${struct.capitalPool.value}"><a><span>${totalBalance}</span></a></li>
 	<li class="UL_Li_CLSS query"><a href="${path}sys/sysBills/list.htm"><span>查看我的账单</span></a></li>
 	<li class="UL_Li_CLSS audit"><a href="${path}sys/sysBills/add.htm"><span>申请账单</span></a></li>
 	<li class="UL_Li_CLSS pool"><a href="${path}sys/sysFundPool/list.htm"><span>资金池剩余额度</span></a></li>

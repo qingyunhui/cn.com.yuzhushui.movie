@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.com.yuzhushui.movie.common.base.BaseServiceImpl;
+import cn.com.yuzhushui.movie.enums.CapitalPoolEnum;
+import cn.com.yuzhushui.movie.struct.CapitalPoolStruct;
 import cn.com.yuzhushui.movie.sys.biz.dao.SysFundPoolDao;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysFundPool;
 import cn.com.yuzhushui.movie.sys.biz.service.SysBillsService;
@@ -37,11 +39,22 @@ public class SysFundPoolServiceImpl extends BaseServiceImpl<SysFundPool,Integer>
 	}
 
 	@Override
-	public Long getTotalBalance(Integer accountId) {
-		Long totalGold=sysFundPoolDao.getTotalGoldByAccountId(accountId);
-		if(null==totalGold) return totalGold;
+	public CapitalPoolStruct getTotalBalance(Integer accountId) {
+		CapitalPoolStruct struct=new CapitalPoolStruct();
+		Long totalPool=sysFundPoolDao.getTotalGoldByAccountId(accountId);
+		if(null==totalPool){ 
+			struct.setCapitalPool(CapitalPoolEnum.CapitalPool.NOT_AVAILABLE_POOL);
+			return struct;
+		}
 		Long totalMoney=sysBillsService.getTotalMoneyByDebtorId(accountId);
 		if(null==totalMoney)totalMoney=0L;
-		return totalGold-totalMoney;
+		Long balance=totalPool-totalMoney;
+		if(balance>0){
+			struct.setCapitalPool(CapitalPoolEnum.CapitalPool.SUFFICIENT_POOL_BALANCE);
+		}else{
+			struct.setCapitalPool(CapitalPoolEnum.CapitalPool.INSUFFICIENT_POOL_BALANCE);
+		}
+		struct.setTotalBalance(balance);
+		return struct;
 	}
 }

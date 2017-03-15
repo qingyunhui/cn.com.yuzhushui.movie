@@ -3,6 +3,7 @@ package cn.com.yuzhushui.movie.sys.biz.service;
 import java.util.List;
 
 import cn.com.yuzhushui.movie.common.base.BaseService;
+import cn.com.yuzhushui.movie.struct.CapitalPoolStruct;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysFundPool;
 /**
  * @author qing.yunhui 
@@ -25,8 +26,8 @@ public interface SysFundPoolService extends BaseService<SysFundPool,Integer>{
      * @category 可用余额=资金池-预支金额
      * <p>查询用户可用户余额</p>
      * @param accountId
-     * @return 可用余额
+     * @return CapitalPoolStruct
      * */
-    public Long getTotalBalance(Integer accountId);
+    public CapitalPoolStruct getTotalBalance(Integer accountId);
     
 }
