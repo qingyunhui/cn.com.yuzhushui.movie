@@ -77,7 +77,9 @@ public class SessionInterceptor extends HandlerInterceptorAdapter{
 		//用户在有操作时，实时更新cookie有效期..
 		SessionInfo mySessionInfo=JSONObject.parseObject(sessionInfo, SessionInfo.class);
 		if(null!=mySessionInfo){
+			//cookie 与 redis有效期保持一致性...
 			CookieUtil.setCookie(request, response, MovieConstant.SESSION_INFO, sessionId, MovieConstant.DOMAIN, MovieConstant.ROOT_PATH, MovieConstant.COOKIE_VALIDITY_TIME);
+			shardedJedisCached.set(sessionId, sessionInfo, MovieConstant.COOKIE_VALIDITY_TIME);
 			return super.preHandle(request, response, handler);
 		}
 		
