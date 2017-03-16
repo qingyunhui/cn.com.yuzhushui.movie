@@ -1,5 +1,7 @@
 package cn.com.yuzhushui.movie.robot.web.action;
 
+import java.util.Random;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -48,9 +50,16 @@ protected Logger logger=LoggerFactory.getLogger(RobotAction.class);
 			rd.setMsg(robotResponse.getText());
 			rd.addData(MovieConstant.SUCCESS_CODE, 10000);
 		}else{
-			rd.setMsg("机器小蜜，出现故障啦!");
+			rd.setMsg(getRandomAnswers());
 		}
 		logger.info("回答:"+JSONObject.toJSONString(robotResponse));
 		return rd;
 	}
+	
+	protected String getRandomAnswers(){
+		String[] strs=new String[]{"机器小蜜回答不了你的提问...","中国人，请说中国话...","您提的问题太难啦，快换个提问...","我是来打酱油滴...","小蜜现在很忙，不能回答你的提问...","么么哒...","环淫，大环淫...","哈哈 ，你是王八蛋..."};
+		Random random=new Random();
+		return strs[random.nextInt(strs.length)];
+	}
+	
 }
