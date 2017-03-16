@@ -49,4 +49,6 @@ public class MovieConstant {
 	//管理员的账号id
 	public static final Integer accountId=8888;
 	
+	public static final String SUCCESS_CODE="success_code";
+	
 }

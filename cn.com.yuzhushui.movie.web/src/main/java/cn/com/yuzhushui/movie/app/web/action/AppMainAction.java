@@ -210,7 +210,7 @@ public class AppMainAction {
 		String send_mail_key=shardedJedisCached.get(key);
 		if(!StringUtil.isEmpty(send_mail_key)){
 			rd.setMsg("10分钟前已发送一封邮件.");
-			rd.addData("success_code", 20000);
+			rd.addData(MovieConstant.SUCCESS_CODE, 20000);
 			return rd;
 		}
 		//开始发送邮箱
@@ -226,7 +226,7 @@ public class AppMainAction {
 			sb.append("</div>");
 			MailTool.sendMail(subject, sb.toString(), new String[]{email});
 			rd.setMsg("邮件发送成功，请登陆邮箱查看.");
-			rd.addData("success_code", 10000);
+			rd.addData(MovieConstant.SUCCESS_CODE, 10000);
 			shardedJedisCached.set(key, code, registerExpireSecond);
 		} catch (Exception e) {
 			logger.error("============>邮件发送失败，失败原因:{}。",new Object[]{JSONObject.toJSONString(e)});
@@ -285,7 +285,7 @@ public class AppMainAction {
 		if(success){
 			rd.setMsg("注册成功啦！");
 			rd.addData("url", "app/appMain/login.htm");
-			rd.addData("success_code", 10000);
+			rd.addData(MovieConstant.SUCCESS_CODE, 10000);
 		}
 		return rd;
 	}
@@ -308,7 +308,7 @@ public class AppMainAction {
 		Map<String, Object> map = new HashMap<String, Object>();
 		SysUser user=SessionUtil.getSysUser();
 		if(null!=user){
-			rd.addData("success_code", 10000);
+			rd.addData(MovieConstant.SUCCESS_CODE, 10000);
 			rd.addData("url", "app/appMain/myMain.htm");
 			return rd;
 		}
@@ -374,7 +374,7 @@ public class AppMainAction {
 					CookieUtil.setCookie(request, response, MovieConstant.SESSION_INFO, sessionId, MovieConstant.DOMAIN, MovieConstant.ROOT_PATH,MovieConstant.COOKIE_VALIDITY_TIME);
 					shardedJedisCached.set(sessionId, sessionInfo, MovieConstant.COOKIE_VALIDITY_TIME);
 					logger.error("登录成功，用户信息将记录到Cookie中且存储到Shiro中!");
-					rd.addData("success_code", 10000);
+					rd.addData(MovieConstant.SUCCESS_CODE, 10000);
 					rd.addData("url", "app/appMain/myMain.htm");
 					//登陆成功后，须要把之前输入错误后已记录次数的key删掉..
 					shardedJedisCached.del(userLogCountKey);
@@ -459,7 +459,7 @@ public class AppMainAction {
 			sysAccountService.update(sysAccount);
 			rd.setMsg("密码修改成功啦!");
 			rd.addData("url", "app/appMain/login.htm");
-			rd.addData("success_code", 10000);
+			rd.addData(MovieConstant.SUCCESS_CODE, 10000);
 		} catch (Exception e) {
 			logger.error("=================>修改密码时出现异常，异常原因:{}.",new Object[]{JSONObject.toJSONString(e)});
 			rd.setMsg("系统异常.");
@@ -483,7 +483,7 @@ public class AppMainAction {
 			//说明已经发送过邮件，且有可能已经成功了，那么直接跳转到修改密码页面即可。  
 			rd.setMsg("5分钟前已发送一封邮件,进入修改密码页面?");
 			rd.addData("url","app/appMain/updatePassword.htm");
-			rd.addData("success_code", 20000);
+			rd.addData(MovieConstant.SUCCESS_CODE, 20000);
 			return rd;
 		}
 		SysAccount sysAccount=sysAccountService.queryByAccount(account);
@@ -516,7 +516,7 @@ public class AppMainAction {
 			MailTool.sendMail(subject, sb.toString(), new String[]{email});
 			rd.setMsg("邮件发送成功，请登陆邮箱查看.");
 			rd.addData("url","app/appMain/updatePassword.htm");
-			rd.addData("success_code", 10000);
+			rd.addData(MovieConstant.SUCCESS_CODE, 10000);
 			shardedJedisCached.set(key, code, expireSecond);
 		} catch (Exception e) {
 			logger.error("============>邮件发送失败，失败原因:{}。",new Object[]{JSONObject.toJSONString(e)});
