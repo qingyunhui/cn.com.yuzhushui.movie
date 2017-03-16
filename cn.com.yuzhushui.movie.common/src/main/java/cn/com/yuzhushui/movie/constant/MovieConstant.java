@@ -49,6 +49,15 @@ public class MovieConstant {
 	//管理员的账号id
 	public static final Integer accountId=8888;
 	
+	//成功标识key
 	public static final String SUCCESS_CODE="success_code";
+	
+	public static final String GET="get";
+	
+	public static final String POST="post";
+	
+	public static final String JSON="json";
+	
+	public static final String XML="xml";
 	
 }

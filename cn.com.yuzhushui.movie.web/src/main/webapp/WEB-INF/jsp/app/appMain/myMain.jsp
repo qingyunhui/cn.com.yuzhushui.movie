@@ -22,7 +22,7 @@
     margin-top: 0px;
     width: 100%;
     height: 3.0rem;
-    background: url(../../../image/myMain/footer/projection.png) repeat-x;
+    background: url(../../image/myMain/footer/projection.png) repeat-x;
     padding-top: 0.5rem;
 }
 
@@ -242,7 +242,7 @@ $(document).ready(function(){
 	<li class="UL_Li_CLSS audit"><a href="${path}sys/sysBills/add.htm"><span>申请账单</span></a></li>
 	<li class="UL_Li_CLSS pool"><a href="${path}sys/sysFundPool/list.htm"><span>资金池剩余额度</span></a></li>
 	<li class="UL_Li_CLSS robot"><a href="${path}robot/answers.htm"><span>机器人</span></a></li>
-	<li class="UL_Li_CLSS api"><a href="javascript:void(0);"><span>API</span></a></li>
+	<li class="UL_Li_CLSS api"><a href="${path}api/show.htm"><span>API</span></a></li>
 	<%-- <li><a href="javascript:void(0);" ><b><img src="${path}image/myMain/tb01.png" /></b><span>关于我们</span></a></li>
 	<li><a href="javascript:void(0);" ><b><img src="${path}image/myMain/tb02.png" /></b><span>新闻中心</span></a></li>
 	<li><a href="javascript:void(0);" ><b><img src="${path}image/myMain/tb03.png" /></b><span>产品展示</span></a></li>

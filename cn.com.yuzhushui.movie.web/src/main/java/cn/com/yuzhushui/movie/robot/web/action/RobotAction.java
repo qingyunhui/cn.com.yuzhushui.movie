@@ -29,7 +29,7 @@ import cn.com.yuzhushui.movie.constant.MovieConstant;
 @RequestMapping(RobotAction.ACTION_PATH)
 public class RobotAction {
 
-protected Logger logger=LoggerFactory.getLogger(RobotAction.class);
+	protected Logger logger=LoggerFactory.getLogger(RobotAction.class);
 	
 	protected static final String ACTION_PATH = "/robot";
 	
@@ -45,7 +45,7 @@ protected Logger logger=LoggerFactory.getLogger(RobotAction.class);
 	public ResponseData robotAnswers(HttpServletRequest request,String content) {
 		ResponseData rd=new ResponseData();
 		logger.info("问:"+content);
-		RobotResponse robotResponse= ApiUtil.callRobotResponse(content, "json", "get");
+		RobotResponse robotResponse= ApiUtil.callRobotResponse(content, MovieConstant.JSON, MovieConstant.GET);
 		if(null!=robotResponse && "100000".equals(robotResponse.getCode())){
 			rd.setMsg(robotResponse.getText());
 			rd.addData(MovieConstant.SUCCESS_CODE, 10000);

@@ -17,7 +17,7 @@
     width: 99%;
     border: 1px solid #8c8787;
     margin: auto;
-    height:500px;
+    height:300px;
 }
 .content{
     width: 99%;
