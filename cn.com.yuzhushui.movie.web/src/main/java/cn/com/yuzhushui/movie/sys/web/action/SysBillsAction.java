@@ -174,7 +174,7 @@ public class SysBillsAction{
 			String debtorEmail=sysAccountService.query(sysBills.getDebtorId()).getEmail();
 			String[] sendEmails=new String[]{lenderEmial,debtorEmail};
 			MailTool.sendMail(subject, sb.toString(), sendEmails);
-			redirectAttributes.addAttribute(MovieConstant.MESSAGES_INFO,"账单申请成功啦！"); 
+			redirectAttributes.addAttribute(MovieConstant.MESSAGES_INFO,"账单审核成功啦！"); 
 		} catch (Exception e) {
 			logger.error("=================>账单.id={}，审核失败，失败原因:{}",new Object[]{id,JSONObject.toJSONString(e)});
 			e.printStackTrace();
@@ -249,7 +249,6 @@ public class SysBillsAction{
 			String lenderEmial=sysAccountService.query(sysBills.getLenderId()).getEmail();
 			String debtorEmail=sysAccountService.query(sysBills.getDebtorId()).getEmail();
 			MailTool.sendMail(debtorSubject, sb.toString(), new String[]{debtorEmail});
-			Thread.sleep(1000);
 			MailTool.sendMail(lenderSubject, sb.toString(), new String[]{lenderEmial});
 			redirectAttributes.addAttribute(MovieConstant.MESSAGES_INFO,"账单申请成功啦！");
 		} catch (Exception e) {
