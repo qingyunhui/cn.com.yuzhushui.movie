@@ -10,13 +10,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import qing.yun.hui.common.struct.baidu.BaiduConstant;
+import qing.yun.hui.common.struct.baidu.weather.WeatherResponse;
 import qing.yun.hui.common.struct.juhe.bus.busline.BuslineResponse;
 import qing.yun.hui.common.struct.juhe.bus.buslong.BusLongResponse;
 import qing.yun.hui.common.struct.juhe.idcard.IdCardResponse;
 import qing.yun.hui.common.struct.juhe.phone.mobile.MobileResponse;
 import qing.yun.hui.common.struct.juhe.phone.telephone.CallerIDTelephoneResponse;
+import qing.yun.hui.common.struct.juhe.video.searching.VideoSearchingResponse;
 import qing.yun.hui.common.utils.StringUtil;
 import qing.yun.hui.common.utils.api.ApiUtil;
+import qing.yun.hui.common.utils.api.WeatherUtil;
 import cn.com.yuzhushui.movie.common.base.ResponseData;
 import cn.com.yuzhushui.movie.constant.MovieConstant;
 
@@ -192,4 +196,63 @@ public class APIAction {
 		return rd;
 	}
 	
+	//天气
+	@RequestMapping(value="/weather")
+	public ModelAndView weather() {
+		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/weather");
+		return modelView;
+	}
+	
+	@RequestMapping(value="getWeather.json", method={RequestMethod.POST})
+	@ResponseBody
+	public ResponseData getWeather(HttpServletRequest request,String location ) {
+		ResponseData rd=new ResponseData();
+		if(StringUtil.isEmpty(location)){
+			rd.setMsg("请输入要查询的城市名称或经纬度.");
+			return rd;
+		}
+		try {
+			WeatherResponse response=WeatherUtil.callBaiduWeatherByResponseData(BaiduConstant.httpUrl, location , MovieConstant.XML, BaiduConstant.ak);
+			if(null==response){
+				rd.setMsg("未查询到【"+location+"】天气信息.");
+				return rd;
+			}
+			rd.addData(MovieConstant.SUCCESS_CODE, 10000);
+			rd.addData(MovieConstant.ENTITY, response);
+			logger.info("=======>查询到的【"+response+"】天气的信息为："+JSONObject.toJSONString(response));
+		} catch (Exception e) {
+			rd.setMsg(e.getMessage());
+		}
+		return rd;
+	}
+	
+	//影视搜索
+	@RequestMapping(value="/videoSearching")
+	public ModelAndView videoSearching() {
+		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/videoSearching");
+		return modelView;
+	}
+	
+	@RequestMapping(value="getVideoSearching.json", method={RequestMethod.POST})
+	@ResponseBody
+	public ResponseData getVideoSearching(HttpServletRequest request,String qname ) {
+		ResponseData rd=new ResponseData();
+		if(StringUtil.isEmpty(qname)){
+			rd.setMsg("请输入要查询的影视名称.");
+			return rd;
+		}
+		try {
+			VideoSearchingResponse response= ApiUtil.callVideoSearchingResponse(qname, MovieConstant.JOINT, MovieConstant.GET);
+			if(null==response){
+				rd.setMsg("未查询到【"+qname+"】影视的信息.");
+				return rd;
+			}
+			rd.addData(MovieConstant.SUCCESS_CODE, 10000);
+			rd.addData(MovieConstant.ENTITY, response);
+			logger.info("=======>查询到的【"+qname+"】影视的信息为："+JSONObject.toJSONString(response));
+		} catch (Exception e) {
+			rd.setMsg(e.getMessage());
+		}
+		return rd;
+	}
 }
