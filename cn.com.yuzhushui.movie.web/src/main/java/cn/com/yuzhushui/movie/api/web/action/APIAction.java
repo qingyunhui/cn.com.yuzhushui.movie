@@ -15,6 +15,7 @@ import qing.yun.hui.common.struct.baidu.weather.WeatherResponse;
 import qing.yun.hui.common.struct.juhe.bus.busline.BuslineResponse;
 import qing.yun.hui.common.struct.juhe.bus.buslong.BusLongResponse;
 import qing.yun.hui.common.struct.juhe.idcard.IdCardResponse;
+import qing.yun.hui.common.struct.juhe.news.NewsTopResponse;
 import qing.yun.hui.common.struct.juhe.phone.mobile.MobileResponse;
 import qing.yun.hui.common.struct.juhe.phone.telephone.CallerIDTelephoneResponse;
 import qing.yun.hui.common.struct.juhe.video.searching.VideoSearchingResponse;
@@ -250,6 +251,36 @@ public class APIAction {
 			rd.addData(MovieConstant.SUCCESS_CODE, 10000);
 			rd.addData(MovieConstant.ENTITY, response);
 			logger.info("=======>查询到的【"+qname+"】影视的信息为："+JSONObject.toJSONString(response));
+		} catch (Exception e) {
+			rd.setMsg(e.getMessage());
+		}
+		return rd;
+	}
+	
+	//新闻头条
+	@RequestMapping(value="/todayTop")
+	public ModelAndView todayTop() {
+		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/newsTop");
+		return modelView;
+	}
+	
+	@RequestMapping(value="getTodayTop.json", method={RequestMethod.POST})
+	@ResponseBody
+	public ResponseData getTodayTop(HttpServletRequest request,String type ) {
+		ResponseData rd=new ResponseData();
+		if(StringUtil.isEmpty(type)){
+			rd.setMsg("请输入要查询的头条分类名称.");
+			return rd;
+		}
+		try {
+			NewsTopResponse response= ApiUtil.callNewsTopResponse(type,MovieConstant.JOINT, MovieConstant.GET);
+			if(null==response){
+				rd.setMsg("未查询到【"+type+"】头条分类信息.");
+				return rd;
+			}
+			rd.addData(MovieConstant.SUCCESS_CODE, 10000);
+			rd.addData(MovieConstant.ENTITY, response);
+			logger.info("=======>查询到的【"+type+"】头条分类信息为："+JSONObject.toJSONString(response));
 		} catch (Exception e) {
 			rd.setMsg(e.getMessage());
 		}

@@ -124,7 +124,7 @@ body .mainmenu li.pool a span{
 	<li><a href="${path}api/buslong.htm" ><b><img src="${path}image/myMain/tb05.png" /></b><span>长途汽车信息</span></a></li>
 	<li><a href="${path}api/videoSearching.htm" ><b><img src="${path}image/myMain/tb06.png" /></b><span>影视影讯检索</span></a></li>
 	<li><a href="${path}api/weather.htm" ><b><img src="${path}image/myMain/tb07.png" /></b><span>天气预报</span></a></li>
-	<li><a href="javascript:void(0);" ><b><img src="${path}image/myMain/tb08.png" /></b><span>暂无...</span></a></li>     	 
+	<li><a href="${path}api/todayTop.htm" ><b><img src="${path}image/myMain/tb08.png" /></b><span>今日头条</span></a></li>     	 
 </ul>
 <c:set var="currIndex" value="0"></c:set>
 <%@ include file="/WEB-INF/jsp/public/footer.jsp"%>
