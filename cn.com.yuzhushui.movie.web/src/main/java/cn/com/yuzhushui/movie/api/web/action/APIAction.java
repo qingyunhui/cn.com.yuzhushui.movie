@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import qing.yun.hui.common.struct.baidu.BaiduConstant;
 import qing.yun.hui.common.struct.baidu.weather.WeatherResponse;
+import qing.yun.hui.common.struct.juhe.JuheEnum;
 import qing.yun.hui.common.struct.juhe.bus.busline.BuslineResponse;
 import qing.yun.hui.common.struct.juhe.bus.buslong.BusLongResponse;
 import qing.yun.hui.common.struct.juhe.idcard.IdCardResponse;
@@ -19,6 +20,7 @@ import qing.yun.hui.common.struct.juhe.news.NewsTopResponse;
 import qing.yun.hui.common.struct.juhe.phone.mobile.MobileResponse;
 import qing.yun.hui.common.struct.juhe.phone.telephone.CallerIDTelephoneResponse;
 import qing.yun.hui.common.struct.juhe.video.searching.VideoSearchingResponse;
+import qing.yun.hui.common.utils.EnumUtil;
 import qing.yun.hui.common.utils.StringUtil;
 import qing.yun.hui.common.utils.api.ApiUtil;
 import qing.yun.hui.common.utils.api.WeatherUtil;
@@ -273,7 +275,14 @@ public class APIAction {
 			return rd;
 		}
 		try {
-			NewsTopResponse response= ApiUtil.callNewsTopResponse(type,MovieConstant.JOINT, MovieConstant.GET);
+			String typeName=EnumUtil.getNameByCode(JuheEnum.NewsTopType.class, type);
+			if(StringUtil.isEmpty(typeName)){
+				typeName=EnumUtil.getCodeByName(JuheEnum.NewsTopType.class, type);
+			}else{
+				typeName=EnumUtil.getCodeByName(JuheEnum.NewsTopType.class, typeName);
+			}
+			if(StringUtil.isEmpty(typeName))typeName=type;
+			NewsTopResponse response= ApiUtil.callNewsTopResponse(typeName,MovieConstant.JOINT, MovieConstant.GET);
 			if(null==response){
 				rd.setMsg("未查询到【"+type+"】头条分类信息.");
 				return rd;

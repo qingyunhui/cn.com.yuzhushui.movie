@@ -55,7 +55,7 @@ body{height:100%; overflow:hidden; margin:0px; padding:0px;}
 <script type="text/javascript">
 		var start=false;
 		$(function(){
-			$("#results").append("<div style='margin: 7px 9px;font-size: 15px;font-family: initial;font-weight: bold;'>请输入要查询的头条类型。</div>");
+			$("#results").append("<div style='margin: 7px 9px;font-size: 10px;'>输入：头条/社会/国内/国际/娱乐/体育/军事/科技/财经/时尚</div>");
 			$("#type").select();
 			$(".btnQuery").click(function(){
 				if(start) return false;
@@ -89,7 +89,11 @@ body{height:100%; overflow:hidden; margin:0px; padding:0px;}
 		            		  var spans="";
 		            		  $.each(datas,function(index,obj){
 		            			  spans+="<span style='"+style+"'>出版社："+obj.author_name+"</span>";
-		            			  spans+="<span style='"+style+"'>分类："+obj.category+"</span>";
+		            			  var category=obj.category;
+		            			  if(category == undefined){
+		            				  category=type;
+		            			  }
+		            			  spans+="<span style='"+style+"'>分类："+category+"</span>";
 		            			  var pic1=obj.thumbnail_pic_s;
 		            			  var pic2=obj.thumbnail_pic_s02;
 		            			  var pic3=obj.thumbnail_pic_s03;

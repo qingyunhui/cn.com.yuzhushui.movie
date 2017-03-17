@@ -42,7 +42,7 @@
 body .mainmenu li.UL_Li_CLSS{
 	float: left;
     margin-left: 2.5%;
-    margin-top: 5.5%;
+    margin-top: 2.5%;
     width: 95%;
     border-radius: 3px;
     overflow: hidden;
