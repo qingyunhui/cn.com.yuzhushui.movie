@@ -119,10 +119,10 @@ body .mainmenu li.pool a span{
 	<li><a href="${path}api/idCard.htm" ><b><img src="${path}image/myMain/tb01.png" /></b><span>身份证信息查询</span></a></li>
 	<li><a href="${path}api/callerIdTelephone.htm" ><b><img src="${path}image/myMain/tb02.png" /></b><span>手机固话来电显示</span></a></li>
 	<li><a href="${path}api/mobile.htm" ><b><img src="${path}image/myMain/tb03.png" /></b><span>手机号归属地</span></a></li>
-	<li><a href="javascript:void(0);" ><b><img src="${path}image/myMain/tb04.png" /></b><span>全国公交及路径规划</span></a></li>
-	<li><a href="javascript:void(0);" ><b><img src="${path}image/myMain/tb05.png" /></b><span>长途汽车信息</span></a></li>
+	<li><a href="${path}robot/answers.htm" ><b><img src="${path}image/myMain/tb06.png" /></b><span>问答机器人</span></a></li>
+	<li><a href="${path}api/busline.htm" ><b><img src="${path}image/myMain/tb04.png" /></b><span>全国公交及路径规划</span></a></li>
+	<li><a href="${path}api/buslong.htm" ><b><img src="${path}image/myMain/tb05.png" /></b><span>长途汽车信息</span></a></li>
 	<li><a href="javascript:void(0);" ><b><img src="${path}image/myMain/tb06.png" /></b><span>影视影讯检索</span></a></li>
-	<li><a href="javascript:void(0);" ><b><img src="${path}image/myMain/tb06.png" /></b><span>暂无...</span></a></li>
 	<li><a href="javascript:void(0);" ><b><img src="${path}image/myMain/tb07.png" /></b><span>暂无...</span></a></li>
 	<li><a href="javascript:void(0);" ><b><img src="${path}image/myMain/tb08.png" /></b><span>暂无...</span></a></li>     	 
 </ul>

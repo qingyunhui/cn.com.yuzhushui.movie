@@ -10,15 +10,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.alibaba.fastjson.JSONObject;
-
-import cn.com.yuzhushui.movie.common.base.ResponseData;
-import cn.com.yuzhushui.movie.constant.MovieConstant;
+import qing.yun.hui.common.struct.juhe.bus.busline.BuslineResponse;
+import qing.yun.hui.common.struct.juhe.bus.buslong.BusLongResponse;
 import qing.yun.hui.common.struct.juhe.idcard.IdCardResponse;
 import qing.yun.hui.common.struct.juhe.phone.mobile.MobileResponse;
 import qing.yun.hui.common.struct.juhe.phone.telephone.CallerIDTelephoneResponse;
 import qing.yun.hui.common.utils.StringUtil;
 import qing.yun.hui.common.utils.api.ApiUtil;
+import cn.com.yuzhushui.movie.common.base.ResponseData;
+import cn.com.yuzhushui.movie.constant.MovieConstant;
+
+import com.alibaba.fastjson.JSONObject;
 
 /***
  ** @category 请用一句话来描述其用途...
@@ -129,4 +131,65 @@ public class APIAction {
 		}
 		return rd;
 	}
+	
+	//全国公交及路径规划查询
+	@RequestMapping(value="/busline")
+	public ModelAndView busline() {
+		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/busline");
+		return modelView;
+	}
+	
+	@RequestMapping(value="getBusline.json", method={RequestMethod.POST})
+	@ResponseBody
+	public ResponseData getBusline(HttpServletRequest request,String city ,String bus) {
+		ResponseData rd=new ResponseData();
+		if(StringUtil.isEmpty(city,bus)){
+			rd.setMsg("请输入要查询的城市及公交...");
+			return rd;
+		}
+		try {
+			BuslineResponse  response= ApiUtil.callBuslineResponse(city, bus, MovieConstant.JSON, MovieConstant.GET);
+			if(null==response){
+				rd.setMsg("未查询到【"+city+"，"+bus+"】公交的信息.");
+				return rd;
+			}
+			rd.addData(MovieConstant.SUCCESS_CODE, 10000);
+			rd.addData(MovieConstant.ENTITY, response);
+			logger.info("=======>查询到的【"+city+"，"+bus+"】的信息为："+JSONObject.toJSONString(response));
+		} catch (Exception e) {
+			rd.setMsg(e.getMessage());
+		}
+		return rd;
+	}
+	
+	//长途汽车信息
+	@RequestMapping(value="/buslong")
+	public ModelAndView buslong() {
+		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/buslong");
+		return modelView;
+	}
+	
+	@RequestMapping(value="getBuslong.json", method={RequestMethod.POST})
+	@ResponseBody
+	public ResponseData getBuslong(HttpServletRequest request,String station) {
+		ResponseData rd=new ResponseData();
+		if(StringUtil.isEmpty(station)){
+			rd.setMsg("请输入要查询的城市...");
+			return rd;
+		}
+		try {
+			BusLongResponse response= ApiUtil.callBusLongResponse(station,  MovieConstant.JSON, MovieConstant.GET);
+			if(null==response){
+				rd.setMsg("未查询到【"+station+"】长途汽车的信息.");
+				return rd;
+			}
+			rd.addData(MovieConstant.SUCCESS_CODE, 10000);
+			rd.addData(MovieConstant.ENTITY, response);
+			logger.info("=======>查询到的【"+station+"】长途汽车的信息为："+JSONObject.toJSONString(response));
+		} catch (Exception e) {
+			rd.setMsg(e.getMessage());
+		}
+		return rd;
+	}
+	
 }
