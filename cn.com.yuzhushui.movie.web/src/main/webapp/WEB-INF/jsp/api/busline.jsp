@@ -44,17 +44,20 @@ body{height:100%; overflow:hidden; margin:0px; padding:0px;}
 		<a href="${path}app/appMain/myMain.htm" class="home">首页</a>
 		<span>全国公交及路径规划查询</span>
 	</header>
-		<div class="results" id="results" style="overflow:scroll;"></div>
-		<div class="content"><input name="city" style="width: 100%;height: 100%;" placeholder="输入要查询的城市" maxlength="20" size="20" id="city"/></div>
-		<div class="content"><input name="bus" style="width: 100%;height: 100%;" placeholder="输入要查询的公交" maxlength="10" size="10" id="bus"/></div>
-		<div class="buttons" style="position:fixed;bottom:0.2rem; width: 100%;">
-			<button class="btnQuery button_open">查询</button>
-		</div>
+	  <div style="position: absolute;top: 3.9em;bottom: 40px;width: 100%;">
+		<div class="results" id="results" style="overflow:scroll;height: 82%;"></div>
+		<div class="content" style="height: 8%;"><input name="city" style="width: 100%;height: 100%;" placeholder="输入要查询的城市" maxlength="20" size="20" id="city"/></div>
+		<div class="content" style="height: 8%;"><input name="bus" style="width: 100%;height: 100%;" placeholder="输入要查询的公交" maxlength="10" size="10" id="bus"/></div>
+	  </div>
+	  <div class="buttons" style="position:fixed;bottom:0.2rem; width: 100%;">
+		<button class="btnQuery button_open">查询</button>
+	  </div>
 </body>
 <script type="text/javascript">
 		var start=false;
 		$(function(){
-			$("#results").append("<div style='margin: 7px 9px;font-size: 15px;font-family: initial;font-weight: bold;'>您好，请输入要查询的城市。</div>");
+			$("#results").append("<div style='margin: 7px 9px;font-size: 15px;font-family: initial;font-weight: bold;'>请输入要查询的城市。</div>");
+			$("#city").select();
 			$(".btnQuery").click(function(){
 				if(start) return false;
 				var city=$("#city").val();

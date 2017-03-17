@@ -44,16 +44,19 @@ body{height:100%; overflow:hidden; margin:0px; padding:0px;}
 		<a href="${path}app/appMain/myMain.htm" class="home">首页</a>
 		<span>今日头条</span>
 	</header>
-		<div class="results" id="results" style="overflow:scroll;"></div>
-		<div class="content"><input name="type" style="width: 100%;height: 100%;" placeholder="头条/社会/国内/国际/娱乐/体育/军事" maxlength="20" size="20" id="type"/></div>
-		<div class="buttons" style="position:fixed;bottom:0.2rem; width: 100%;">
+	  <div style="position: absolute;top: 3.9em;bottom: 40px;width: 100%;">
+		<div class="results" id="results" style="overflow:scroll;height: 90%;"></div>
+		<div class="content" style="height: 8%;"><input name="type" style="width: 100%;height:100%;" placeholder="头条/社会/国内/国际/娱乐/体育/军事" maxlength="20" size="20" id="type"/></div>
+	  </div>
+	  <div class="buttons" style="position:fixed;bottom:0.2rem; width: 100%;">
 			<button class="btnQuery button_open">查询</button>
-		</div>
+	  </div>
 </body>
 <script type="text/javascript">
 		var start=false;
 		$(function(){
-			$("#results").append("<div style='margin: 7px 9px;font-size: 15px;font-family: initial;font-weight: bold;'>您好，请输入要查询的头条类型。</div>");
+			$("#results").append("<div style='margin: 7px 9px;font-size: 15px;font-family: initial;font-weight: bold;'>请输入要查询的头条类型。</div>");
+			$("#type").select();
 			$(".btnQuery").click(function(){
 				if(start) return false;
 				var type=$("#type").val();

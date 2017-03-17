@@ -44,8 +44,10 @@ body{height:100%; overflow:hidden; margin:0px; padding:0px;}
 		<a href="${path}app/appMain/myMain.htm" class="home">首页</a>
 		<span>机器人</span>
 	</header>
-		<div class="results" id="results" style="overflow:scroll;"></div>
-		<div class="content"><input name="content" style="width: 100%;height: 100%;" placeholder="输入要问小蜜的内容" maxlength="30" size="30" id="content"/></div>
+	  <div style="position: absolute;top: 3.9em;bottom: 40px;width: 100%;">
+		<div class="results" id="results" style="overflow:scroll;height: 90%;"></div>
+		<div class="content" style="height: 8%;"><input name="content" style="width: 100%;height: 100%;" placeholder="输入要问小蜜的疑问" maxlength="30" size="30" id="content"/></div>
+	  </div>
 		<div class="buttons" style="position:fixed;bottom:0.2rem; width: 100%;">
 			<button class="btnSend button_open">发送</button>
 		</div>
@@ -53,12 +55,13 @@ body{height:100%; overflow:hidden; margin:0px; padding:0px;}
 <script type="text/javascript">
 		var start=false;
 		$(function(){
-			$("#results").append("<div style='margin: 7px 9px;font-size: 15px;font-family: initial;font-weight: bold;'>您好，我是机器小蜜。</div>");
+			$("#results").append("<div style='margin: 7px 9px;font-size: 17px;color:#0fbf0d;'>小蜜上知天文，下知地理...</div>");
+			$("#content").select();
 			$(".btnSend").click(function(){
 				if(start) return false;
 				var value=$("#content").val();
 				if(value==""){
-					layer.msg("内容不能为空.");
+					layer.msg("疑问不能为空.");
 					return false;
 				}
 				$("#results").append("<div style='background: rgba(7, 70, 255, 0.15);font-size: 19px;margin-top: 1px; margin-bottom: 4px;font-family: monospace;'>我问:"+value+"</div>");
@@ -79,9 +82,9 @@ body{height:100%; overflow:hidden; margin:0px; padding:0px;}
 		              success: function(result) {
 		            	  var datas=result.data;
 		            	  if(datas && datas.success_code==10000){
-		            		  $("#results").append("<div style='background: rgba(101, 255, 7, 0.15);font-size: 16px;margin-top: 4px; margin-bottom: 1px;'>机器小蜜答:"+result.msg+"</div>");
+		            		  $("#results").append("<div style='background: rgba(101, 255, 7, 0.15);font-size: 16px;margin-top: 4px; margin-bottom: 1px;'>小蜜答:"+result.msg+"</div>");
 		            	  }else{
-		            		  $("#results").append("<div style='background: rgba(101, 255, 7, 0.15);font-size: 16px;margin-top: 4px; margin-bottom: 1px;'>机器小蜜答:"+result.msg+"</div>");
+		            		  $("#results").append("<div style='background: rgba(101, 255, 7, 0.15);font-size: 16px;margin-top: 4px; margin-bottom: 1px;'>小蜜答:"+result.msg+"</div>");
 		            	  }
 					  }
 		        });

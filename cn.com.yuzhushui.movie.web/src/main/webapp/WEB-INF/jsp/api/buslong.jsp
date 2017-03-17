@@ -44,8 +44,10 @@ body{height:100%; overflow:hidden; margin:0px; padding:0px;}
 		<a href="${path}app/appMain/myMain.htm" class="home">首页</a>
 		<span>长途汽车信息查询</span>
 	</header>
-		<div class="results" id="results" style="overflow:scroll;"></div>
-		<div class="content"><input name="station" style="width: 100%;height: 100%;" placeholder="输入要查询的城市站点名称" maxlength="20" size="20" id="station"/></div>
+	  <div style="position: absolute;top: 3.9em;bottom: 40px;width: 100%;">
+		<div class="results" id="results" style="overflow:scroll;height: 90%;"></div>
+		<div class="content" style="height: 8%;"><input name="station" style="width: 100%;height: 100%;" placeholder="输入要查询的城市站点名称" maxlength="20" size="20" id="station"/></div>
+	  </div>
 		<div class="buttons" style="position:fixed;bottom:0.2rem; width: 100%;">
 			<button class="btnQuery button_open">查询</button>
 		</div>
@@ -53,7 +55,8 @@ body{height:100%; overflow:hidden; margin:0px; padding:0px;}
 <script type="text/javascript">
 		var start=false;
 		$(function(){
-			$("#results").append("<div style='margin: 7px 9px;font-size: 15px;font-family: initial;font-weight: bold;'>您好，请输入要查询的城市站点名称。</div>");
+			$("#results").append("<div style='margin: 7px 9px;font-size: 15px;font-family: initial;font-weight: bold;'>请输入要查询的城市站点名称。</div>");
+			$("#station").select();
 			$(".btnQuery").click(function(){
 				if(start) return false;
 				var station=$("#station").val();

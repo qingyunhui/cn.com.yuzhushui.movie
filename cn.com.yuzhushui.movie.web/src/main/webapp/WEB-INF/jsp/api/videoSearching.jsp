@@ -44,8 +44,10 @@ body{height:100%; overflow:hidden; margin:0px; padding:0px;}
 		<a href="${path}app/appMain/myMain.htm" class="home">首页</a>
 		<span>影视影讯检索</span>
 	</header>
-		<div class="results" id="results" style="overflow:scroll;"></div>
-		<div class="content"><input name="qname" style="width: 100%;height: 100%;" placeholder="输入要查询的影视" maxlength="20" size="20" id="qname"/></div>
+	  <div style="position: absolute;top: 3.9em;bottom: 40px;width: 100%;">
+		<div class="results" id="results" style="overflow:scroll;height: 90%;"></div>
+		<div class="content" style="height: 8%;"><input name="qname" style="width: 100%;height: 100%;" placeholder="输入要查询的影视" maxlength="20" size="20" id="qname"/></div>
+	  </div>
 		<div class="buttons" style="position:fixed;bottom:0.2rem; width: 100%;">
 			<button class="btnQuery button_open">查询</button>
 		</div>
@@ -53,7 +55,8 @@ body{height:100%; overflow:hidden; margin:0px; padding:0px;}
 <script type="text/javascript">
 		var start=false;
 		$(function(){
-			$("#results").append("<div style='margin: 7px 9px;font-size: 15px;font-family: initial;font-weight: bold;'>您好，请输入要查询的影视名称。</div>");
+			$("#results").append("<div style='margin: 7px 9px;font-size: 15px;font-family: initial;font-weight: bold;'>请输入要查询的影视名称。</div>");
+			$("#qname").select();
 			$(".btnQuery").click(function(){
 				if(start) return false;
 				var qname=$("#qname").val();
@@ -108,8 +111,14 @@ body{height:100%; overflow:hidden; margin:0px; padding:0px;}
 		            		    
 		            		  $.each(videoRecList,function(index,obj){
 		            			  spans+="<span style='"+style+"'>影视标题："+obj.title+"</span>";
-		            			  spans+="<span style='"+style+"'>影视封面<img src='"+obj.cover+"' style='width: 75%;height: 50%;'></img></span>";
-		            			  spans+="<span style='"+style+"'><a href='"+obj.detail_url+"' style='"+style+"'>影视播放连接"+obj.detail_url+"</a></span>";
+		            			  var cover=obj.cover;
+		            			  if (cover != undefined){ 
+		            			  	spans+="<span style='"+style+"'>影视封面<img src='"+cover+"'></img></span>";
+		            			  }
+		            			  var urls=obj.detail_url;
+		            			  if (urls != undefined){
+		            			  	spans+="<span style='"+style+"'><a href='"+obj.detail_url+"' style='"+style+"'>影视播放连接"+urls+"</a></span>";
+		            			  }
 		            			  if(index!=videoRecList.length-1){
 		            				  spans+="<div style='"+lineStyle+"'></div>";
 		            			  }
