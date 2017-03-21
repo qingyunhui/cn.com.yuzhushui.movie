@@ -21,6 +21,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import qing.yun.hui.common.annotations.ActionAnno;
+import qing.yun.hui.common.annotations.WarningAnno;
 import qing.yun.hui.common.struct.callable.CallableData;
 import qing.yun.hui.common.struct.callable.CallableDataResult;
 import qing.yun.hui.common.utils.WebUtil;
@@ -42,7 +44,7 @@ import com.alibaba.fastjson.JSONObject;
 @RequestMapping(SysDataAction.ACTION_PATH)
 public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 	
-	protected int initCount=353;//初始化数据条数
+	protected int initCount=700;//初始化数据条数
 	
 	protected final int defaultCount=4;//默认处理条数
 	
@@ -159,6 +161,7 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 	/**
 	 * <p>开一个线程跑</p>
 	 * **/
+	@ActionAnno(name="开线程跑")
 	@RequestMapping(value = "oneThreadByAddBatch", method = { RequestMethod.POST,RequestMethod.GET })
 	public String oneThreadByAddBatch() {
 		logger.info("=====================>开始了哦(*+﹏+*)~ ");
