@@ -1,13 +1,16 @@
 package cn.com.yuzhushui.movie.aspects;
 
-import org.aspectj.lang.ProceedingJoinPoint;
+import java.lang.reflect.Method;
+
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.AfterThrowing;
-import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
+
+import com.alibaba.fastjson.JSONObject;
 
 /***
  ** @category 请用一句话来描述其用途...
@@ -17,7 +20,7 @@ import org.springframework.stereotype.Component;
  **/
 @Component
 @Aspect
-public class WarningHandle {
+public class WarningHandle implements InitializingBean{
 	
 	Logger logger=org.slf4j.LoggerFactory.getLogger(WarningHandle.class);
 
@@ -44,28 +47,34 @@ public class WarningHandle {
         System.out.println("后置通知-->>" + result);  
     }*/  
   
-    @After("anyMethod()")  
-    public void doAfter() {  
+    @After(value="executePointcut()")
+    public void doAfter(JoinPoint joinPoint) {  
+    	
+    	logger.info("around." + joinPoint.getTarget().getClass() + "对象上用"+joinPoint.getKind()+","+joinPoint.getArgs()+","+joinPoint.getClass()+","+joinPoint.getTarget()+","+joinPoint.getSignature().getName() + "方法进行对 '");
+		String targetName = joinPoint.getTarget().getClass().getName();
+		String methodName = joinPoint.getSignature().getName();
+		Object[] arguments = joinPoint.getArgs();
+		logger.info("methodName:"+methodName+",arguments:"+JSONObject.toJSONString(arguments));
+		Class<?> targetClass;
+		try {
+			targetClass = Class.forName(targetName);
+			Method[] methods = targetClass.getMethods();
+			for (Method method : methods) {
+				logger.info("method:"+JSONObject.toJSONString(method));
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+    	
         System.out.println("最终通知");  
     }  
   
     // 调用的方法出现异常才会调用这个方法  
-    @AfterThrowing( throwing = "e")  
+   /* @AfterThrowing( throwing = "e")  
     public void doAfterThrowing(Exception e) {  
         System.out.println("异常通知-->" + e);  
     }  
-  
-    @Around("anyMethod()")  
-    public Object doAround(ProceedingJoinPoint pJoinPoint) throws Throwable {  
-        System.out.println("环绕通知");  
-        // 这里如果pJoinPoint.proceed()不执行，后面拦截到的方法都不会执行，非常适用于权限管理  
-        Object result = pJoinPoint.proceed();  
-        System.out.println("退出");  
-        return result;  
-    }  
-	
-	
-	
+  */
 	/*@SuppressWarnings("rawtypes")
 	public static List<SysOperationLog> getAnnOperationLogs(List<Object> objects,ProceedingJoinPoint joinPoint)throws Exception {
 		System.err.println("around." + joinPoint.getTarget().getClass() + "对象上用"+joinPoint.getKind()+","+joinPoint.getArgs()+","+joinPoint.getClass()+","+joinPoint.getTarget()+","+joinPoint.getSignature().getName() + "方法进行对 '");
@@ -123,6 +132,12 @@ public class WarningHandle {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

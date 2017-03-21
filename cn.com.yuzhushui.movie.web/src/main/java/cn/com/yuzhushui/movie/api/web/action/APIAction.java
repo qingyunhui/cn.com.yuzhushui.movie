@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import qing.yun.hui.common.annotations.WarningAnno;
 import qing.yun.hui.common.struct.baidu.BaiduConstant;
 import qing.yun.hui.common.struct.baidu.weather.WeatherResponse;
 import qing.yun.hui.common.struct.juhe.JuheEnum;
@@ -42,7 +43,7 @@ public class APIAction {
 	protected Logger logger=LoggerFactory.getLogger(APIAction.class);
 	protected static final String ACTION_PATH = "/api";
 	
-	//机器人问答
+	@WarningAnno(theme="API列表")
 	@RequestMapping(value="/show")
 	public ModelAndView show() {
 		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/show");
@@ -50,6 +51,7 @@ public class APIAction {
 	}
 	
 	//身份证查询
+	@WarningAnno(theme="身份证查询")
 	@RequestMapping(value="/idCard")
 	public ModelAndView IDCard() {
 		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/idCard");
@@ -80,6 +82,7 @@ public class APIAction {
 	}
 	
 	//手机固话来电显示IDTelephone
+	@WarningAnno(theme="手机固话来电显示")
 	@RequestMapping(value="/callerIdTelephone")
 	public ModelAndView callerIdTelephone() {
 		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/callerIdTelephone");
@@ -110,6 +113,7 @@ public class APIAction {
 	}
 	
 	//手机号归属地Mobile
+	@WarningAnno(theme="手机号归属地Mobile")
 	@RequestMapping(value="/mobile")
 	public ModelAndView mobile() {
 		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/mobile");
@@ -140,6 +144,7 @@ public class APIAction {
 	}
 	
 	//全国公交及路径规划查询
+	@WarningAnno(theme="全国公交及路径规划查询")
 	@RequestMapping(value="/busline")
 	public ModelAndView busline() {
 		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/busline");
@@ -170,6 +175,7 @@ public class APIAction {
 	}
 	
 	//长途汽车信息
+	@WarningAnno(theme="长途汽车信息")
 	@RequestMapping(value="/buslong")
 	public ModelAndView buslong() {
 		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/buslong");
@@ -200,6 +206,7 @@ public class APIAction {
 	}
 	
 	//天气
+	@WarningAnno(theme="天气")
 	@RequestMapping(value="/weather")
 	public ModelAndView weather() {
 		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/weather");
@@ -230,6 +237,7 @@ public class APIAction {
 	}
 	
 	//影视搜索
+	@WarningAnno(theme="影视搜索")
 	@RequestMapping(value="/videoSearching")
 	public ModelAndView videoSearching() {
 		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/videoSearching");
@@ -260,6 +268,7 @@ public class APIAction {
 	}
 	
 	//新闻头条
+	@WarningAnno(theme="新闻头条")
 	@RequestMapping(value="/todayTop")
 	public ModelAndView todayTop() {
 		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/newsTop");
