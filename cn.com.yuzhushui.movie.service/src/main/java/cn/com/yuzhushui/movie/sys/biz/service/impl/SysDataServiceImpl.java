@@ -9,6 +9,7 @@ import cn.com.yuzhushui.movie.common.base.BaseServiceImpl;
 import cn.com.yuzhushui.movie.sys.biz.dao.SysDataDao;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysData;
 import cn.com.yuzhushui.movie.sys.biz.service.SysDataService;
+import qing.yun.hui.common.annotations.WarningAnno;
 
 /**
  * @author qing.yunhui 
@@ -22,6 +23,7 @@ public class SysDataServiceImpl extends BaseServiceImpl<SysData,Integer> impleme
 	@Autowired
 	private SysDataDao sysDataDao;
 	
+	@WarningAnno(theme="insert sysData interfaceImpl")
 	public int add(List<SysData> models) {
 		int count = sysDataDao.insertBatch(models);
 		return count;

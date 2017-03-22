@@ -13,7 +13,7 @@ import cn.com.yuzhushui.movie.sys.biz.entity.SysData;
  */
 public interface SysDataService extends BaseService<SysData,Integer>{
 	
-	@WarningAnno(theme="insert sysData")
+	@WarningAnno(theme="insert sysData interface")
 	public int add(List<SysData> models);
 	
 	public int update(SysData data);
