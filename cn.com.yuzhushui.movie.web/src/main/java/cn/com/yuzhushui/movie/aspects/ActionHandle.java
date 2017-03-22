@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 
-import qing.yun.hui.common.annotations.WarningAnno;
+import qing.yun.hui.common.annotations.ActionAnno;
 import qing.yun.hui.common.utils.DateUtil;
 
 import com.alibaba.fastjson.JSONObject;
@@ -21,26 +21,24 @@ import com.alibaba.fastjson.JSONObject;
  ** @category 请用一句话来描述其用途...
  ** @author qing.yunhui
  ** @email: 280672161@qq.com
- ** @createTime: 2017年3月20日下午5:13:52
+ ** @createTime: 2017年3月22日上午9:26:14
  **/
 @Component
 @Aspect
-public class WarningHandle implements InitializingBean{
-	
-	Logger logger=org.slf4j.LoggerFactory.getLogger(WarningHandle.class);
+public class ActionHandle implements InitializingBean{
+
+	Logger logger=org.slf4j.LoggerFactory.getLogger(ActionHandle.class);
 
 
-	public WarningHandle() {
-		logger.info("*************WarningHandle()方法执行*************");
+	public ActionHandle() {
+		logger.info("*************ActionHandle()方法执行*************");
 	}
 	
 	/**切入点*/
-	@Pointcut("@annotation(qing.yun.hui.common.annotations.WarningAnno)")//指定类
-	public void executePointcut() {
-		System.err.println("*************executePointcut()方法执行...");
+	@Pointcut("@annotation(qing.yun.hui.common.annotations.ActionAnno)")//指定类
+	public void executeActionPointcut() {
+		System.err.println("*************executeActionPointcut()方法执行...");
 	}
-	
-	// || qing.yun.hui.common.annotations.ActionAnno
 	
 	 // 定义有参数的切入点,参数名称需相同。这里对拦截到的方法只有只有一个String参数的方法才有用  
     /*@Before("anyMethod() && args(userName)")  
@@ -49,18 +47,18 @@ public class WarningHandle implements InitializingBean{
     }*/  
   
     // 获取有返回结果的通知  
-    /*@AfterReturning(pointcut = "anyMethod()", returning = "result")  
+    @AfterReturning(pointcut = "executeActionPointcut()", returning = "result")  
     public void doAfterReturning(String result) {  
-        System.out.println("后置通知-->>" + result);  
-    }*/  
-	
-	@AfterReturning(pointcut = "executePointcut()", returning = "result")  
-    public void doAfterReturning(String result) {  
-        System.out.println("后置通知-->>" + result);  
+        System.out.println("ActionHandle.后置通知-->>" + result);  
     }  
+	
+	/*@AfterReturning
+	public void doAfterReturning(Object obj){
+		logger.info("======================>doAfterReturning.end.result="+JSONObject.toJSONString(obj));
+	}*/
   
 	
-    @After(value="executePointcut()")
+    @After(value="executeActionPointcut()")
     public void doAfter(JoinPoint joinPoint) {  
     	logger.info("around." + joinPoint.getTarget().getClass() + "对象上用"+joinPoint.getKind()+","+joinPoint.getArgs()+","+joinPoint.getClass()+","+joinPoint.getTarget()+","+joinPoint.getSignature().getName() + "方法进行对 '");
 		String targetName = joinPoint.getTarget().getClass().getName();
@@ -74,9 +72,9 @@ public class WarningHandle implements InitializingBean{
 			for (Method method : methods) {
 				if(method.getName().equals(methodName)){
 					logger.info("methodName:"+JSONObject.toJSONString(methodName));
-					WarningAnno wanno=method.getAnnotation(WarningAnno.class);
-					if(null!=wanno){
-						logger.info("service 执行时间："+DateUtil.dateToString(new Date(), DateUtil.YYYY_MM_DD_HH_MM_SS)+"，执行方法："+methodName+"，执行动作："+wanno.theme()+".");
+					ActionAnno acAno=method.getAnnotation(ActionAnno.class);
+					if(null!=acAno){
+						logger.info("action 执行时间："+DateUtil.dateToString(new Date(), DateUtil.YYYY_MM_DD_HH_MM_SS)+"，执行方法："+methodName+"，执行动作："+acAno.name()+".");
 					}
 				}
 			}
@@ -86,11 +84,6 @@ public class WarningHandle implements InitializingBean{
 		logger.info("------------->@After........");  
     }  
     
-    @Override
-	public void afterPropertiesSet() throws Exception {
-    	logger.info("------------->afterPropertiesSet........");  
-	}
-  
     // 调用的方法出现异常才会调用这个方法  
    /* @AfterThrowing( throwing = "e")  
     public void doAfterThrowing(Exception e) {  
@@ -154,6 +147,12 @@ public class WarningHandle implements InitializingBean{
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		logger.info("------------->Action.afterPropertiesSet........");  
+		
 	}
 	
 }

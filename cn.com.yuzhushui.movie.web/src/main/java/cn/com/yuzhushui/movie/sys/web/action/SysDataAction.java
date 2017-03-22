@@ -44,7 +44,7 @@ import com.alibaba.fastjson.JSONObject;
 @RequestMapping(SysDataAction.ACTION_PATH)
 public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 	
-	protected int initCount=700;//初始化数据条数
+	protected int initCount=300;//初始化数据条数
 	
 	protected final int defaultCount=4;//默认处理条数
 	
