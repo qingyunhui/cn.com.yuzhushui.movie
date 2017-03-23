@@ -554,7 +554,7 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 			data.setComment("测试:"+i);
 			data.setCreater("张三"+i);
 			data.setCreaterId(i);
-			data.setDataId(i);
+			data.setDataId(i+50000);
 			data.setLoseEfficacyDate(new Date());
 			data.setTargetId(i);
 			data.setTargetTable("testTable"+i);

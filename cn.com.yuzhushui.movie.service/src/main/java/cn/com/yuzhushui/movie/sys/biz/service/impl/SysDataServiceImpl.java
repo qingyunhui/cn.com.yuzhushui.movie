@@ -7,12 +7,12 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import qing.yun.hui.common.annotations.WarningAnno;
 import cn.com.yuzhushui.movie.common.base.BaseServiceImpl;
 import cn.com.yuzhushui.movie.common.base.ResponseData;
 import cn.com.yuzhushui.movie.sys.biz.dao.SysDataDao;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysData;
 import cn.com.yuzhushui.movie.sys.biz.service.SysDataService;
-import qing.yun.hui.common.annotations.WarningAnno;
 
 /**
  * @author qing.yunhui 
@@ -26,7 +26,6 @@ public class SysDataServiceImpl extends BaseServiceImpl<SysData,Integer> impleme
 	@Autowired
 	private SysDataDao sysDataDao;
 	
-	@WarningAnno(theme="insert sysData interfaceImpl")
 	public int add(List<SysData> models) {
 		int count = sysDataDao.insertBatch(models);
 		return count;
@@ -35,9 +34,9 @@ public class SysDataServiceImpl extends BaseServiceImpl<SysData,Integer> impleme
 	public int update(SysData data){
 		return sysDataDao.update(data);
 	}
-
+	
+	@WarningAnno(theme="更新.",returnType=ResponseData.class)
 	@Override
-	@WarningAnno(theme="更新.")
 	public ResponseData updateSysData(SysData data) {
 		ResponseData rd=new ResponseData();
 		if(null==data) {

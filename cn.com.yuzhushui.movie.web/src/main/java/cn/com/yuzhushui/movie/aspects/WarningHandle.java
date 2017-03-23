@@ -3,10 +3,8 @@ package cn.com.yuzhushui.movie.aspects;
 import java.lang.reflect.Method;
 import java.util.Date;
 
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
-import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
@@ -84,13 +82,38 @@ public class WarningHandle implements InitializingBean{
         Object target=pjp.getTarget();
         Object thiss=pjp.getThis();
         MethodSignature signatures=(MethodSignature)pjp.getSignature();
-        signatures.getReturnType();//返回值类型...
-        logger.info("******MethodSignature:{}",new Object[]{JSONObject.toJSONString(signatures)});
+        //signatures.getReturnType();//返回值类型...
+        Class<?> clz=signatures.getReturnType();//返回值类型...
+        
+        String signatururesName=signatures.getName();//方法名 
+        String targetName=target.getClass().getName();//类名:SysDataServiceImpl
+        Class<?> targetClz=Class.forName(targetName);
+        Method[] methods= targetClz.getMethods();
+        for(Method method:methods){
+        	if(method.getName().equals(signatururesName)){
+        		logger.info("========>signatururesName:"+signatururesName+",methodName:"+method.getName());
+        		WarningAnno wanno= method.getAnnotation(WarningAnno.class);
+        		if(null!=wanno){
+        			Class<?> returnType=wanno.returnType();//返回类型
+        			logger.info("==========>clz:{},returnType:{}",new Object[]{JSONObject.toJSONString(clz),JSONObject.toJSONString(returnType)});
+        			logger.info("service 执行时间："+DateUtil.dateToString(new Date(), DateUtil.YYYY_MM_DD_HH_MM_SS)+"，执行方法："+method.getName()+"，执行动作："+wanno.theme()+".");
+        		}
+        	}
+        }
+        
+        logger.info("*******signatururesName:"+signatururesName);
+        
+//        clz.getName();		包名.类名.java
+//        clz.getSimpleName();	类名.java
+        
+        clz.getSimpleName();	//TODO
+        
+        logger.info("******ReturnType():{}",new Object[]{JSONObject.toJSONString(clz)});
         logger.info("WarningHandle.退出方法,object={},args={},kind={},signature={},target={},thiss={}",new Object[]{JSONObject.toJSONString(object),JSONObject.toJSONString(args),kind,JSONObject.toJSONString(signature),JSONObject.toJSONString(target),JSONObject.toJSONString(thiss)});  
         return object;  
     }  
 	
-    @After(value="executePointcut()")
+    /*@After(value="executePointcut()")
     public void doAfter(JoinPoint joinPoint) {  
     	logger.info("around." + joinPoint.getTarget().getClass() + "对象上用"+joinPoint.getKind()+","+joinPoint.getArgs()+","+joinPoint.getClass()+","+joinPoint.getTarget()+","+joinPoint.getSignature().getName() + "方法进行对 '");
 		String targetName = joinPoint.getTarget().getClass().getName();
@@ -114,7 +137,7 @@ public class WarningHandle implements InitializingBean{
 			e.printStackTrace();
 		}
 		logger.info("------------->WarningHandle.@After........");  
-    }  
+    }*/  
     
     @Override
 	public void afterPropertiesSet() throws Exception {

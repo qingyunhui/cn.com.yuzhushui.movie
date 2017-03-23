@@ -19,7 +19,6 @@ public interface SysDataService extends BaseService<SysData,Integer>{
 	
 	public int update(SysData data);
 	
-	@WarningAnno(theme="更新.")
 	ResponseData updateSysData(SysData data);
     
 }
