@@ -46,11 +46,15 @@ public class SessionUtil {
 	}
 
 	public static HttpServletRequest getRequest() {
-		return getRequestAttr().getRequest();
+		ServletRequestAttributes requestAttr= getRequestAttr();
+		if(null==requestAttr) return null;
+		return requestAttr.getRequest();
 	}
 
 	public static HttpServletResponse getResponse() {
-		return getRequestAttr().getResponse();
+		ServletRequestAttributes requestAttr= getRequestAttr();
+		if(null==requestAttr) return null;
+		return requestAttr.getResponse();
 	}
 	
 	public static SessionInfo getSessionInfo(){

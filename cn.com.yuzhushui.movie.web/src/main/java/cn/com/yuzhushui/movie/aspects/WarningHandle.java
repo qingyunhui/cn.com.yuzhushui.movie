@@ -13,10 +13,17 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import qing.yun.hui.common.annotations.WarningAnno;
 import qing.yun.hui.common.utils.DateUtil;
+import qing.yun.hui.common.utils.StringUtil;
+import cn.com.yuzhushui.movie.common.util.SessionUtil;
+import cn.com.yuzhushui.movie.enums.SysWarningEnum;
+import cn.com.yuzhushui.movie.sys.biz.entity.SysUser;
+import cn.com.yuzhushui.movie.sys.biz.entity.SysWarning;
+import cn.com.yuzhushui.movie.sys.biz.service.SysWarningService;
 
 import com.alibaba.fastjson.JSONObject;
 
@@ -32,7 +39,9 @@ public class WarningHandle implements InitializingBean{
 	
 	Logger logger=org.slf4j.LoggerFactory.getLogger(WarningHandle.class);
 
-
+	@Autowired
+	private SysWarningService sysWarningService;
+	
 	public WarningHandle() {
 		logger.info("*************WarningHandle()方法执行*************");
 	}
@@ -89,14 +98,34 @@ public class WarningHandle implements InitializingBean{
         String targetName=target.getClass().getName();//类名:SysDataServiceImpl
         Class<?> targetClz=Class.forName(targetName);
         Method[] methods= targetClz.getMethods();
+        SysUser sysUser= SessionUtil.getSysUser();
+        String operator=null==sysUser?null:sysUser.getName();
         for(Method method:methods){
-        	if(method.getName().equals(signatururesName)){
-        		logger.info("========>signatururesName:"+signatururesName+",methodName:"+method.getName());
+        	String methodName=method.getName();
+        	if(methodName.equals(signatururesName)){
+        		logger.info("========>signatururesName:"+signatururesName+",methodName:"+methodName);
         		WarningAnno wanno= method.getAnnotation(WarningAnno.class);
         		if(null!=wanno){
         			Class<?> returnType=wanno.returnType();//返回类型
+        			try {
+        				SysWarning entity=new SysWarning();
+        				entity.setWarningDate(new Date());
+        				entity.setAction(wanno.action());
+        				entity.setMethodName(methodName);
+        				entity.setReturnType(String.valueOf(returnType));
+        				entity.setReturnValue(String.valueOf(object));
+        				entity.setArgs(JSONObject.toJSONString(args));
+        				entity.setOperator(operator);
+        				entity.setAnnotations(String.valueOf(wanno));
+        				entity.setIp(StringUtil.getIPAddress());
+        				entity.setStatus(SysWarningEnum.Status.UN_NOTIFIED.getValue());
+        				sysWarningService.add(entity);
+					} catch (Exception e) {
+						e.printStackTrace();
+						logger.error("==============>sysWarningService.add(entity) is error.{}",new Object[]{JSONObject.toJSONString(e)});
+					}
         			logger.info("==========>clz:{},returnType:{}",new Object[]{JSONObject.toJSONString(clz),JSONObject.toJSONString(returnType)});
-        			logger.info("service 执行时间："+DateUtil.dateToString(new Date(), DateUtil.YYYY_MM_DD_HH_MM_SS)+"，执行方法："+method.getName()+"，执行动作："+wanno.theme()+".");
+        			logger.info("service 执行时间："+DateUtil.dateToString(new Date(), DateUtil.YYYY_MM_DD_HH_MM_SS)+"，执行方法："+methodName+"，执行动作："+wanno.action()+".");
         		}
         	}
         }

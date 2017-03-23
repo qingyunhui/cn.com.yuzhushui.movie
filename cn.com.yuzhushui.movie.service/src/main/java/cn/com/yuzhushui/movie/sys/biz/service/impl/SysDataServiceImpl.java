@@ -35,7 +35,7 @@ public class SysDataServiceImpl extends BaseServiceImpl<SysData,Integer> impleme
 		return sysDataDao.update(data);
 	}
 	
-	@WarningAnno(theme="更新.",returnType=ResponseData.class)
+	@WarningAnno(action="更新.",returnType=ResponseData.class)
 	@Override
 	public ResponseData updateSysData(SysData data) {
 		ResponseData rd=new ResponseData();
