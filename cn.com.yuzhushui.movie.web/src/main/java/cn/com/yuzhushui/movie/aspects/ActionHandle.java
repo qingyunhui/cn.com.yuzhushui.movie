@@ -3,17 +3,26 @@ package cn.com.yuzhushui.movie.aspects;
 import java.lang.reflect.Method;
 import java.util.Date;
 
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import qing.yun.hui.common.annotations.ActionAnno;
 import qing.yun.hui.common.utils.DateUtil;
+import qing.yun.hui.common.utils.StringUtil;
+import cn.com.yuzhushui.movie.common.util.SessionUtil;
+import cn.com.yuzhushui.movie.enums.SysWarningEnum;
+import cn.com.yuzhushui.movie.sys.biz.entity.SysUser;
+import cn.com.yuzhushui.movie.sys.biz.entity.SysWarning;
+import cn.com.yuzhushui.movie.sys.biz.service.SysWarningService;
 
 import com.alibaba.fastjson.JSONObject;
 
@@ -28,51 +37,74 @@ import com.alibaba.fastjson.JSONObject;
 public class ActionHandle implements InitializingBean{
 
 	Logger logger=org.slf4j.LoggerFactory.getLogger(ActionHandle.class);
+	
+	@Autowired
+	private SysWarningService sysWarningService;
 
 	public ActionHandle() {}
 	
 	/**切入点*/
 	@Pointcut("@annotation(qing.yun.hui.common.annotations.ActionAnno)")//指定类
 	public void executeActionPointcut() {
-		System.err.println("*************executeActionPointcut()方法执行...");
+		logger.info("*************executeActionPointcut()方法执行...");
 	}
 	
-	 // 定义有参数的切入点,参数名称需相同。这里对拦截到的方法只有只有一个String参数的方法才有用  
-    /*@Before("anyMethod() && args(userName)")  
-    public void doAccessCheck(String userName) {  
-        System.out.println("前置通知-->>" + userName);  
-    }*/  
-  
-    // 获取有返回结果的通知  
-    @AfterReturning(pointcut = "executeActionPointcut()", returning = "result")  
-    public void doAfterReturning(String result) {  
-        System.out.println("ActionHandle.后置通知-->>" + result);  
+	@AfterReturning("executeActionPointcut()")  
+    public void doAfter(){  
+		logger.info("ActionHandle.后置通知：joinPoint");  
+    }  
+      
+    @AfterThrowing("executeActionPointcut()")  
+    public void doAfterThrow(){  
+    	logger.info("ActionHandle.例外通知");  
+    }  
+    
+    // 调用的方法出现异常才会调用这个方法  
+    @AfterThrowing(value="executeActionPointcut()",throwing = "e")  
+    public void doAfterThrowing(Exception e) {  
+    	logger.info("异常通知-->" + e);  
     }  
 	
-    @After(value="executeActionPointcut()")
-    public void doAfter(JoinPoint joinPoint) {  
-    	logger.info("around." + joinPoint.getTarget().getClass() + "对象上用"+joinPoint.getKind()+","+joinPoint.getArgs()+","+joinPoint.getClass()+","+joinPoint.getTarget()+","+joinPoint.getSignature().getName() + "方法进行对 '");
-		String targetName = joinPoint.getTarget().getClass().getName();
-		String methodName = joinPoint.getSignature().getName();
-		Object[] arguments = joinPoint.getArgs();
-		logger.info("methodName:"+methodName+",arguments:"+JSONObject.toJSONString(arguments));
-		Class<?> targetClass;
-		try {
-			targetClass = Class.forName(targetName);
-			Method[] methods = targetClass.getMethods();
-			for (Method method : methods) {
-				if(method.getName().equals(methodName)){
-					logger.info("methodName:"+JSONObject.toJSONString(methodName));
-					ActionAnno acAno=method.getAnnotation(ActionAnno.class);
-					if(null!=acAno){
-						logger.info("action 执行时间："+DateUtil.dateToString(new Date(), DateUtil.YYYY_MM_DD_HH_MM_SS)+"，执行方法："+methodName+"，执行动作："+acAno.name()+".");
+    @Around("executeActionPointcut()")  
+    public Object doBasicProfiling(ProceedingJoinPoint pjp) throws Throwable{  
+        System.out.println("ActionHandle.进入环绕通知");  
+        Object object = pjp.proceed();//执行该方法返回结果(返回值)
+        Object[] args= pjp.getArgs();//参数
+        Object target=pjp.getTarget();
+        MethodSignature signatures=(MethodSignature)pjp.getSignature();
+//        Class<?> clz=signatures.getReturnType();//返回值类型...
+        String signatururesName=signatures.getName();//方法名 
+        String targetName=target.getClass().getName();//类名:SysDataServiceImpl
+        Class<?> targetClz=Class.forName(targetName);
+        Method[] methods= targetClz.getMethods();
+        SysUser sysUser= SessionUtil.getSysUser();
+        String operator=null==sysUser?null:sysUser.getName();
+        for(Method method:methods){
+        	String methodName=method.getName();
+        	if(methodName.equals(signatururesName)){
+        		ActionAnno anno= method.getAnnotation(ActionAnno.class);
+        		if(null!=anno){
+        			try {
+        				SysWarning entity=new SysWarning();
+        				entity.setWarningDate(new Date());
+        				entity.setAction(anno.action());
+        				entity.setMethodName(methodName);
+        				entity.setReturnValue(JSONObject.toJSONString(object));
+        				entity.setArgs(JSONObject.toJSONString(args));
+        				entity.setOperator(operator);
+        				entity.setAnnotations(String.valueOf(anno));
+        				entity.setIp(StringUtil.getIPAddress());
+        				entity.setStatus(SysWarningEnum.Status.UN_NOTIFIED.getValue());
+        				sysWarningService.add(entity);
+					} catch (Exception e) {
+						e.printStackTrace();
+						logger.error("==============>sysWarningService.add(entity) is error.{}",new Object[]{JSONObject.toJSONString(e)});
 					}
-				}
-			}
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		logger.info("------------->@After........");  
+        			logger.info("service 执行时间："+DateUtil.dateToString(new Date(), DateUtil.YYYY_MM_DD_HH_MM_SS)+"，执行方法："+methodName+"，执行动作："+anno.action()+".");
+        		}
+        	}
+        }
+        return object;  
     }  
     
     // 调用的方法出现异常才会调用这个方法  

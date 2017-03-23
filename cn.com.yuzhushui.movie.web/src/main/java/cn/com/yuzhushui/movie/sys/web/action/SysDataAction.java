@@ -161,7 +161,7 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 	/**
 	 * <p>开一个线程跑</p>
 	 * **/
-	@ActionAnno(name="开线程跑")
+	@ActionAnno(action="开线程跑")
 	@RequestMapping(value = "oneThreadByAddBatch", method = { RequestMethod.POST,RequestMethod.GET })
 	public String oneThreadByAddBatch() {
 		logger.info("=====================>开始了哦(*+﹏+*)~ ");
@@ -187,7 +187,6 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 		return "redirect:"+ACTION_PATH+"/list.htm";
 	}
 	
-	@ActionAnno(name="开线程跑")
 	@RequestMapping(value = "oneThreadByUpdateBatch", method = { RequestMethod.POST,RequestMethod.GET })
 	public String oneThreadByUpdateBatch() {
 		logger.info("=====================>开始了哦(*+﹏+*)~ ");

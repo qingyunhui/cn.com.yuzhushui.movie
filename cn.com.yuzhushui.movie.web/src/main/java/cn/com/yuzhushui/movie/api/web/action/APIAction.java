@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import qing.yun.hui.common.annotations.ActionAnno;
-import qing.yun.hui.common.struct.baidu.BaiduConstant;
 import qing.yun.hui.common.struct.baidu.weather.WeatherResponse;
 import qing.yun.hui.common.struct.juhe.JuheEnum;
 import qing.yun.hui.common.struct.juhe.bus.busline.BuslineResponse;
@@ -23,8 +23,7 @@ import qing.yun.hui.common.struct.juhe.phone.telephone.CallerIDTelephoneResponse
 import qing.yun.hui.common.struct.juhe.video.searching.VideoSearchingResponse;
 import qing.yun.hui.common.utils.EnumUtil;
 import qing.yun.hui.common.utils.StringUtil;
-import qing.yun.hui.common.utils.api.ApiUtil;
-import qing.yun.hui.common.utils.api.WeatherUtil;
+import cn.com.yuzhushui.movie.common.base.APIService;
 import cn.com.yuzhushui.movie.common.base.ResponseData;
 import cn.com.yuzhushui.movie.constant.MovieConstant;
 
@@ -43,7 +42,10 @@ public class APIAction {
 	protected Logger logger=LoggerFactory.getLogger(APIAction.class);
 	protected static final String ACTION_PATH = "/api";
 	
-	@ActionAnno(name="API列表")
+	@Autowired
+	private APIService apiService;
+	
+	@ActionAnno(action="访问API列表")
 	@RequestMapping(value="/show")
 	public ModelAndView show() {
 		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/show");
@@ -51,7 +53,7 @@ public class APIAction {
 	}
 	
 	//身份证查询
-	@ActionAnno(name="身份证查询")
+	@ActionAnno(action="访问身份证查询")
 	@RequestMapping(value="/idCard")
 	public ModelAndView IDCard() {
 		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/idCard");
@@ -67,7 +69,7 @@ public class APIAction {
 			return rd;
 		}
 		try {
-			IdCardResponse card= ApiUtil.callIdCardResponse(cardno, MovieConstant.JSON, MovieConstant.GET);
+			IdCardResponse card= apiService.callIdCardResponse(cardno);
 			if(null==card){
 				rd.setMsg("未查询到身份证号："+cardno+"，的信息.");
 				return rd;
@@ -82,7 +84,7 @@ public class APIAction {
 	}
 	
 	//手机固话来电显示IDTelephone
-	@ActionAnno(name="手机固话来电显示")
+	@ActionAnno(action="访问手机固话来电显示")
 	@RequestMapping(value="/callerIdTelephone")
 	public ModelAndView callerIdTelephone() {
 		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/callerIdTelephone");
@@ -98,7 +100,7 @@ public class APIAction {
 			return rd;
 		}
 		try {
-			CallerIDTelephoneResponse callerIDTelephone= ApiUtil.callCallerIDTelephoneResponse(tel, MovieConstant.JSON, MovieConstant.GET);
+			CallerIDTelephoneResponse callerIDTelephone= apiService.callCallerIDTelephoneResponse(tel);
 			if(null==callerIDTelephone){
 				rd.setMsg("未查询到手机固话："+tel+"，的信息.");
 				return rd;
@@ -113,7 +115,7 @@ public class APIAction {
 	}
 	
 	//手机号归属地Mobile
-	@ActionAnno(name="手机号归属地Mobile")
+	@ActionAnno(action="访问手机号归属地")
 	@RequestMapping(value="/mobile")
 	public ModelAndView mobile() {
 		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/mobile");
@@ -129,7 +131,7 @@ public class APIAction {
 			return rd;
 		}
 		try {
-			MobileResponse mobileResponse=ApiUtil.callMobileResponse(mobile, MovieConstant.JSON, MovieConstant.GET);
+			MobileResponse mobileResponse=apiService.callMobileResponse(mobile);
 			if(null==mobileResponse){
 				rd.setMsg("未查询到手机号："+mobile+"，的信息.");
 				return rd;
@@ -144,7 +146,7 @@ public class APIAction {
 	}
 	
 	//全国公交及路径规划查询
-	@ActionAnno(name="全国公交及路径规划查询")
+	@ActionAnno(action="访问全国公交及路径规划")
 	@RequestMapping(value="/busline")
 	public ModelAndView busline() {
 		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/busline");
@@ -160,7 +162,7 @@ public class APIAction {
 			return rd;
 		}
 		try {
-			BuslineResponse  response= ApiUtil.callBuslineResponse(city, bus, MovieConstant.JSON, MovieConstant.GET);
+			BuslineResponse  response= apiService.callBuslineResponse(city, bus);
 			if(null==response){
 				rd.setMsg("未查询到【"+city+"，"+bus+"】公交的信息.");
 				return rd;
@@ -175,7 +177,7 @@ public class APIAction {
 	}
 	
 	//长途汽车信息
-	@ActionAnno(name="长途汽车信息")
+	@ActionAnno(action="访问长途汽车信息")
 	@RequestMapping(value="/buslong")
 	public ModelAndView buslong() {
 		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/buslong");
@@ -191,7 +193,7 @@ public class APIAction {
 			return rd;
 		}
 		try {
-			BusLongResponse response= ApiUtil.callBusLongResponse(station,  MovieConstant.JSON, MovieConstant.GET);
+			BusLongResponse response= apiService.callBusLongResponse(station);
 			if(null==response){
 				rd.setMsg("未查询到【"+station+"】长途汽车的信息.");
 				return rd;
@@ -206,7 +208,7 @@ public class APIAction {
 	}
 	
 	//天气
-	@ActionAnno(name="天气")
+	@ActionAnno(action="访问天气气象预报")
 	@RequestMapping(value="/weather")
 	public ModelAndView weather() {
 		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/weather");
@@ -222,7 +224,7 @@ public class APIAction {
 			return rd;
 		}
 		try {
-			WeatherResponse response=WeatherUtil.callBaiduWeatherByResponseData(BaiduConstant.httpUrl, location , MovieConstant.XML, BaiduConstant.ak);
+			WeatherResponse response=apiService.callBaiduWeatherByResponseData(location);
 			if(null==response){
 				rd.setMsg("未查询到【"+location+"】天气信息.");
 				return rd;
@@ -237,7 +239,7 @@ public class APIAction {
 	}
 	
 	//影视搜索
-	@ActionAnno(name="影视搜索")
+	@ActionAnno(action="访问影视搜索")
 	@RequestMapping(value="/videoSearching")
 	public ModelAndView videoSearching() {
 		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/videoSearching");
@@ -253,7 +255,7 @@ public class APIAction {
 			return rd;
 		}
 		try {
-			VideoSearchingResponse response= ApiUtil.callVideoSearchingResponse(qname, MovieConstant.JOINT, MovieConstant.GET);
+			VideoSearchingResponse response= apiService.callVideoSearchingResponse(qname);
 			if(null==response){
 				rd.setMsg("未查询到【"+qname+"】影视的信息.");
 				return rd;
@@ -268,7 +270,7 @@ public class APIAction {
 	}
 	
 	//新闻头条
-	@ActionAnno(name="新闻头条")
+	@ActionAnno(action="访问新闻头条")
 	@RequestMapping(value="/todayTop")
 	public ModelAndView todayTop() {
 		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/newsTop");
@@ -291,7 +293,7 @@ public class APIAction {
 				typeName=EnumUtil.getCodeByName(JuheEnum.NewsTopType.class, typeName);
 			}
 			if(StringUtil.isEmpty(typeName))typeName=type;
-			NewsTopResponse response= ApiUtil.callNewsTopResponse(typeName,MovieConstant.JOINT, MovieConstant.GET);
+			NewsTopResponse response= apiService.callNewsTopResponse(typeName);
 			if(null==response){
 				rd.setMsg("未查询到【"+type+"】头条分类信息.");
 				return rd;

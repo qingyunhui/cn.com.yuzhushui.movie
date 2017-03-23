@@ -4,7 +4,6 @@ import java.lang.reflect.Method;
 import java.util.Date;
 
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
@@ -49,25 +48,24 @@ public class WarningHandle implements InitializingBean{
 	/**切入点*/
 	@Pointcut("@annotation(qing.yun.hui.common.annotations.WarningAnno)")//指定类
 	public void executePointcut() {
-		System.err.println("*************WarningHandle.executePointcut()方法执行...");
+		logger.info("*************WarningHandle.executePointcut()方法执行...");
 	}
-	
 	
 	@AfterReturning("executePointcut()")  
     public void doAfter(){  
-        System.out.println("WarningHandle.后置通知：joinPoint");  
+		logger.info("WarningHandle.后置通知：joinPoint");  
     }  
       
     @AfterThrowing("executePointcut()")  
     public void doAfterThrow(){  
-        System.out.println("WarningHandle.例外通知");  
+    	logger.info("WarningHandle.例外通知");  
     }  
     
     // 调用的方法出现异常才会调用这个方法  
-   /* @AfterThrowing( throwing = "e")  
+    @AfterThrowing(value="executePointcut()",throwing = "e")  
     public void doAfterThrowing(Exception e) {  
-        System.out.println("异常通知-->" + e);  
-    }  */
+    	logger.info("异常通知-->" + e);  
+    }  
     
   /*WarningHandle.进入环绕通知
     [2017-03-23 10:17:35] [INFO] [cn.com.yuzhushui.movie.aspects.WarningHandle] - ******MethodSignature:{"declaringType":"cn.com.yuzhushui.movie.sys.biz.service.impl.SysDataServiceImpl","declaringTypeName":"cn.com.yuzhushui.movie.sys.biz.service.impl.SysDataServiceImpl","exceptionTypes":[],"method":{"accessible":false,"annotations":[{}],"bridge":false,"declaringClass":"cn.com.yuzhushui.movie.sys.biz.service.impl.SysDataServiceImpl","exceptionTypes":[],"genericExceptionTypes":[],"genericParameterTypes":["cn.com.yuzhushui.movie.sys.biz.entity.SysData"],"genericReturnType":"cn.com.yuzhushui.movie.common.base.ResponseData","modifiers":1,"name":"updateSysData","parameterAnnotations":[[]],"parameterTypes":["cn.com.yuzhushui.movie.sys.biz.entity.SysData"],"returnType":"cn.com.yuzhushui.movie.common.base.ResponseData","synthetic":false,"typeParameters":[],"varArgs":false},"modifiers":1,"name":"updateSysData","parameterNames":["data"],"parameterTypes":["cn.com.yuzhushui.movie.sys.biz.entity.SysData"],"returnType":"cn.com.yuzhushui.movie.common.base.ResponseData"}
@@ -85,15 +83,10 @@ public class WarningHandle implements InitializingBean{
     public Object doBasicProfiling(ProceedingJoinPoint pjp) throws Throwable{  
         System.out.println("WarningHandle.进入环绕通知");  
         Object object = pjp.proceed();//执行该方法返回结果(返回值)
-        Object[] args= pjp.getArgs();
-        String kind=pjp.getKind();
-        Signature signature= pjp.getSignature();
+        Object[] args= pjp.getArgs();//参数
         Object target=pjp.getTarget();
-        Object thiss=pjp.getThis();
         MethodSignature signatures=(MethodSignature)pjp.getSignature();
-        //signatures.getReturnType();//返回值类型...
-        Class<?> clz=signatures.getReturnType();//返回值类型...
-        
+//        Class<?> clz=signatures.getReturnType();//返回值类型...
         String signatururesName=signatures.getName();//方法名 
         String targetName=target.getClass().getName();//类名:SysDataServiceImpl
         Class<?> targetClz=Class.forName(targetName);
@@ -103,7 +96,6 @@ public class WarningHandle implements InitializingBean{
         for(Method method:methods){
         	String methodName=method.getName();
         	if(methodName.equals(signatururesName)){
-        		logger.info("========>signatururesName:"+signatururesName+",methodName:"+methodName);
         		WarningAnno wanno= method.getAnnotation(WarningAnno.class);
         		if(null!=wanno){
         			Class<?> returnType=wanno.returnType();//返回类型
@@ -113,7 +105,7 @@ public class WarningHandle implements InitializingBean{
         				entity.setAction(wanno.action());
         				entity.setMethodName(methodName);
         				entity.setReturnType(String.valueOf(returnType));
-        				entity.setReturnValue(String.valueOf(object));
+        				entity.setReturnValue(JSONObject.toJSONString(object));
         				entity.setArgs(JSONObject.toJSONString(args));
         				entity.setOperator(operator);
         				entity.setAnnotations(String.valueOf(wanno));
@@ -124,21 +116,10 @@ public class WarningHandle implements InitializingBean{
 						e.printStackTrace();
 						logger.error("==============>sysWarningService.add(entity) is error.{}",new Object[]{JSONObject.toJSONString(e)});
 					}
-        			logger.info("==========>clz:{},returnType:{}",new Object[]{JSONObject.toJSONString(clz),JSONObject.toJSONString(returnType)});
         			logger.info("service 执行时间："+DateUtil.dateToString(new Date(), DateUtil.YYYY_MM_DD_HH_MM_SS)+"，执行方法："+methodName+"，执行动作："+wanno.action()+".");
         		}
         	}
         }
-        
-        logger.info("*******signatururesName:"+signatururesName);
-        
-//        clz.getName();		包名.类名.java
-//        clz.getSimpleName();	类名.java
-        
-        clz.getSimpleName();	//TODO
-        
-        logger.info("******ReturnType():{}",new Object[]{JSONObject.toJSONString(clz)});
-        logger.info("WarningHandle.退出方法,object={},args={},kind={},signature={},target={},thiss={}",new Object[]{JSONObject.toJSONString(object),JSONObject.toJSONString(args),kind,JSONObject.toJSONString(signature),JSONObject.toJSONString(target),JSONObject.toJSONString(thiss)});  
         return object;  
     }  
 	
