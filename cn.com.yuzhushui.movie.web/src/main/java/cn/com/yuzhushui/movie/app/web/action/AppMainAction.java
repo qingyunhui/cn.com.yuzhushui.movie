@@ -39,6 +39,7 @@ import cn.com.yuzhushui.movie.sys.biz.entity.SysUser;
 import cn.com.yuzhushui.movie.sys.biz.service.SysAccountService;
 import cn.com.yuzhushui.movie.sys.biz.service.SysFundPoolService;
 import cn.com.yuzhushui.movie.sys.biz.service.SysUserService;
+import qing.yun.hui.common.annotations.ActionAnno;
 import qing.yun.hui.common.utils.CookieUtil;
 import qing.yun.hui.common.utils.DateUtil;
 import qing.yun.hui.common.utils.EnumUtil;
@@ -90,6 +91,7 @@ public class AppMainAction {
 	
 	/**引导页*/
 	@RequestMapping(value = "/introduce")
+	@ActionAnno(action="访问引导页")
 	public ModelAndView introduce(HttpServletRequest request,HttpServletResponse response, HttpSession session) {
 		/***
 		 * @1.如果用户未注册则进入引导页...
@@ -115,6 +117,7 @@ public class AppMainAction {
 	
 	/**进入个人首页（第一个页面）**/
 	@RequestMapping(value = "/myMain")
+	@ActionAnno(action="访问个人首页")
 	public ModelAndView myMain(HttpServletRequest request,HttpServletResponse response, HttpSession session) {
 		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/myMain");
 		Integer accountId=SessionUtil.getSysAccount().getAccountId();
@@ -134,6 +137,7 @@ public class AppMainAction {
 	}
 	
 	/**进入个人首页（第一个页面）**/
+	@ActionAnno(action="访问个人首页index")
 	@RequestMapping(value = "/index")
 	public ModelAndView index(HttpServletRequest request,HttpServletResponse response, HttpSession session) {
 		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/index");
@@ -141,6 +145,7 @@ public class AppMainAction {
 	}
 	
 	/**商品分类（第二个页面）*/
+	@ActionAnno(action="访问商品分类")
 	@RequestMapping(value = "/goodsCategory")
 	public ModelAndView goodsCategory(HttpServletRequest request,HttpServletResponse response, HttpSession session) {
 		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/goodsCategory");
@@ -149,6 +154,7 @@ public class AppMainAction {
 	
 	/**购物车（第三个页面）*/
 	@RequestMapping(value = "/shoppingCart")
+	@ActionAnno(action="访问购物车")
 	public ModelAndView shoppingCart(HttpServletRequest request,HttpServletResponse response, HttpSession session) {
 		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/shoppingCart");
 		return modelView;
@@ -156,6 +162,7 @@ public class AppMainAction {
 	
 	/**个人中心（第四个页面）*/
 	@RequestMapping(value = "/myself")
+	@ActionAnno(action="访问个人中心")
 	public ModelAndView myself(HttpServletRequest request,HttpServletResponse response, HttpSession session) {
 		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/myself");
 		return modelView;
@@ -183,6 +190,7 @@ public class AppMainAction {
 	
 	//注册-获取验证码  
 	@RequestMapping(value="getRegisterCode.json", method={RequestMethod.POST})
+	@ActionAnno(action="访问注册-获取验证码")
 	@ResponseBody
 	public ResponseData getRegisterCode(HttpServletRequest request,String email) {
 		ResponseData rd=new ResponseData();
@@ -237,6 +245,7 @@ public class AppMainAction {
 	
 	/**提交注册*/ 
 	@RequestMapping(value="doRegister.json", method={RequestMethod.POST})
+	@ActionAnno(action="提交注册")
 	@ResponseBody
 	public ResponseData doRegister(HttpServletRequest request,String account,String password,String email,String code) {
 		ResponseData rd=new ResponseData();
@@ -301,6 +310,7 @@ public class AppMainAction {
 	}
 	
 	/**登陆*/
+	@ActionAnno(action="提交登陆")
 	@RequestMapping(value="doLogin.json", method={RequestMethod.POST})
 	@ResponseBody
 	public ResponseData doLogin(HttpServletRequest request,HttpServletResponse response, HttpSession session,LogParameter logParam,RedirectAttributes attributes) {
@@ -401,6 +411,7 @@ public class AppMainAction {
 	}
 	
 	/**找回密码页面*/
+	@ActionAnno(action="访问找回密码")
 	@RequestMapping(value = "/findPassword")
 	public ModelAndView findPassword(String messages) {
 		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/findPassword");
@@ -409,6 +420,7 @@ public class AppMainAction {
 	}
 	
 	/**修改密码页面*/  
+	@ActionAnno(action="访问修改密码")
 	@RequestMapping(value = "/updatePassword")
 	public ModelAndView updatePassword(String account) {
 		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/updatePassword");
@@ -417,6 +429,7 @@ public class AppMainAction {
 	}
 	
 	/**修改密码提交*/  
+	@ActionAnno(action="修改密码提交")
 	@RequestMapping(value = "/doUpdatePassword.json",method={RequestMethod.POST})
 	@ResponseBody
 	public ResponseData doUpdatePassword(String account,String code,String password,String confirmPassword) {
@@ -468,6 +481,7 @@ public class AppMainAction {
 	}
 	
 	/**找回密码-获取验证码*/
+	@ActionAnno(action="访问找回密码-获取验证码")
 	@RequestMapping(value="getCode.json", method={RequestMethod.POST})
 	@ResponseBody
 	public ResponseData getCode(HttpServletRequest request,String account,String email) {

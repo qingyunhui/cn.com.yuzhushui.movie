@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import qing.yun.hui.common.annotations.ActionAnno;
+
 /***
  ** @category 请用一句话来描述其用途...
  ** @author qing.yunhui
@@ -25,6 +27,7 @@ public class ErrorAction {
 	protected static final String ACTION_PATH = "/error";
 	
 	/**页面未找到**/
+	@ActionAnno(action="页面未找到")
 	@RequestMapping(value = "/notfind")
 	public ModelAndView notfind(HttpServletRequest request,HttpServletResponse response, HttpSession session) {
 		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/notfind");

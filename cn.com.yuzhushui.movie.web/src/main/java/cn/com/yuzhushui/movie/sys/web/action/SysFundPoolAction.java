@@ -19,6 +19,7 @@ import cn.com.yuzhushui.movie.sys.biz.entity.SysBills;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysFundPool;
 import cn.com.yuzhushui.movie.sys.biz.service.SysBillsService;
 import cn.com.yuzhushui.movie.sys.biz.service.SysFundPoolService;
+import qing.yun.hui.common.annotations.ActionAnno;
 import qing.yun.hui.common.utils.BeanUtil;
 
 /**
@@ -42,6 +43,7 @@ public class SysFundPoolAction {
 	
 	protected Logger logger=LoggerFactory.getLogger(SysFundPoolAction.class);
 
+	@ActionAnno(action="访问个人资金池")
 	@RequestMapping(value = "list")
 	public ModelAndView list(String messages) {
 		ModelAndView modelAndView = new ModelAndView(getActionPath() + "/list");

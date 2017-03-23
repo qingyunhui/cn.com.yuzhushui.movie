@@ -27,6 +27,7 @@ import cn.com.yuzhushui.movie.sys.biz.service.SysAccountService;
 import cn.com.yuzhushui.movie.sys.biz.service.SysBillsService;
 import cn.com.yuzhushui.movie.sys.biz.service.SysFundPoolService;
 import cn.com.yuzhushui.movie.sys.biz.service.SysUserService;
+import qing.yun.hui.common.annotations.ActionAnno;
 import qing.yun.hui.common.utils.BeanUtil;
 import qing.yun.hui.common.utils.DateUtil;
 import qing.yun.hui.common.utils.EnumUtil;
@@ -66,6 +67,7 @@ public class SysBillsAction{
 	 * <p>账单列表，仅查询借款人or出借人与自己有关的所有账单。</p>
 	 * */
 	@RequestMapping("list")
+	@ActionAnno(action="访问个人账单")
 	public ModelAndView list(String messages) {
 		ModelAndView modelAndView =new ModelAndView(getActionPath() + "/list");
 		try {
@@ -91,6 +93,7 @@ public class SysBillsAction{
 	/**
 	 * <p>账单详情</p>
 	 * */
+	@ActionAnno(action="访问个人账单详情")
 	@RequestMapping(value = "detail")
 	public ModelAndView detail(Integer id) {
 		ModelAndView modelAndView = new ModelAndView(getActionPath() + "/detail");
@@ -125,6 +128,7 @@ public class SysBillsAction{
 	 * <p>只能审核，账单的出借人是对应自己的</p>
 	 * */
 	@RequestMapping(value = "doAudit")
+	@ActionAnno(action="提交审核")
 	public ModelAndView doAudit(Integer id,RedirectAttributes redirectAttributes) {
 		ModelAndView modelAndView = new ModelAndView("redirect:/sys/sysBills/list.htm");
 		try {
@@ -184,6 +188,7 @@ public class SysBillsAction{
 	
 	
 	@RequestMapping(value = "add")
+	@ActionAnno(action="访问新增账单")
 	public ModelAndView add(SysBills bills) {
 		ModelAndView modelAndView = new ModelAndView(getActionPath() + "/add");
 		modelAndView.addObject(MovieConstant.ENTITY, bills);
@@ -209,10 +214,8 @@ public class SysBillsAction{
 		return modelAndView;
 	}
 	
-	/**
-	 * <p>只能审核，账单的出借人是对应自己的</p>
-	 * */
 	@RequestMapping(value = "doAdd")
+	@ActionAnno(action="提交个人账单")
 	public ModelAndView doAdd(SysBills sysBills,RedirectAttributes redirectAttributes) {
 		ModelAndView modelAndView = new ModelAndView("redirect:/sys/sysBills/list.htm");
 		try {
