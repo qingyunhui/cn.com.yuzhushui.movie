@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 import qing.yun.hui.common.annotations.ActionAnno;
 import qing.yun.hui.common.utils.DateUtil;
 import qing.yun.hui.common.utils.StringUtil;
+import qing.yun.hui.common.utils.WebUtil;
 import cn.com.yuzhushui.movie.common.util.SessionUtil;
 import cn.com.yuzhushui.movie.enums.SysWarningEnum;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysUser;
@@ -90,7 +91,7 @@ public class ActionHandle implements InitializingBean{
         				entity.setAction(anno.action());
         				entity.setMethodName(methodName);
         				entity.setReturnValue(JSONObject.toJSONString(object));
-        				entity.setArgs(JSONObject.toJSONString(args));
+        				entity.setArgs(WebUtil.argsToJSON(args, "cn.com.yuzhushui","qing.yun.hui","java.lang","java.util"));
         				entity.setOperator(operator);
         				entity.setAnnotations(String.valueOf(anno));
         				entity.setIp(StringUtil.getIPAddress());
