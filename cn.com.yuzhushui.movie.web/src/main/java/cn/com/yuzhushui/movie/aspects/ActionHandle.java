@@ -29,10 +29,7 @@ public class ActionHandle implements InitializingBean{
 
 	Logger logger=org.slf4j.LoggerFactory.getLogger(ActionHandle.class);
 
-
-	public ActionHandle() {
-		logger.info("*************ActionHandle()方法执行*************");
-	}
+	public ActionHandle() {}
 	
 	/**切入点*/
 	@Pointcut("@annotation(qing.yun.hui.common.annotations.ActionAnno)")//指定类
@@ -51,12 +48,6 @@ public class ActionHandle implements InitializingBean{
     public void doAfterReturning(String result) {  
         System.out.println("ActionHandle.后置通知-->>" + result);  
     }  
-	
-	/*@AfterReturning
-	public void doAfterReturning(Object obj){
-		logger.info("======================>doAfterReturning.end.result="+JSONObject.toJSONString(obj));
-	}*/
-  
 	
     @After(value="executeActionPointcut()")
     public void doAfter(JoinPoint joinPoint) {  

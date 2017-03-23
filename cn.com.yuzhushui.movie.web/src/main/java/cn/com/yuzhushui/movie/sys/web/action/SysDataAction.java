@@ -22,12 +22,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import qing.yun.hui.common.annotations.ActionAnno;
-import qing.yun.hui.common.annotations.WarningAnno;
 import qing.yun.hui.common.struct.callable.CallableData;
 import qing.yun.hui.common.struct.callable.CallableDataResult;
 import qing.yun.hui.common.utils.WebUtil;
 import cn.com.yuzhushui.movie.common.base.BaseAction;
 import cn.com.yuzhushui.movie.common.base.BaseService;
+import cn.com.yuzhushui.movie.common.base.ResponseData;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysData;
 import cn.com.yuzhushui.movie.sys.biz.service.SysDataService;
 import cn.com.yuzhushui.movie.sys.web.vo.SysDataForm;
@@ -178,6 +178,35 @@ public class SysDataAction extends BaseAction<SysData, SysDataForm, Integer>{
 				 }
 				 logger.info("==============>【主线程结束】....");
 				 logger.info("=========>处理的有{}条，处理成功的有:{}条。",new Object[]{datas.size(),count});
+				 Long endTime=System.currentTimeMillis();
+				 Long ends=(endTime-startTime);
+				 Long second=(ends/1000);
+				 logger.info("=============>线程处理耗时：{}毫秒，{}秒。",new Object[]{ends,second});
+			}
+		}).start();
+		return "redirect:"+ACTION_PATH+"/list.htm";
+	}
+	
+	@ActionAnno(name="开线程跑")
+	@RequestMapping(value = "oneThreadByUpdateBatch", method = { RequestMethod.POST,RequestMethod.GET })
+	public String oneThreadByUpdateBatch() {
+		logger.info("=====================>开始了哦(*+﹏+*)~ ");
+		//一个线程处理501条数据，耗时19秒-26秒左右。。
+		final List<SysData> sysDatas=sysDataService.query(new HashMap<String,Object>());
+		logger.info("*****查询到的数据有：{}条.",new Object[]{sysDatas.size()});
+		new Thread(new Runnable() {
+			public void run() {
+				 logger.info("==============>【主线程开启】....");
+				 Long startTime=System.currentTimeMillis();
+				 List<SysData> datas=initData(5);
+				 datas.addAll(sysDatas);
+				 logger.info("*****累计：{}条数据.",new Object[]{datas.size()});
+				 for(int i=0;i<datas.size();i++){
+					 SysData tmp=datas.get(i);
+					 tmp.setComment("傻子："+i);
+					 ResponseData rd= sysDataService.updateSysData(tmp);
+					  logger.info("●﹏●第{}条处理结束...◑﹏◐，处理结果：{}",new Object[]{i,JSONObject.toJSONString(rd)});
+				 }
 				 Long endTime=System.currentTimeMillis();
 				 Long ends=(endTime-startTime);
 				 Long second=(ends/1000);

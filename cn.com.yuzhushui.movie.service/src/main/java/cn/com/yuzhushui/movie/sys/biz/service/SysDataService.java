@@ -4,6 +4,7 @@ import java.util.List;
 
 import qing.yun.hui.common.annotations.WarningAnno;
 import cn.com.yuzhushui.movie.common.base.BaseService;
+import cn.com.yuzhushui.movie.common.base.ResponseData;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysData;
 /**
  * @author qing.yunhui 
@@ -17,5 +18,8 @@ public interface SysDataService extends BaseService<SysData,Integer>{
 	public int add(List<SysData> models);
 	
 	public int update(SysData data);
+	
+	@WarningAnno(theme="更新.")
+	ResponseData updateSysData(SysData data);
     
 }
