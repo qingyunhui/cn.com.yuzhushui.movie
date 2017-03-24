@@ -6,9 +6,12 @@
         <result property="targetTable" column="target_table" javaType="String"/>
         <result property="targetField" column="target_field" javaType="String"/>
         <result property="targetId" column="target_id" javaType="String"/>
-        <result property="attachmentType" column="attachment_type" javaType="String"/>
+        <result property="attachmentType" column="attachment_type" javaType="Integer"/>
+        <result property="handleType" column="handle_type" javaType="Integer"/>
         <result property="classify" column="classify" javaType="Integer"/>
+        <result property="isSystem" column="is_system" javaType="Integer"/>
         <result property="url" column="url" javaType="String"/>
+        <result property="sourceFilePath" column="source_file_path" javaType="String"/>
         <result property="comments" column="comments" javaType="String"/>
         <result property="physicalPath" column="physical_path" javaType="String"/>
         <result property="originName" column="origin_name" javaType="String"/>
@@ -30,8 +33,11 @@
         t.target_field,
         t.target_id,
         t.attachment_type,
+        t.handle_type,
         t.classify,
+        t.is_system,
         t.url,
+        t.source_file_path,
         t.comments,
         t.physical_path,
         t.origin_name,
@@ -64,11 +70,20 @@
 		 <if test="@OGNL@isNotEmpty(attachmentType)">
             AND t.attachment_type = #{attachmentType}
          </if>
+         <if test="@OGNL@isNotEmpty(handleType)">
+            AND t.handle_type = #{handleType}
+         </if>
 		 <if test="@OGNL@isNotEmpty(classify)">
             AND t.classify = #{classify}
          </if>
+         <if test="@OGNL@isNotEmpty(isSystem)">
+            AND t.is_system = #{isSystem}
+         </if>
 		 <if test="@OGNL@isNotEmpty(url)">
             AND t.url = #{url}
+         </if>
+         <if test="@OGNL@isNotEmpty(sourceFilePath)">
+            AND t.source_file_path = #{sourceFilePath}
          </if>
 		 <if test="@OGNL@isNotEmpty(comments)">
             AND t.comments = #{comments}
@@ -115,8 +130,11 @@
 	            target_field ,
 	            target_id ,
 	            attachment_type ,
+	            handle_type ,
 	            classify ,
+	            is_system ,
 	            url ,
+	            source_file_path ,
 	            comments ,
 	            physical_path ,
 	            origin_name ,
@@ -135,8 +153,11 @@
 	        	#{targetField},
 	        	#{targetId},
 	        	#{attachmentType},
+	        	#{handleType},
 	        	#{classify},
+	        	#{isSystem},
 	        	#{url},
+	        	#{sourceFilePath},
 	        	#{comments},
 	        	#{physicalPath},
 	        	#{originName},
@@ -164,8 +185,11 @@
 	            target_field ,
 	            target_id ,
 	            attachment_type ,
+	            handle_type ,
 	            classify ,
+	            is_system ,
 	            url ,
+	            source_file_path ,
 	            comments ,
 	            physical_path ,
 	            origin_name ,
@@ -186,8 +210,11 @@
 	        	#{targetField},
 	        	#{targetId},
 	        	#{attachmentType},
+	        	#{handleType},
 	        	#{classify},
+	        	#{isSystem},
 	        	#{url},
+	        	#{sourceFilePath},
 	        	#{comments},
 	        	#{physicalPath},
 	        	#{originName},
@@ -235,11 +262,20 @@
         	<if test="@OGNL@isNotEmpty(attachmentType)">
 	            attachment_type = #{attachmentType},
 	        </if>
+	        <if test="@OGNL@isNotEmpty(handleType)">
+	            handle_type = #{handleType},
+	        </if>
         	<if test="@OGNL@isNotEmpty(classify)">
 	            classify = #{classify},
 	        </if>
+	        <if test="@OGNL@isNotEmpty(isSystem)">
+            	is_system = #{isSystem},
+         	</if>
         	<if test="@OGNL@isNotEmpty(url)">
 	            url = #{url},
+	        </if>
+	        <if test="@OGNL@isNotEmpty(sourceFilePath)">
+	            source_file_path = #{sourceFilePath},
 	        </if>
         	<if test="@OGNL@isNotEmpty(comments)">
 	            comments = #{comments},

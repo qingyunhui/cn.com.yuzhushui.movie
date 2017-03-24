@@ -2,6 +2,7 @@ package cn.com.yuzhushui.movie.app.web.action;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,13 +34,19 @@ import cn.com.yuzhushui.movie.enums.CapitalPoolEnum.CapitalPool;
 import cn.com.yuzhushui.movie.enums.LoginType;
 import cn.com.yuzhushui.movie.enums.SysAccountEnum;
 import cn.com.yuzhushui.movie.enums.SysAccountEnum.Exist;
+import cn.com.yuzhushui.movie.enums.SysAttachmentEnum.CLASSIFY;
+import cn.com.yuzhushui.movie.enums.SysAttachmentEnum.IS_SYSTEM;
 import cn.com.yuzhushui.movie.struct.CapitalPoolStruct;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysAccount;
+import cn.com.yuzhushui.movie.sys.biz.entity.SysAttachment;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysUser;
 import cn.com.yuzhushui.movie.sys.biz.service.SysAccountService;
+import cn.com.yuzhushui.movie.sys.biz.service.SysAttachmentService;
 import cn.com.yuzhushui.movie.sys.biz.service.SysFundPoolService;
 import cn.com.yuzhushui.movie.sys.biz.service.SysUserService;
+import cn.com.yuzhushui.movie.sys.web.vo.SysAttachmentForm;
 import qing.yun.hui.common.annotations.ActionAnno;
+import qing.yun.hui.common.utils.BeanUtil;
 import qing.yun.hui.common.utils.CookieUtil;
 import qing.yun.hui.common.utils.DateUtil;
 import qing.yun.hui.common.utils.EnumUtil;
@@ -89,6 +96,9 @@ public class AppMainAction {
 	@Autowired
 	private SysFundPoolService sysFundPoolService;
 	
+	@Autowired
+	private SysAttachmentService sysAttachmentService;
+	
 	/**引导页*/
 	@RequestMapping(value = "/introduce")
 	@ActionAnno(action="访问引导页")
@@ -122,6 +132,27 @@ public class AppMainAction {
 		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/myMain");
 		Integer accountId=SessionUtil.getSysAccount().getAccountId();
 		CapitalPoolStruct struct= sysFundPoolService.getTotalBalance(accountId);
+		
+		//个人引导页面  TODO
+		SysAttachmentForm attachment=new SysAttachmentForm();
+		attachment.setTargetId(accountId.toString());
+		attachment.setCreaterId(accountId);
+		attachment.setClassify(CLASSIFY.PHOTO_ALBUM.getValue());
+		attachment.setIsSystem(IS_SYSTEM.USER.getValue());
+		Map<String,Object> map=BeanUtil.pojoToMap(attachment);
+		List<SysAttachment> attachments= sysAttachmentService.query(map);
+		if(StringUtil.isEmpty(attachments)){
+			//如果用户没有上传引导页图片，则取系统默认的 
+			attachment=new SysAttachmentForm();
+			attachment.setIsSystem(IS_SYSTEM.SYSTEM.getValue());
+			attachment.setClassify(CLASSIFY.PHOTO_ALBUM.getValue());
+			map=BeanUtil.pojoToMap(attachment);
+			attachments= sysAttachmentService.query(map);
+		}
+		
+		//TODO 
+		
+		//TODO END
 		if(struct.getCapitalPool().getValue()==CapitalPool.NOT_AVAILABLE_POOL.getValue()){
 			//无可用资金池
 			modelView.addObject("totalBalance", "暂无可用资金池.");

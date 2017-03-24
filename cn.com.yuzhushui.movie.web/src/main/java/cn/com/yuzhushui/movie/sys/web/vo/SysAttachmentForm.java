@@ -17,31 +17,35 @@ import lombok.Setter;
 public class SysAttachmentForm extends BaseForm<Integer> {
 
 	//columns START
-	
 	/**
 	 * @Fields id:id
 	 */
 	private Integer id;
 	
 	/**
-	 * @Fields target_table:目标表
+	 * @Fields targetTable:目标表
 	 */
 	private String targetTable;
 	
 	/**
-	 * @Fields target_field:目标字段
+	 * @Fields targetField:目标字段
 	 */
 	private String targetField;
 	
 	/**
-	 * @Fields target_id:目标记录ID
+	 * @Fields targetId:目标记录ID
 	 */
 	private String targetId;
 	
 	/**
-	 * @Fields attachment_type:附件类型(附件类型:(text/html,image/jpeg等)
+	 * @Fields attachmentType:附件类型(附件类型:(text/html,image/jpeg等)
 	 */
-	private String attachmentType;
+	private Integer attachmentType;
+	
+	/**
+	 * @Fileds handleType 处理类型(缩略处理/截取处理/无处理)
+	 * */
+	private Integer handleType;
 	
 	/**
 	 * @Fields classify:分类(相册、音乐、头像、视频)
@@ -49,9 +53,19 @@ public class SysAttachmentForm extends BaseForm<Integer> {
 	private Integer classify;
 	
 	/**
+	 * @Fields isSystem 是否系统内置(0:系统,1:用户)
+	 * */
+	private Integer isSystem; 
+	
+	/**
 	 * @Fields url:访问的相对或绝对路径url
 	 */
 	private String url;
+	
+	/**
+	 * @Fields 源文件所在磁盘上绝对路径(处理前文件的所在位置)
+	 * */
+	private String sourceFilePath;
 	
 	/**
 	 * @Fields comments:描述
@@ -59,12 +73,12 @@ public class SysAttachmentForm extends BaseForm<Integer> {
 	private String comments;
 	
 	/**
-	 * @Fields physical_path:文件在磁盘上所在的绝对路径
+	 * @Fields physicalPath:文件在磁盘上所在的绝对路径
 	 */
 	private String physicalPath;
 	
 	/**
-	 * @Fields origin_name:文件名称
+	 * @Fields originName:文件名称
 	 */
 	private String originName;
 	
@@ -94,7 +108,7 @@ public class SysAttachmentForm extends BaseForm<Integer> {
 	private String creater;
 	
 	/**
-	 * @Fields creater_id:创建人ID
+	 * @Fields createrId:创建人ID
 	 */
 	private Integer createrId;
 	
@@ -109,8 +123,14 @@ public class SysAttachmentForm extends BaseForm<Integer> {
 	private String editor;
 	
 	/**
-	 * @Fields editor_id:修改人ID
+	 * @Fields editorId:修改人ID
 	 */
 	private Integer editorId;
+	
+	/**
+	 * @Fields deleted:删除标识
+	 */
+	private Integer deleted;
+	
 	//columns END
 }

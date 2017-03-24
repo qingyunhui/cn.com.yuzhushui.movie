@@ -43,7 +43,12 @@ public class SysAttachment extends BaseModel<Integer>{
 	/**
 	 * @Fields attachmentType:附件类型(附件类型:(text/html,image/jpeg等)
 	 */
-	private String attachmentType;
+	private Integer attachmentType;
+	
+	/**
+	 * @Fileds handleType 处理类型(缩略处理/截取处理/无处理)
+	 * */
+	private Integer handleType;
 	
 	/**
 	 * @Fields classify:分类(相册、音乐、头像、视频)
@@ -51,9 +56,19 @@ public class SysAttachment extends BaseModel<Integer>{
 	private Integer classify;
 	
 	/**
+	 * @Fields isSystem 是否系统内置(0:系统,1:用户)
+	 * */
+	private Integer isSystem; 
+	
+	/**
 	 * @Fields url:访问的相对或绝对路径url
 	 */
 	private String url;
+	
+	/**
+	 * @Fields 源文件所在磁盘上绝对路径(处理前文件的所在位置)
+	 * */
+	private String sourceFilePath;
 	
 	/**
 	 * @Fields comments:描述
