@@ -77,34 +77,49 @@ public class SysAttachmentServiceImpl extends BaseServiceImpl<SysAttachment,Stri
 		sourceSb.append(SysAttachmentEnum.HANDLE_TYPE.getCodeByValue(extras.getHandleType())).append(separator);//处理类型
 		long size=0;
 		try {
-			//TODO 附件路径   还真麻烦，还要考虑（处理类型，a.无处理，b.缩略图处理，c.截图处理）
+			//TODO 附件路径 ：源文件路径 (source，未裁剪 或者是未缩小的源文件)
+			
+			
+			
 			String targetPath=sourceSb.toString();//当前文件路径（目录/分类/【系统级别 or 用户级别】/处理类型）
 			sourceSb.append("source").append(separator);
 			//源文件目录结构层次：目录/分类/账号/处理类型/source/图片
 			sourceSb.append(originFileName);
-			String sourceFilePath=sourceSb.toString();		//源文件磁盘路径
-			sysAttachment.setSourceFilePath(sourceFilePath);
-			targetPath=targetPath+originFileName;
-			sysAttachment.setPhysicalPath(targetPath);
-			sysAttachment.setHandleType(extras.getHandleType());
+			String sourceFilePath=sourceSb.toString();		//源文件磁盘路径(未裁剪  or 未进行缩放的源附件)
 			
-			//@1.先把源文件落地到磁盘上
-			FileUtils.copyInputStreamToFile(multipartFile.getInputStream(), new File(sourceFilePath));
+			//TODO  end
+			
 			//分类型处理
+			
 			if(SysAttachmentEnum.HANDLE_TYPE.SCREENSHOT_HANDLE.getValue()==extras.getHandleType()){
+				//先把源文件落地到磁盘上
+				FileUtils.copyInputStreamToFile(multipartFile.getInputStream(), new File(sourceFilePath));
 				//裁剪处理
 				File files = new File(sourceFilePath);
 				ImageUtil.cutImage(files, targetPath, new Rectangle(attachmentStruct.getX(), attachmentStruct.getY(), attachmentStruct.getWidth(), attachmentStruct.getHeight()));
 				File targetFile=new File(targetPath);
 				size=targetFile.length();
 			}else if(SysAttachmentEnum.HANDLE_TYPE.THUMBNAIL_HANDLE.getValue()==extras.getHandleType()){
+				//先把源文件落地到磁盘上
+				FileUtils.copyInputStreamToFile(multipartFile.getInputStream(), new File(sourceFilePath));
 				//缩略图处理
 				ImageUtil.thumbnailImage(sourceFilePath, targetPath, attachmentStruct.getWidth(), attachmentStruct.getHeight());
 				File targetFile=new File(targetPath);
 				size=targetFile.length();
 			}else{
+				
+				//TODO 
+				
+				//如果处理类型为，无处理的话，直接在指定文件下落地即可.
 				size =multipartFile.getSize();
 			}
+			//TODO 
+			sysAttachment.setSourceFilePath(sourceFilePath);
+			targetPath=targetPath+originFileName;
+			sysAttachment.setPhysicalPath(targetPath);
+			//TODO end
+			
+			sysAttachment.setHandleType(extras.getHandleType());
 			byte[] data=inputStreamByte(new FileInputStream(targetPath));
 			sysAttachment.setData(data);
 			sysAttachment.setSize(size);
