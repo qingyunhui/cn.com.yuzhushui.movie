@@ -199,6 +199,13 @@ public class AppMainAction {
 		return modelView;
 	}
 	
+	@RequestMapping(value = "/test")
+	@ActionAnno(action="测试")
+	public ModelAndView test(HttpServletRequest request,HttpServletResponse response, HttpSession session) {
+		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/test");
+		return modelView;
+	}
+	
 	/**进入登陆页面**/
 	@RequestMapping(value = "/login")
 	public ModelAndView login(HttpServletRequest request,HttpServletResponse response, HttpSession session) {

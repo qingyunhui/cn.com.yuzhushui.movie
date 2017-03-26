@@ -2,11 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.com.yuzhushui.movie.sys.biz.dao.SysAttachmentDao">
 	<resultMap type="cn.com.yuzhushui.movie.sys.biz.entity.SysAttachment" id="BaseResultMap">
-        <result property="id" column="id" javaType="Integer"/>
+        <result property="id" column="id" javaType="String"/>
         <result property="targetTable" column="target_table" javaType="String"/>
         <result property="targetField" column="target_field" javaType="String"/>
         <result property="targetId" column="target_id" javaType="String"/>
-        <result property="attachmentType" column="attachment_type" javaType="Integer"/>
+        <result property="attachmentType" column="attachment_type" javaType="String"/>
         <result property="handleType" column="handle_type" javaType="Integer"/>
         <result property="classify" column="classify" javaType="Integer"/>
         <result property="isSystem" column="is_system" javaType="Integer"/>
@@ -17,7 +17,7 @@
         <result property="originName" column="origin_name" javaType="String"/>
         <result property="suffix" column="suffix" javaType="String"/>
         <result property="size" column="size" javaType="Long"/>
-        <result property="data" column="data" javaType="byte[]"/>
+        <!-- <result property="data" column="data" javaType="byte[]"/> -->
         <result property="ctime" column="ctime" javaType="Date"/>
         <result property="creater" column="creater" javaType="String"/>
         <result property="createrId" column="creater_id" javaType="Integer"/>
@@ -126,6 +126,7 @@
 	<insert id="insert" parameterType="cn.com.yuzhushui.movie.sys.biz.entity.SysAttachment" >
 		<![CDATA[
 	        INSERT INTO sys_attachment (
+	        	id,
 	            target_table ,
 	            target_field ,
 	            target_id ,
@@ -149,6 +150,7 @@
 	            editor_id ,
 	            deleted 
 	        ) VALUES (
+	        	#{id},
 	        	#{targetTable},
 	        	#{targetField},
 	        	#{targetId},
@@ -173,7 +175,7 @@
 	        	0
 	        )
 	    ]]>
-    	<selectKey resultType="java.lang.Integer" keyProperty="id">
+    	<selectKey resultType="java.lang.String" keyProperty="id">
 			SELECT LAST_INSERT_ID() AS id
         </selectKey>
 	</insert>
@@ -181,6 +183,7 @@
 	<insert id="insertBatch" parameterType="java.util.List" >
 		<![CDATA[
 	        INSERT INTO sys_attachment (
+	        	id,
 	            target_table ,
 	            target_field ,
 	            target_id ,
@@ -206,6 +209,7 @@
 	        ) VALUES 
 	        <foreach collection="list" item="item" index="index" separator=",">
 	        (
+	        	#{id},
 	        	#{targetTable},
 	        	#{targetField},
 	        	#{targetId},
@@ -233,7 +237,7 @@
 	    ]]>
 	</insert>
 	
-	<update id="delete" parameterType="java.lang.Integer">
+	<update id="delete" parameterType="java.lang.String">
         UPDATE sys_attachment SET deleted=1 
         WHERE deleted=0 AND
         	id = #{value}
@@ -321,7 +325,7 @@
         	AND id = #{id}
 	</update>
 	
-	<select id="getById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+	<select id="getById" parameterType="java.lang.String" resultMap="BaseResultMap">
 	   	SELECT <include refid="full-columns" />
        	<![CDATA[
        	FROM sys_attachment t

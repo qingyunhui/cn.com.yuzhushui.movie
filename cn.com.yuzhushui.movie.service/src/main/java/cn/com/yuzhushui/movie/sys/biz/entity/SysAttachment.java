@@ -14,7 +14,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class SysAttachment extends BaseModel<Integer>{
+public class SysAttachment extends BaseModel<String>{
 	
 	//alias
 	public static final String TABLE_ALIAS = "SysAttachment";
@@ -23,7 +23,7 @@ public class SysAttachment extends BaseModel<Integer>{
 	/**
 	 * @Fields id:id
 	 */
-	private Integer id;
+	private String id;
 	
 	/**
 	 * @Fields targetTable:目标表
@@ -41,9 +41,9 @@ public class SysAttachment extends BaseModel<Integer>{
 	private String targetId;
 	
 	/**
-	 * @Fields attachmentType:附件类型(附件类型:(text/html,image/jpeg等)
+	 * @Fields attachmentType:附件类型
 	 */
-	private Integer attachmentType;
+	private String attachmentType;
 	
 	/**
 	 * @Fileds handleType 处理类型(缩略处理/截取处理/无处理)

@@ -14,13 +14,13 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class SysAttachmentForm extends BaseForm<Integer> {
+public class SysAttachmentForm extends BaseForm<String> {
 
 	//columns START
 	/**
 	 * @Fields id:id
 	 */
-	private Integer id;
+	private String id;
 	
 	/**
 	 * @Fields targetTable:目标表
@@ -40,7 +40,7 @@ public class SysAttachmentForm extends BaseForm<Integer> {
 	/**
 	 * @Fields attachmentType:附件类型(附件类型:(text/html,image/jpeg等)
 	 */
-	private Integer attachmentType;
+	private String attachmentType;
 	
 	/**
 	 * @Fileds handleType 处理类型(缩略处理/截取处理/无处理)

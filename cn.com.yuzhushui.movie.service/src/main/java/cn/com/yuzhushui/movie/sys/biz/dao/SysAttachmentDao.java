@@ -10,7 +10,7 @@ import cn.com.yuzhushui.movie.sys.biz.entity.SysAttachment;
  * @create 2016-11-20 15:49:55
  * @history
  */
-public interface SysAttachmentDao extends BaseDao<SysAttachment,Integer>{
+public interface SysAttachmentDao extends BaseDao<SysAttachment,String>{
 	
 	
 }
