@@ -7,6 +7,8 @@ import java.io.InputStream;
 import java.util.UUID;
 
 import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,6 +36,8 @@ public class SysAttachmentServiceImpl extends BaseServiceImpl<SysAttachment,Stri
 
 	@Autowired
 	private SysAttachmentDao sysAttachmentDao ;
+	
+	private Logger logger=LoggerFactory.getLogger(SysAttachmentServiceImpl.class);
 	
 	@Override
 	public boolean saveAttachmentWithFileLanding(MultipartFile multipartFile, ExtrasStruct extras,AttachmentStruct attachmentStruct) throws Exception{
@@ -77,21 +81,19 @@ public class SysAttachmentServiceImpl extends BaseServiceImpl<SysAttachment,Stri
 		sourceSb.append(SysAttachmentEnum.HANDLE_TYPE.getCodeByValue(extras.getHandleType())).append(separator);//处理类型
 		long size=0;
 		try {
-			//TODO 附件路径 ：源文件路径 (source，未裁剪 或者是未缩小的源文件)
-			
-			
-			
+			//附件路径 ：源文件路径 (source，未裁剪 或者是未缩小的源文件)
 			String targetPath=sourceSb.toString();//当前文件路径（目录/分类/【系统级别 or 用户级别】/处理类型）
-			sourceSb.append("source").append(separator);
-			//源文件目录结构层次：目录/分类/账号/处理类型/source/图片
-			sourceSb.append(originFileName);
-			String sourceFilePath=sourceSb.toString();		//源文件磁盘路径(未裁剪  or 未进行缩放的源附件)
-			
-			//TODO  end
-			
-			//分类型处理
-			
+			//处理类型(缩略处理/截取处理/无处理)  & 分类(相册、头像、音乐、视频) 
+			String sourceFilePath=null;
 			if(SysAttachmentEnum.HANDLE_TYPE.SCREENSHOT_HANDLE.getValue()==extras.getHandleType()){
+				if(SysAttachmentEnum.CLASSIFY.MUSIC.getCode().equals(extras.getClassify()) || SysAttachmentEnum.CLASSIFY.VIDEO.getCode().equals(extras.getClassify())){
+					logger.error("=============>视频 or 音乐类型的附件不能进行裁剪.");
+					return false;
+				}
+				sourceSb.append("source").append(separator);
+				//源文件目录结构层次：目录/分类/账号/处理类型/source/图片
+				sourceSb.append(originFileName);
+				sourceFilePath=sourceSb.toString();		//源文件磁盘路径(未裁剪  or 未进行缩放的源附件)
 				//先把源文件落地到磁盘上
 				FileUtils.copyInputStreamToFile(multipartFile.getInputStream(), new File(sourceFilePath));
 				//裁剪处理
@@ -100,6 +102,14 @@ public class SysAttachmentServiceImpl extends BaseServiceImpl<SysAttachment,Stri
 				File targetFile=new File(targetPath);
 				size=targetFile.length();
 			}else if(SysAttachmentEnum.HANDLE_TYPE.THUMBNAIL_HANDLE.getValue()==extras.getHandleType()){
+				if(SysAttachmentEnum.CLASSIFY.MUSIC.getCode().equals(extras.getClassify()) || SysAttachmentEnum.CLASSIFY.VIDEO.getCode().equals(extras.getClassify())){
+					logger.error("=============>视频 or 音乐类型的附件不能进行等比例绽放处理.");
+					return false;
+				}
+				sourceSb.append("source").append(separator);
+				//源文件目录结构层次：目录/分类/账号/处理类型/source/图片
+				sourceSb.append(originFileName);
+				sourceFilePath=sourceSb.toString();		//源文件磁盘路径(未裁剪  or 未进行缩放的源附件)
 				//先把源文件落地到磁盘上
 				FileUtils.copyInputStreamToFile(multipartFile.getInputStream(), new File(sourceFilePath));
 				//缩略图处理
@@ -107,18 +117,16 @@ public class SysAttachmentServiceImpl extends BaseServiceImpl<SysAttachment,Stri
 				File targetFile=new File(targetPath);
 				size=targetFile.length();
 			}else{
-				
-				//TODO 
-				
+				sourceSb.append("source").append(separator);
+				//源文件目录结构层次：目录/分类/账号/处理类型/source/图片
+				sourceSb.append(originFileName);
 				//如果处理类型为，无处理的话，直接在指定文件下落地即可.
 				size =multipartFile.getSize();
 			}
-			//TODO 
+			sourceFilePath=sourceSb.toString();		//源文件磁盘路径(未裁剪  or 未进行缩放的源附件)
 			sysAttachment.setSourceFilePath(sourceFilePath);
 			targetPath=targetPath+originFileName;
 			sysAttachment.setPhysicalPath(targetPath);
-			//TODO end
-			
 			sysAttachment.setHandleType(extras.getHandleType());
 			byte[] data=inputStreamByte(new FileInputStream(targetPath));
 			sysAttachment.setData(data);
