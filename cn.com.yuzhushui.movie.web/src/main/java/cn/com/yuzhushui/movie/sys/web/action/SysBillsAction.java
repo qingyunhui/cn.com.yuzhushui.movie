@@ -215,6 +215,28 @@ public class SysBillsAction{
 		return modelAndView;
 	}
 	
+	/**
+	 * <p>查询用户可用余额</p>
+	 * */
+	private String queryAvailableBalance(){
+		CapitalPoolStruct struct= sysFundPoolService.getTotalBalance(SessionUtil.getSysAccount().getAccountId());
+		StringBuffer sb=new StringBuffer();
+		if(CapitalPool.NOT_AVAILABLE_POOL.getValue()==struct.getCapitalPool().getValue()){
+			//无可用资金池(资金池还未创建)
+			sb.append("您还未在平台，充值哦...");
+		}else if(CapitalPool.INSUFFICIENT_POOL_BALANCE.getValue()==struct.getCapitalPool().getValue()){
+			//资金池充值余额不足（须要补充）
+			sb.append("余额不足："+CapitalPoolEnum.EARLY_WARNING_MONEY+"元，请尽快充值.");
+		}else if(CapitalPool.OVERDRAFT_POOL_BALANCE.getValue()==struct.getCapitalPool().getValue()){
+			//已透支（须要尽快充值.）
+			sb.append("当前已透支："+struct.getTotalBalance()+"元，请速速充值...");
+		}else{
+			//资金池余额充足
+			sb.append("当前可用余额为："+struct.getTotalBalance()+"元人民币.");
+		}
+		return sb.toString();
+	}
+	
 	@RequestMapping(value = "doAdd")
 	@ActionAnno(action="提交个人账单")
 	public ModelAndView doAdd(SysBills sysBills,RedirectAttributes redirectAttributes) {
@@ -237,6 +259,8 @@ public class SysBillsAction{
 			sysBills.setCreaterId(user.getAccountId());
 			sysBills.setComments("借款条【借款证明】");
 			int count=sysBillsService.add(sysBills);
+			//账单申请后，立即查询当用可用余额;
+			String availableBalance=queryAvailableBalance();
 			logger.info("==============>账单，申请"+(count>0?"成功":"失败")+"。");
 			String debtorSubject="您于："+DateUtil.getStringDate(DateUtil.YYYY_MM_DD_HH_MM_SS)+" 申请的账单已经申请成功，请耐心等待相关出借人员审核。";
 			String lenderSubject=user.getName()+"于："+DateUtil.getStringDate(DateUtil.YYYY_MM_DD_HH_MM_SS)+" 申请 "+sysBills.getMoney()+"元账单，请尽快审核.";
@@ -246,6 +270,9 @@ public class SysBillsAction{
 			String keywords=EnumUtil.getNameByValue("cn.com.yuzhushui.movie.enums.SysBillsEnum$Keyword",sysBills.getKeyword()+"");
 			sb.append("<p>").append("<span>").append(keywords+""+sysBills.getMoney()+"元人民币。").append("</span>").append("</p>");
 			sb.append("<p>").append("<span>").append(sysBills.getContent()).append("</span>").append("</p>");
+			
+			//提示
+			sb.append("<p>").append("<span>").append("温馨提示：").append(availableBalance).append("</span>").append("</p>");
 			
 			sb.append("<br/>");
 			sb.append("<p>").append("<span>").append("审核状态：").append(EnumUtil.getNameByValue(SysBillsEnum.Status.class, sysBills.getStatus())).append("</span>").append("</p>");
