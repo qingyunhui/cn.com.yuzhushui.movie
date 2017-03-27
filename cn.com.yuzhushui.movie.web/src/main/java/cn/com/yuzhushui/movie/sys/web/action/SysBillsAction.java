@@ -159,14 +159,12 @@ public class SysBillsAction{
 			int count=sysBillsService.update(sysBills);
 			
 			logger.info("==============>id={}的账单，审核"+(count>0?"成功":"失败")+"。",new Object[]{id});
-			String subject="您于："+DateUtil.dateToString(sysBills.getCtime(),DateUtil.YYYY_MM_DD_HH_MM_SS)+" 申请的账单已经由相关人员审核通过。";
-			
-			
+			String debtorSubject="您于："+DateUtil.dateToString(sysBills.getCtime(),DateUtil.YYYY_MM_DD_HH_MM_SS)+" 申请的账单已经由相关人员审核通过。";
 			StringBuffer sb=new StringBuffer();
 			sb.append("<p>").append("<span>").append(sysBills.getSubject()).append("</span>").append("</p>");
 			//关键字，转换
 			String keywords=EnumUtil.getNameByValue("cn.com.yuzhushui.movie.enums.SysBillsEnum$Keyword",sysBills.getKeyword()+"");
-			sb.append("<p>").append("<span>").append(keywords+""+sysBills.getMoney()+"元人民币。").append("</span>").append("</p>");
+			sb.append("<p>").append("<span>").append(keywords+""+sysBills.getMoney()+"元人民币").append("</span>").append("</p>");
 			sb.append("<p>").append("<span>").append(sysBills.getContent()).append("</span>").append("</p>");
 			
 			sb.append("<br/>");
@@ -174,10 +172,13 @@ public class SysBillsAction{
 			sb.append("<br/>");
 			sb.append("审核通过时间：").append(DateUtil.getStringDate(DateUtil.YYYY_MM_DD_HH_MM_SS));
 			
-			String lenderEmial=sysAccountService.query(sysBills.getLenderId()).getEmail();
-			String debtorEmail=sysAccountService.query(sysBills.getDebtorId()).getEmail();
-			String[] sendEmails=new String[]{lenderEmial,debtorEmail};
-			MailTool.sendMail(subject, sb.toString(), sendEmails);
+			String lenderEmial=sysAccountService.query(sysBills.getLenderId()).getEmail();	//出借人
+			
+			String debtorEmail=sysAccountService.query(sysBills.getDebtorId()).getEmail();//预支人
+			//这里分二次发送，是为了防止服务器把其看做是垃圾邮件...
+			MailTool.sendMail(debtorSubject, sb.toString(), new String[]{debtorEmail});
+			String lenderSubject=sysBills.getDebtor()+"于"+DateUtil.dateToString(sysBills.getCtime(),DateUtil.YYYY_MM_DD_HH_MM_SS)+"申请的账单已审核通过.";
+			MailTool.sendMail(lenderSubject, sb.toString(), new String[]{lenderEmial});	 
 			redirectAttributes.addAttribute(MovieConstant.MESSAGES_INFO,"账单审核成功啦！"); 
 		} catch (Exception e) {
 			logger.error("=================>账单.id={}，审核失败，失败原因:{}",new Object[]{id,JSONObject.toJSONString(e)});

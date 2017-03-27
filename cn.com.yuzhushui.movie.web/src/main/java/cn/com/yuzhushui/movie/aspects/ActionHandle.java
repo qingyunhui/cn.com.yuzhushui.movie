@@ -3,6 +3,8 @@ package cn.com.yuzhushui.movie.aspects;
 import java.lang.reflect.Method;
 import java.util.Date;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -15,17 +17,17 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import qing.yun.hui.common.annotations.ActionAnno;
-import qing.yun.hui.common.utils.DateUtil;
-import qing.yun.hui.common.utils.StringUtil;
-import qing.yun.hui.common.utils.WebUtil;
+import com.alibaba.fastjson.JSONObject;
+
 import cn.com.yuzhushui.movie.common.util.SessionUtil;
 import cn.com.yuzhushui.movie.enums.SysWarningEnum;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysUser;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysWarning;
 import cn.com.yuzhushui.movie.sys.biz.service.SysWarningService;
-
-import com.alibaba.fastjson.JSONObject;
+import qing.yun.hui.common.annotations.ActionAnno;
+import qing.yun.hui.common.utils.DateUtil;
+import qing.yun.hui.common.utils.StringUtil;
+import qing.yun.hui.common.utils.WebUtil;
 
 /***
  ** @category 请用一句话来描述其用途...
@@ -41,6 +43,9 @@ public class ActionHandle implements InitializingBean{
 	
 	@Autowired
 	private SysWarningService sysWarningService;
+	
+	@Autowired
+	private HttpServletRequest request;
 
 	public ActionHandle() {}
 	
@@ -94,7 +99,7 @@ public class ActionHandle implements InitializingBean{
         				entity.setArgs(WebUtil.argsToJSON(args, "cn.com.yuzhushui","qing.yun.hui","java.lang","java.util"));
         				entity.setOperator(operator);
         				entity.setAnnotations(String.valueOf(anno));
-        				entity.setIp(StringUtil.getIPAddress());
+        				entity.setIp(StringUtil.getIpAddress(request));
         				entity.setStatus(SysWarningEnum.Status.UN_NOTIFIED.getValue());
         				sysWarningService.add(entity);
 					} catch (Exception e) {
