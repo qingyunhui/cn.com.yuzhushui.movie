@@ -22,6 +22,7 @@ import cn.com.yuzhushui.movie.struct.ExtrasStruct;
 import cn.com.yuzhushui.movie.sys.biz.dao.SysAttachmentDao;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysAttachment;
 import cn.com.yuzhushui.movie.sys.biz.service.SysAttachmentService;
+import qing.yun.hui.common.utils.FileUtil;
 import qing.yun.hui.common.utils.ImageUtil;
 import qing.yun.hui.common.utils.StringUtil;
 
@@ -98,9 +99,13 @@ public class SysAttachmentServiceImpl extends BaseServiceImpl<SysAttachment,Stri
 				FileUtils.copyInputStreamToFile(multipartFile.getInputStream(), new File(sourceFilePath));
 				//裁剪处理
 				File files = new File(sourceFilePath);
-				ImageUtil.cutImage(files, targetPath, new Rectangle(attachmentStruct.getX(), attachmentStruct.getY(), attachmentStruct.getWidth(), attachmentStruct.getHeight()));
-				File targetFile=new File(targetPath);
-				size=targetFile.length();
+				boolean success=ImageUtil.cutImage(files, targetPath, new Rectangle(attachmentStruct.getX(), attachmentStruct.getY(), attachmentStruct.getWidth(), attachmentStruct.getHeight()));
+				if(!success){
+					FileUtil.deleteFile(sourceFilePath);//如果图片处理失败，删除已落地的文件
+				}else{
+					File targetFile=new File(targetPath);
+					size=targetFile.length();
+				}
 			}else if(SysAttachmentEnum.HANDLE_TYPE.THUMBNAIL_HANDLE.getValue()==extras.getHandleType()){
 				if(SysAttachmentEnum.CLASSIFY.MUSIC.getCode().equals(extras.getClassify()) || SysAttachmentEnum.CLASSIFY.VIDEO.getCode().equals(extras.getClassify())){
 					logger.error("=============>视频 or 音乐类型的附件不能进行等比例绽放处理.");
@@ -113,9 +118,13 @@ public class SysAttachmentServiceImpl extends BaseServiceImpl<SysAttachment,Stri
 				//先把源文件落地到磁盘上
 				FileUtils.copyInputStreamToFile(multipartFile.getInputStream(), new File(sourceFilePath));
 				//缩略图处理
-				ImageUtil.thumbnailImage(sourceFilePath, targetPath, attachmentStruct.getWidth(), attachmentStruct.getHeight());
-				File targetFile=new File(targetPath);
-				size=targetFile.length();
+				boolean success=ImageUtil.thumbnailImage(sourceFilePath, targetPath, attachmentStruct.getWidth(), attachmentStruct.getHeight());
+				if(!success){
+					FileUtil.deleteFile(sourceFilePath);//如果图片处理失败，删除已落地的文件
+				}else{
+					File targetFile=new File(targetPath);
+					size=targetFile.length();
+				}
 			}else{
 				sourceSb.append("source").append(separator);
 				//源文件目录结构层次：目录/分类/账号/处理类型/source/图片

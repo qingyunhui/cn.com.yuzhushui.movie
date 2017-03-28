@@ -5,26 +5,29 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.alibaba.fastjson.JSONObject;
-
+import qing.yun.hui.common.utils.StringUtil;
 import cn.com.yuzhushui.movie.common.base.BaseAction;
 import cn.com.yuzhushui.movie.common.util.SessionUtil;
 import cn.com.yuzhushui.movie.constant.MovieConstant;
 import cn.com.yuzhushui.movie.enums.SysAttachmentEnum;
 import cn.com.yuzhushui.movie.enums.SysAttachmentEnum.CLASSIFY;
+import cn.com.yuzhushui.movie.error.web.action.ErrorAction;
 import cn.com.yuzhushui.movie.struct.AttachmentStruct;
 import cn.com.yuzhushui.movie.struct.ExtrasStruct;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysAccount;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysAttachment;
 import cn.com.yuzhushui.movie.sys.biz.service.SysAttachmentService;
 import cn.com.yuzhushui.movie.sys.web.vo.SysAttachmentForm;
-import qing.yun.hui.common.utils.StringUtil;
+
+import com.alibaba.fastjson.JSONObject;
 
 /**
  * @author qing.yunhui 
@@ -91,6 +94,21 @@ public class SysAttachmentAction extends BaseAction<SysAttachment, SysAttachment
         redirectAttributes.addFlashAttribute(MovieConstant.MESSAGES_INFO, success?"上传失败！":"上传失败.");
         return new ModelAndView("redirect:"+ACTION_PATH+"/userMain.htm");
     }
+	
+	//以下这种方法只会捕获该Controller抛出的异常，如果想定义全局的异常处理器，可使用@ControllerAdvice 在类级别上.
+	
+	/**
+     * 处理上传文件大小超过限制抛出的异常
+     */
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ModelAndView handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
+    	long size=e.getMaxUploadSize();
+    	StringUtil.getFileMb(size);
+    	logger.error("===========>上传文件附件过大.size={}byte.",new Object[]{size});
+//        return new ModelAndView("redirect:"+ErrorAction.ACTION_PATH+"/uploadError.htm");
+    	return new ModelAndView("upload").addObject("msg", "文件太大！");
+    }
+	
 	@Override
 	public String getActionPath() {
 		return ACTION_PATH;

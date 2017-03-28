@@ -24,13 +24,20 @@ public class ErrorAction {
 	
 	protected Logger logger=LoggerFactory.getLogger(ErrorAction.class);
 	
-	protected static final String ACTION_PATH = "/error";
+	public static final String ACTION_PATH = "/error";
 	
 	/**页面未找到**/
 	@ActionAnno(action="页面未找到")
 	@RequestMapping(value = "/notfind")
 	public ModelAndView notfind(HttpServletRequest request,HttpServletResponse response, HttpSession session) {
 		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/notfind");
+		return modelView;
+	}
+	
+	@ActionAnno(action="上传附件过大")
+	@RequestMapping(value = "/uploadError")
+	public ModelAndView uploadError(HttpServletRequest request,HttpServletResponse response, HttpSession session) {
+		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/uploadError");
 		return modelView;
 	}
 	
