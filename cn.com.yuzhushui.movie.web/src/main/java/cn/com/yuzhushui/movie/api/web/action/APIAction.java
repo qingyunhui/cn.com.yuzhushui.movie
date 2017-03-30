@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import qing.yun.hui.activemq.producer.DefaultProducer;
 import qing.yun.hui.common.annotations.ActionAnno;
 import qing.yun.hui.common.struct.baidu.weather.WeatherResponse;
 import qing.yun.hui.common.struct.juhe.JuheEnum;
@@ -25,6 +26,7 @@ import qing.yun.hui.common.utils.EnumUtil;
 import qing.yun.hui.common.utils.StringUtil;
 import cn.com.yuzhushui.movie.common.base.APIService;
 import cn.com.yuzhushui.movie.common.base.ResponseData;
+import cn.com.yuzhushui.movie.common.util.SessionUtil;
 import cn.com.yuzhushui.movie.constant.MovieConstant;
 
 import com.alibaba.fastjson.JSONObject;
@@ -42,6 +44,7 @@ public class APIAction {
 	protected Logger logger=LoggerFactory.getLogger(APIAction.class);
 	protected static final String ACTION_PATH = "/api";
 	
+	
 	@Autowired
 	private APIService apiService;
 	
@@ -49,6 +52,12 @@ public class APIAction {
 	@RequestMapping(value="/show")
 	public ModelAndView show() {
 		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/show");
+		try {
+			DefaultProducer defaultProducer=SessionUtil.getBean("defaultProducer");
+			defaultProducer.send("hello activeMq.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return modelView;
 	}
 	

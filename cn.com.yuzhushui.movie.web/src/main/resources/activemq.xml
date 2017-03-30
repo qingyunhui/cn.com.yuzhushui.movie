@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:amq="http://activemq.apache.org/schema/core"
+	xmlns:jms="http://www.springframework.org/schema/jms"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd   
+        http://www.springframework.org/schema/context   
+        http://www.springframework.org/schema/context/spring-context-4.0.xsd
+        http://www.springframework.org/schema/jms
+        http://www.springframework.org/schema/jms/spring-jms-4.0.xsd
+        http://activemq.apache.org/schema/core
+        http://activemq.apache.org/schema/core/activemq-core-5.8.0.xsd">
+
+	<!-- ActiveMQ 连接工厂 -->
+ 	<!-- 真正可以产生Connection的ConnectionFactory，由对应的 JMS服务厂商提供-->
+	<!-- 如果连接网络：tcp://ip:61616；未连接网络：tcp://localhost:61616 以及用户名，密码-->
+	<!-- <amq:connectionFactory id="amqConnectionFactory" brokerURL="${default_broker_url}" userName="${default_user}" password="${default_password}"  /> -->
+	
+	<bean id="defaultProducer" class="qing.yun.hui.activemq.producer.DefaultProducer" init-method="init" destroy-method="destroy">
+		<constructor-arg name="default_broker_url" value="${default_broker_url}" />
+		<constructor-arg name="default_user" value="${default_user}" />
+		<constructor-arg name="default_password" value="${default_password}" />
+		<constructor-arg name="queue" value="${queue}" />
+	</bean>
+	
+	<bean id="defaultConsumer" class="qing.yun.hui.activemq.consumer.DefaultConsumer" init-method="init" destroy-method="destroy">
+		<constructor-arg name="default_broker_url" value="${default_broker_url}" />
+		<constructor-arg name="default_user" value="${default_user}" />
+		<constructor-arg name="default_password" value="${default_password}" />
+		<constructor-arg name="queue" value="${queue}" />
+		<constructor-arg name="timeout" value="${timeout}" />
+	</bean>
+	
+	<bean id="defaultMessage" class="qing.yun.hui.activemq.message.DefaultMessage"/>
+	
+</beans>  
