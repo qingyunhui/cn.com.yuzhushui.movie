@@ -74,6 +74,9 @@ public class SysWarning extends BaseModel<Integer>{
 	/**ip地址*/
 	private String ip;
 	
+	/**访问设备*/
+	private String devices;
+	
 	/**
 	 * @Fields operator:操作人
 	 */

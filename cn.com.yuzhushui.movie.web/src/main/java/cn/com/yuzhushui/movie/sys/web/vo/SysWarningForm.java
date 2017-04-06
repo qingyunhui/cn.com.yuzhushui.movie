@@ -73,6 +73,9 @@ public class SysWarningForm extends BaseForm<Integer> {
 	 */
 	private Integer status;
 	
+	/**访问设备*/
+	private String devices;
+	
 	/**ip地址*/
 	private String ip;
 	

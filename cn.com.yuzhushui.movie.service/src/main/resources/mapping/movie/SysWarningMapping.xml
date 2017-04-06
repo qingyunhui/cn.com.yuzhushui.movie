@@ -14,6 +14,7 @@
         <result property="contactWay" column="contact_way" javaType="String"/>
         <result property="status" column="status" javaType="Integer"/>
         <result property="ip" column="ip" javaType="String"/>
+		<result property="devices" column="devices" javaType="String"/>
         <result property="operator" column="operator" javaType="String"/>
         <result property="gmtCreate" column="gmt_create" javaType="Date"/>
         <result property="gmtModify" column="gmt_modify" javaType="Date"/>
@@ -32,6 +33,7 @@
         t.contact_way,
         t.status,
         t.ip,
+        t.devices,
         t.operator,
         t.gmt_create,
         t.gmt_modify
@@ -75,6 +77,9 @@
          <if test="@OGNL@isNotEmpty(ip)">
             AND t.ip = #{ip}
          </if>
+         <if test="@OGNL@isNotEmpty(devices)">
+            AND t.devices = #{devices}
+         </if>
 		 <if test="@OGNL@isNotEmpty(operator)">
             AND t.operator = #{operator}
          </if>
@@ -100,6 +105,7 @@
 	            contact_way ,
 	            status ,
 	            ip ,
+	            devices ,
 	            operator ,
 	            gmt_create ,
 	            gmt_modify 
@@ -115,6 +121,7 @@
 	        	#{contactWay},
 	        	#{status},
 	        	#{ip},
+	        	#{devices},
 	        	#{operator},
 	        	now(),
 	        	now()
@@ -139,6 +146,7 @@
 	            contact_way ,
 	            status ,
 	            ip ,
+	            devices ,
 	            operator ,
 	            gmt_create ,
 	            gmt_modify 
@@ -156,6 +164,7 @@
 	        	#{contactWay},
 	        	#{status},
 	        	#{ip},
+	        	#{devices},
 	        	#{operator},
 	        	#{gmtCreate},
 	        	#{gmtModify}
@@ -213,6 +222,9 @@
 	        </if>
 	        <if test="@OGNL@isNotEmpty(ip)">
 	            ip = #{ip},
+	        </if>
+	        <if test="@OGNL@isNotEmpty(devices)">
+	            devices = #{devices},
 	        </if>
         	<if test="@OGNL@isNotEmpty(operator)">
 	            operator = #{operator},

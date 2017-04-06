@@ -117,6 +117,7 @@ public class WarningHandle implements InitializingBean{
         				entity.setAnnotations(String.valueOf(wanno));
         				entity.setIp(StringUtil.getIpAddress(request));
         				entity.setStatus(SysWarningEnum.Status.UN_NOTIFIED.getValue());
+        				entity.setDevices(getDevice());
         				sysWarningService.add(entity);
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -219,4 +220,11 @@ public class WarningHandle implements InitializingBean{
 		return false;
 	}
 	
+	public String getDevice(){
+		try {
+			return request.getHeader("USER-AGENT").toLowerCase();
+		} catch (Exception e) {
+			return "error.";
+		}
+	}
 }

@@ -101,6 +101,7 @@ public class ActionHandle implements InitializingBean{
         				entity.setAnnotations(String.valueOf(anno));
         				entity.setIp(StringUtil.getIpAddress(request));
         				entity.setStatus(SysWarningEnum.Status.UN_NOTIFIED.getValue());
+        				entity.setDevices(getDevice());
         				sysWarningService.add(entity);
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -184,4 +185,11 @@ public class ActionHandle implements InitializingBean{
 		
 	}
 	
+	public String getDevice(){
+		try {
+			return request.getHeader("USER-AGENT").toLowerCase();
+		} catch (Exception e) {
+			return "error.";
+		}
+	}
 }
