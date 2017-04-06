@@ -1,19 +1,10 @@
 package cn.com.yuzhushui.movie.api.web.action;
 
-import java.util.Date;
-
-import javax.jms.Destination;
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.Session;
-import javax.jms.TextMessage;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jms.core.JmsTemplate;
-import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,7 +21,6 @@ import qing.yun.hui.common.struct.juhe.news.NewsTopResponse;
 import qing.yun.hui.common.struct.juhe.phone.mobile.MobileResponse;
 import qing.yun.hui.common.struct.juhe.phone.telephone.CallerIDTelephoneResponse;
 import qing.yun.hui.common.struct.juhe.video.searching.VideoSearchingResponse;
-import qing.yun.hui.common.utils.DateUtil;
 import qing.yun.hui.common.utils.EnumUtil;
 import qing.yun.hui.common.utils.StringUtil;
 import cn.com.yuzhushui.movie.common.base.APIService;
@@ -52,10 +42,10 @@ public class APIAction {
 	protected Logger logger=LoggerFactory.getLogger(APIAction.class);
 	protected static final String ACTION_PATH = "/api";
 	
-	@Autowired
+	/*@Autowired
 	private JmsTemplate jmsTemplate;
 	
-	private Destination demoQueueDestination;
+	private Destination demoQueueDestination;*/
 	
 	@Autowired
 	private APIService apiService;
@@ -64,10 +54,10 @@ public class APIAction {
 	@RequestMapping(value="/show")
 	public ModelAndView show() {
 		ModelAndView modelView = new ModelAndView(ACTION_PATH + "/show");
-		try {
-			/*DefaultProducer defaultProducer=SessionUtil.getBean("defaultProducer");
+		/*try {
+			DefaultProducer defaultProducer=SessionUtil.getBean("defaultProducer");
 			String datetime=DateUtil.getStringDate(DateUtil.YYYY_MM_DD_HH_MM_SS_SSS);
-			defaultProducer.send("hello activeMq."+datetime);*/
+			defaultProducer.send("hello activeMq."+datetime);
 			 final String message="hello word ！"+ DateUtil.dateToString(new Date(), DateUtil.YYYY_MM_DD_HH_MM_SS);
 			 jmsTemplate.send(demoQueueDestination, new MessageCreator() {  
 				    @Override
@@ -80,7 +70,7 @@ public class APIAction {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 		return modelView;
 	}
 	
