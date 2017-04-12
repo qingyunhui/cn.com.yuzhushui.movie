@@ -71,6 +71,9 @@ public class ActionHandle implements InitializingBean{
     	logger.info("异常通知-->" + e);  
     }  
 	
+    
+//    @Around("@annotation(qing.yun.hui.common.annotations.ActionAnno)")  
+//    @Around("@annotation(ActionAnno)")   方法 须要加上对应的自定义注解 
     @Around("executeActionPointcut()")  
     public Object doBasicProfiling(ProceedingJoinPoint pjp) throws Throwable{  
         System.out.println("ActionHandle.进入环绕通知");  
