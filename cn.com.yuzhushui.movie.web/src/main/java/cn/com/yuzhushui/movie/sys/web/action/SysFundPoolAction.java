@@ -64,8 +64,17 @@ public class SysFundPoolAction {
 			totalMoney=null==totalMoney?0L:totalMoney;
 			modelAndView.addObject("totalMoney",totalMoney);//总支出总额。
 			modelAndView.addObject("sysBillsList", sysBillsList);
-			//计算剩余金额:资金池金额-支出金额
+			//计算剩余金额:资金池金额-支出金额，
+			StringBuffer sb=new StringBuffer();
 			Long totalSurplus=totalGold-totalMoney;
+			if(totalSurplus.longValue()>0){
+				sb.append("剩余可用余额(可预支金额):");
+			}else{
+				sb.append("截止今日您已透支:");
+				//如果已经透支（出现负数的情况），则取绝对值
+				totalSurplus=Math.abs(totalSurplus);
+			}
+			modelAndView.addObject("caption",sb.toString());
 			modelAndView.addObject("totalSurplus", totalSurplus);
 			modelAndView.addObject(MovieConstant.MESSAGES_INFO,messages);
 		} catch (Exception e) {

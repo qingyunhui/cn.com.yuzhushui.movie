@@ -94,7 +94,7 @@
 		  
 		  <div class="baike369"></div>
 		  
-		  <div class="totalSurplus">剩余可用余额(可预支金额):<span>${totalSurplus}</span>元人民币</div>
+		  <div class="totalSurplus">${caption}<span>${totalSurplus}</span>元人民币</div>
 		  
 		<div id="dataappend"></div>
 		</ul>

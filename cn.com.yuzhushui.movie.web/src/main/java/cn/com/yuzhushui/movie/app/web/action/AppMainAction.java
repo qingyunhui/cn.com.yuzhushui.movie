@@ -156,11 +156,11 @@ public class AppMainAction {
 			//无可用资金池
 			modelView.addObject("totalBalance", "暂无可用资金池.");
 		}else if(struct.getCapitalPool().getValue()==CapitalPool.INSUFFICIENT_POOL_BALANCE.getValue()){
-			//资金池余额不足
-			modelView.addObject("totalBalance", "截止今日你已透支¥："+struct.getTotalBalance()+"元人民币.");
-		}else{
-			//资金池余额充足
+			//资金池余额不足（须要忙充值）
 			modelView.addObject("totalBalance", "账户可用余额¥："+struct.getTotalBalance()+"元人民币.");
+		}else{
+			//资金池已透支
+			modelView.addObject("totalBalance", "账户已透支¥："+Math.abs(struct.getTotalBalance())+"元人民币.");
 		}
 		modelView.addObject(MovieConstant.STRUCT, struct);
 		return modelView;
