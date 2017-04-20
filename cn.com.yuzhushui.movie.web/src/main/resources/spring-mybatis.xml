@@ -13,7 +13,7 @@ http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
             <list>
             	<value>classpath:/jdbc.properties</value>
                 <value>classpath:/redis.properties</value>
-                <!-- <value>classpath:/activemq.properties</value> -->
+                <value>classpath:/activemq.properties</value>
             </list>
         </property>
     </bean>
@@ -100,8 +100,6 @@ http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
 		<aop:pointcut id="transactionPointcut" expression="execution(* cn.com.yuzhushui.movie.**.biz.service.impl..*.*(..)) or execution(* cn.com.yuzhushui.movie.**.base..*.*(..))"/>
 		<aop:advisor pointcut-ref="transactionPointcut" advice-ref="transactionAdvice" />
 	</aop:config>
-
-	<!-- <import resource="classpath:activemq.xml" /> -->
 
 	<!-- 配置druid监控spring jdbc -->
 	<bean id="druid-stat-interceptor" class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">
