@@ -86,47 +86,50 @@ public class WarningHandle implements InitializingBean{
    */
       
     @Around("executePointcut()")  
-    public Object doBasicProfiling(ProceedingJoinPoint pjp) throws Throwable{  
-        System.out.println("WarningHandle.进入环绕通知");  
-        Object object = pjp.proceed();//执行该方法返回结果(返回值)
-        Object[] args= pjp.getArgs();//参数
-        Object target=pjp.getTarget();
-        MethodSignature signatures=(MethodSignature)pjp.getSignature();
-//        Class<?> clz=signatures.getReturnType();//返回值类型...
-        String signatururesName=signatures.getName();//方法名 
-        String targetName=target.getClass().getName();//类名:SysDataServiceImpl
-        Class<?> targetClz=Class.forName(targetName);
-        Method[] methods= targetClz.getMethods();
-        SysUser sysUser= SessionUtil.getSysUser();
-        String operator=null==sysUser?null:sysUser.getName();
-        for(Method method:methods){
-        	String methodName=method.getName();
-        	if(methodName.equals(signatururesName)){
-        		WarningAnno wanno= method.getAnnotation(WarningAnno.class);
-        		if(null!=wanno){
-        			Class<?> returnType=wanno.returnType();//返回类型
-        			try {
-        				SysWarning entity=new SysWarning();
-        				entity.setWarningDate(new Date());
-        				entity.setAction(wanno.action());
-        				entity.setMethodName(methodName);
-        				entity.setReturnType(String.valueOf(returnType));
-        				entity.setReturnValue(JSONObject.toJSONString(object));
-        				entity.setArgs(WebUtil.argsToJSON(args, "cn.com.yuzhushui","qing.yun.hui","java.lang","java.util"));
-        				entity.setOperator(operator);
-        				entity.setAnnotations(String.valueOf(wanno));
-        				entity.setIp(StringUtil.getIpAddress(request));
-        				entity.setStatus(SysWarningEnum.Status.UN_NOTIFIED.getValue());
-        				entity.setDevices(getDevice());
-        				sysWarningService.add(entity);
-					} catch (Exception e) {
-						e.printStackTrace();
-						logger.error("==============>sysWarningService.add(entity) is error.{}",new Object[]{JSONObject.toJSONString(e)});
-					}
-        			logger.info("service 执行时间："+DateUtil.dateToString(new Date(), DateUtil.YYYY_MM_DD_HH_MM_SS)+"，执行方法："+methodName+"，执行动作："+wanno.action()+".");
-        		}
-        	}
-        }
+    public Object doBasicProfiling(ProceedingJoinPoint pjp) throws Throwable{
+    	Object object = pjp.proceed();//执行该方法返回结果(返回值)
+    	try {
+    		System.out.println("WarningHandle.进入环绕通知");  
+    		Object[] args= pjp.getArgs();//参数
+    		Object target=pjp.getTarget();
+    		MethodSignature signatures=(MethodSignature)pjp.getSignature();
+//          Class<?> clz=signatures.getReturnType();//返回值类型...
+    		String signatururesName=signatures.getName();//方法名 
+    		String targetName=target.getClass().getName();//类名:SysDataServiceImpl
+    		Class<?> targetClz=Class.forName(targetName);
+    		Method[] methods= targetClz.getMethods();
+    		SysUser sysUser= SessionUtil.getSysUser();
+    		String operator=null==sysUser?null:sysUser.getName();
+    		for(Method method:methods){
+    			String methodName=method.getName();
+    			if(methodName.equals(signatururesName)){
+    				WarningAnno wanno= method.getAnnotation(WarningAnno.class);
+    				if(null!=wanno){
+    					Class<?> returnType=wanno.returnType();//返回类型
+    					try {
+    						SysWarning entity=new SysWarning();
+    						entity.setWarningDate(new Date());
+    						entity.setAction(wanno.action());
+    						entity.setMethodName(methodName);
+    						entity.setReturnType(String.valueOf(returnType));
+    						entity.setReturnValue(JSONObject.toJSONString(object));
+    						entity.setArgs(WebUtil.argsToJSON(args, "cn.com.yuzhushui","qing.yun.hui","java.lang","java.util"));
+    						entity.setOperator(operator);
+    						entity.setAnnotations(String.valueOf(wanno));
+    						entity.setIp(StringUtil.getIpAddress(request));
+    						entity.setStatus(SysWarningEnum.Status.UN_NOTIFIED.getValue());
+    						entity.setDevices(getDevice());
+    						sysWarningService.add(entity);
+    					} catch (Exception e) {
+    						e.printStackTrace();
+    						logger.error("==============>sysWarningService.add(entity) is error.{}",new Object[]{JSONObject.toJSONString(e)});
+    					}
+    					logger.info("service 执行时间："+DateUtil.dateToString(new Date(), DateUtil.YYYY_MM_DD_HH_MM_SS)+"，执行方法："+methodName+"，执行动作："+wanno.action()+".");
+    				}
+    			}
+    		}
+		} catch (Exception e) {
+		}
         return object;  
     }  
 	
