@@ -39,6 +39,12 @@
 		<function-class>qing.yun.hui.common.utils.HandleTime</function-class>
 		<function-signature>java.lang.String getNameByDate(java.lang.Object)</function-signature>
 	</function>
+	<function>
+		<name>getEnumMapToJSON</name>
+		<function-class>qing.yun.hui.common.utils.EnumUtil</function-class>
+		<function-signature>java.lang.String getEnumMapToJSON(java.lang.String)</function-signature>
+		<example>${getEnumMapToJSON('')}</example>
+	</function>
 	<!-- sessionUser -->
 	<function>
 		<name>getSysAccount</name>
