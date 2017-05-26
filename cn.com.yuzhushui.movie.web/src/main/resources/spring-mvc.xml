@@ -25,7 +25,8 @@ http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 	<context:component-scan base-package="cn.com.yuzhushui.movie.**.service" />
 	<aop:aspectj-autoproxy proxy-target-class="true" />  
 	<context:component-scan base-package="cn.com.yuzhushui.movie.common.Interceptor.SessionInterceptor" />
-	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	
+	<!-- <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="ignoreResourceNotFound" value="true" />
 		<property name="locations">
 			<list>
@@ -33,7 +34,7 @@ http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
                 <value>classpath:redis.properties</value>
 			</list>
 		</property>
-	</bean>
+	</bean> -->
 	
 	<mvc:interceptors>
 		<!-- URL拦截器（针对须要放行、注册、登陆的URL进行拦截。） -->

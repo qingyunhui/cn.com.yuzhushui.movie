@@ -24,16 +24,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import qing.yun.hui.common.constants.Constant;
 import qing.yun.hui.common.utils.BeanUtil;
 import qing.yun.hui.common.utils.StringUtil;
-import cn.com.yuzhushui.smiles8.common.bean.Constant;
-import cn.com.yuzhushui.smiles8.common.bean.ResponseData;
-import cn.com.yuzhushui.smiles8.common.bean.vo.AppUserInfo;
-import cn.com.yuzhushui.smiles8.common.bean.vo.MySessionInfo;
-import cn.com.yuzhushui.smiles8.common.vo.Extras;
-import cn.com.yuzhushui.smiles8.common.vo.FileForm;
-import cn.com.yuzhushui.smiles8.sys.biz.po.SysAttachment;
-import cn.com.yuzhushui.smiles8.sys.biz.service.SysAttachmentService;
+import cn.com.yuzhushui.movie.common.base.ResponseData;
+import cn.com.yuzhushui.movie.sys.biz.entity.SysAttachment;
+import cn.com.yuzhushui.movie.sys.biz.service.SysAttachmentService;
 
 import com.baidu.ueditor.ConfigManager;
 import com.baidu.ueditor.PathFormat;
