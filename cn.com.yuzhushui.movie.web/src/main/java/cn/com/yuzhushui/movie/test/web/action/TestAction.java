@@ -1,4 +1,4 @@
-package cn.com.yuzhushui.movie.test.web.action;
+/*package cn.com.yuzhushui.movie.test.web.action;
 
 import java.util.Random;
 
@@ -17,12 +17,12 @@ import qing.yun.hui.activemq.consumer.DefaultTopicConsumers;
 import qing.yun.hui.activemq.producer.DefaultQueueProducers;
 import qing.yun.hui.activemq.producer.DefaultTopicProducers;
 
-/***
+*//***
  ** @category 请用一句话来描述其用途...
  ** @author qing.yunhui
  ** @email: 280672161@qq.com
  ** @createTime: 2017年4月20日下午3:37:53
- **/
+ **//*
 @Controller
 @RequestMapping(TestAction.ACTION_PATH)
 public class TestAction {
@@ -90,3 +90,4 @@ public class TestAction {
 	
 	
 }
+*/

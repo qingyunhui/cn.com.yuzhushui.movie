@@ -14,12 +14,5 @@ xsi:schemaLocation="
 	<context:component-scan base-package="cn.com.yuzhushui.movie.**.biz.service" />
 	<context:component-scan base-package="cn.com.yuzhushui.movie.common.base" />
 	<context:component-scan base-package="cn.com.yuzhushui.movie.job" />
-	
-	
-	<bean id="xxlConfPropertyPlaceholderConfigurer" class="com.xxl.conf.core.spring.XxlConfPropertyPlaceholderConfigurer" />
-	
-	
-	<context:component-scan base-package="qing.yun.hui.activemq" />
-	<!-- 引入属性文件 -->
-	<!-- <util:properties id="properties" location="classpath:movie.properties"/> -->
+	<!-- <context:component-scan base-package="qing.yun.hui.activemq" /> -->
 </beans>
