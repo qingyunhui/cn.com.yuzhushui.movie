@@ -316,8 +316,8 @@
 	<!-- 统计借款人历史支出总额 -->
 	<select id="getTotalMoneyByDebtorId" parameterType="java.lang.Integer" resultType="java.lang.Long">
 	   	SELECT  SUM(t.money)
-       		FROM sys_bills t
-       	WHERE t.debtor_id = #{value}
+       		FROM sys_bills t 
+       	WHERE t.debtor_id = #{value} and deleted=0 and t.status=2
     </select>
 	
 </mapper>

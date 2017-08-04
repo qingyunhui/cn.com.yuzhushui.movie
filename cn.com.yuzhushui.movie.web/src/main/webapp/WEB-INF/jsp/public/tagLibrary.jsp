@@ -7,7 +7,7 @@
 <%
   String path = request.getContextPath();// 形如:/movie
   String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";	//形如:http://localhost:8010/movie/
-  pageContext.setAttribute("path", path+"/");
+  pageContext.setAttribute("path",basePath);
   pageContext.setAttribute("basePath", basePath);
 %>
 
