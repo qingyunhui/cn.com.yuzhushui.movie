@@ -19,6 +19,7 @@
         <result property="etime" column="etime" javaType="Date"/>
         <result property="editor" column="editor" javaType="String"/>
         <result property="editorId" column="editor_id" javaType="Integer"/>
+        <result property="reason" column="reason" javaType="String"/>
         <result property="comments" column="comments" javaType="String"/>
         <result property="deleted" column="deleted" javaType="Integer"/>
 	</resultMap>
@@ -41,6 +42,7 @@
         t.etime,
         t.editor,
         t.editor_id,
+        t.reason,
         t.comments,
         t.deleted
 	</sql>
@@ -104,6 +106,9 @@
 		 <if test="@OGNL@isNotEmpty(editorId)">
             AND t.editor_id = #{editorId}
          </if>
+         <if test="@OGNL@isNotEmpty(reason)">
+            AND t.reason = #{reason}
+         </if>
 		 <if test="@OGNL@isNotEmpty(comments)">
             AND t.comments = #{comments}
          </if>
@@ -131,6 +136,7 @@
 	            etime ,
 	            editor ,
 	            editor_id ,
+	            reason ,
 	            comments ,
 	            deleted 
 	        ) VALUES (
@@ -150,6 +156,7 @@
 	        	#{etime},
 	        	#{editor},
 	        	#{editorId},
+	        	#{reason},
 	        	#{comments},
 	        	0
 	        )
@@ -178,6 +185,7 @@
 	            etime ,
 	            editor ,
 	            editor_id ,
+	            reason ,
 	            comments ,
 	            deleted 
 	        ) VALUES 
@@ -199,6 +207,7 @@
 	        	#{etime},
 	        	#{editor},
 	        	#{editorId},
+	        	#{reason},
 	        	#{comments},
 	        	0
 	        )
@@ -271,6 +280,9 @@
         	<if test="@OGNL@isNotEmpty(editorId)">
 	            editor_id = #{editorId},
 	        </if>
+	        <if test="@OGNL@isNotEmpty(reason)">
+	            reason = #{reason},
+	        </if>
         	<if test="@OGNL@isNotEmpty(comments)">
 	            comments = #{comments},
 	        </if>
@@ -286,7 +298,7 @@
 	   	SELECT <include refid="full-columns" />
        	<![CDATA[
        	FROM sys_bills t
-       	WHERE t.id = #{value}
+       	WHERE t.id = #{value}  and deleted=0
 		]]>
     </select>
 	
@@ -309,15 +321,15 @@
 	</select>
 
 	<select id="queryCount" parameterType="map" resultType="java.lang.Integer">
-		select count(id) FROM sys_bills 
+		select count(id) FROM sys_bills t
         <where> <include refid="queryCriteria"/>  </where>
 	</select>
 	
-	<!-- 统计借款人历史支出总额 -->
-	<select id="getTotalMoneyByDebtorId" parameterType="java.lang.Integer" resultType="java.lang.Long">
+	<!-- 根据给定借款人ID+状态、统计借款人历史支出总额 -->
+	<select id="getTotalMoneyByDebtorIdWithStatus" parameterType="map" resultType="java.lang.Long">
 	   	SELECT  SUM(t.money)
        		FROM sys_bills t 
-       	WHERE t.debtor_id = #{value} and deleted=0 and t.status=2
+       	WHERE deleted=0 AND t.debtor_id = #{debtorId} AND t.status = #{status} 
     </select>
 	
 </mapper>

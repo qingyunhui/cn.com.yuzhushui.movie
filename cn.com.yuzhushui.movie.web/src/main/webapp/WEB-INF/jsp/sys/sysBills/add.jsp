@@ -136,7 +136,31 @@
 				return false;
 			}
 		});
+		isShow('${isShow}');
 	});
+	
+	function isShow(isShow){
+		 if('true'==isShow){
+			 layer.open({
+			        type: 1
+			        ,title: false //不显示标题栏
+			        ,closeBtn: false
+			        ,area: '300px;'
+			        ,shade: 0.8
+			        ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+			        ,btn: ['返回主页', '取消']
+			        ,moveType: 1 //拖拽模式，0或者1
+			        ,content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">你知道吗？亲！<br>您目前还有账单处于未审核中的哦，请联系相关人员对账单审核通过后，你方才能够继续操作哦！<br>你可以选择回到主页面，也可以选择继续停留在这里。<br><br> wish you good luck. </div>'
+			        ,success: function(layero){
+			          var btn = layero.find('.layui-layer-btn');
+			          btn.css('text-align', 'center');
+			          btn.find('.layui-layer-btn0').attr({
+			            href: '${path}app/appMain/myMain.htm'
+			          });
+			        }
+			      });
+		 }
+	}
 </script>
 </body>
 </html>

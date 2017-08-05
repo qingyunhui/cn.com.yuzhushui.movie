@@ -103,6 +103,11 @@ public class SysBills extends BaseModel<Integer>{
 	private Integer editorId;
 	
 	/**
+	 * 原因
+	 * */
+	private String reason;
+	
+	/**
 	 * @Fields comments:备注
 	 */
 	private String comments;

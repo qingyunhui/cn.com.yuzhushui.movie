@@ -12,7 +12,19 @@ import cn.com.yuzhushui.movie.sys.biz.entity.SysBills;
  */
 public interface SysBillsService extends BaseService<SysBills,Integer>{
 	
-	/**<!-- 统计借款人历史支出总额 -->*/
-	public Long getTotalMoneyByDebtorId(Integer debtorId);
+	/**
+	 * 根据给定借款人Id 及 状态查询 历史支出总额
+	 * @param debtorId 借款人id
+	 * @param status  状态
+	 * */
+	public Long getTotalMoneyByDebtorIdWithStatus(Integer debtorId,Integer status);
+	
+	/**
+	 * <p>根据给定条件查询未审核的账单</p>
+	 * @param debtorId
+	 * @param status
+	 * @return Boolean
+	 * */
+	public Boolean getByBillsByAuditUnPass(Integer debtorId,Integer status);
     
 }

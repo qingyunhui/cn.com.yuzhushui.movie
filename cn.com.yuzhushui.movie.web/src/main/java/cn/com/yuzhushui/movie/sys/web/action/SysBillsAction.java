@@ -118,6 +118,9 @@ public class SysBillsAction{
 				//如果登陆人是出借人那么，是可进行审核的。
 				isShow=true;
 			}
+		}else if(sysBills.getStatus().equals(SysBillsEnum.Status.AUDIT_UN_PASS.getValue())){
+			//如果是审核不通过、详情页面、状态须高亮显示且要显示不通过原因！
+			sysBills.setStatusStyle(SysBillsEnum.Status.AUDIT_UN_PASS.getCode());
 		}
 		sysBills.setIsShow(isShow?"":"none");
 		modelAndView.addObject(MovieConstant.ENTITY, sysBills);
@@ -197,6 +200,8 @@ public class SysBillsAction{
 		SysUser debtorUser=sysUserService.queryByAccountId(MovieConstant.accountId);
 		modelAndView.addObject("debtorUser", debtorUser);
 		CapitalPoolStruct struct= sysFundPoolService.getTotalBalance(SessionUtil.getSysAccount().getAccountId());
+		//查询目前系统中是否有账单状态为：未审核中的，如果有，前端页面会弹框进行提示！
+		Boolean isShow=sysBillsService.getByBillsByAuditUnPass(SessionUtil.getSysAccount().getAccountId(), SysBillsEnum.Status.AUDIT_WAIT.getValue());
 		StringBuffer sb=new StringBuffer();
 		if(CapitalPool.NOT_AVAILABLE_POOL.getValue()==struct.getCapitalPool().getValue()){
 			//无可用资金池(资金池还未创建)
@@ -212,6 +217,7 @@ public class SysBillsAction{
 			sb.append("当前可用余额为："+struct.getTotalBalance()+"元人民币.");
 		}
 		modelAndView.addObject(MovieConstant.MESSAGES_INFO, sb.toString());
+		modelAndView.addObject("isShow",isShow);
 		return modelAndView;
 	}
 	
@@ -244,6 +250,12 @@ public class SysBillsAction{
 		try {
 			if(null==sysBills){
 				logger.error("===========>账单不能为null!");
+				return modelAndView;
+			}
+			Boolean isShow=sysBillsService.getByBillsByAuditUnPass(SessionUtil.getSysAccount().getAccountId(), SysBillsEnum.Status.AUDIT_WAIT.getValue());
+			if(isShow){
+				logger.error("===========>目前系统中的账单仍，待审核的账单，导致不能继续后续操作！");
+				redirectAttributes.addAttribute(MovieConstant.MESSAGES_INFO,"您目前还有账单处于待审核中，请联系相关人员对账单进行审核后，您方才能够继续操作哦！");
 				return modelAndView;
 			}
 			//借款人

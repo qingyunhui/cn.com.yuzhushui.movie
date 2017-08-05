@@ -1,6 +1,8 @@
 
 package cn.com.yuzhushui.movie.sys.biz.dao;
 
+import java.util.Map;
+
 import cn.com.yuzhushui.movie.common.base.BaseDao;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysBills;
 
@@ -12,6 +14,6 @@ import cn.com.yuzhushui.movie.sys.biz.entity.SysBills;
  */
 public interface SysBillsDao extends BaseDao<SysBills,Integer>{
 	
-	/**<!-- 统计借款人历史支出总额 -->*/
-	public Long getTotalMoneyByDebtorId(Integer debtorId);
+	/**<!-- 根据给定借款人Id 及 状态 查询 历史支出总额 -->*/
+	public Long getTotalMoneyByDebtorIdWithStatus(Map<String,Object> map);
 }

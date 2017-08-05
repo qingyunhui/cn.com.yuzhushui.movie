@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import cn.com.yuzhushui.movie.common.base.BaseServiceImpl;
 import cn.com.yuzhushui.movie.enums.CapitalPoolEnum;
+import cn.com.yuzhushui.movie.enums.SysBillsEnum;
 import cn.com.yuzhushui.movie.struct.CapitalPoolStruct;
 import cn.com.yuzhushui.movie.sys.biz.dao.SysFundPoolDao;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysFundPool;
@@ -46,7 +47,8 @@ public class SysFundPoolServiceImpl extends BaseServiceImpl<SysFundPool,Integer>
 			struct.setCapitalPool(CapitalPoolEnum.CapitalPool.NOT_AVAILABLE_POOL);
 			return struct;
 		}
-		Long totalMoney=sysBillsService.getTotalMoneyByDebtorId(accountId);
+		//查询状态，必须是审核通过滴！
+		Long totalMoney=sysBillsService.getTotalMoneyByDebtorIdWithStatus(accountId,SysBillsEnum.Status.AUDIT_PASS.getValue());
 		if(null==totalMoney)totalMoney=0L;
 		Long balance=totalPool-totalMoney;
 		if(balance>CapitalPoolEnum.EARLY_WARNING_MONEY){

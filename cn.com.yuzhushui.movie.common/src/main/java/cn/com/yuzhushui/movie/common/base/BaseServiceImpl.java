@@ -10,6 +10,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import cn.com.yuzhushui.movie.common.util.SessionUtil;
+import qing.yun.hui.common.utils.BeanUtil;
 
 /***
  ** @category 请用一句话来描述其用途...
@@ -90,5 +91,10 @@ public class BaseServiceImpl<MODEL extends BaseModel<KEY_TYPE>, KEY_TYPE> implem
 		for (PluginAfterService plugin : pluginAfterService) {
 			plugin.process(model);
 		}
+	}
+
+	@Override
+	public int queryCount(MODEL model) {
+		return getBaseDao().queryCount(BeanUtil.pojoToMap(model));
 	}
 }

@@ -61,6 +61,8 @@ public interface BaseService<MODEL, KEY_TYPE>{
 	 * @return MODEL 
 	 * */
 	public MODEL query(KEY_TYPE id);
+	
+	public int queryCount(MODEL model);
 
 	/***
 	 * <p>根据map查询对象</p>

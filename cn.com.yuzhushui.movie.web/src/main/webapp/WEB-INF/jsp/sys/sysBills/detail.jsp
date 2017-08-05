@@ -27,7 +27,10 @@
 				<li>预支人：${entity.debtor}</li>
 				<li>预支金额¥：${entity.money}</li>
 				<li>预支对象：${entity.lender}</li>
-				<li>状态：${yzsTld:getNameByValue('cn.com.yuzhushui.movie.enums.SysBillsEnum$Status',entity.status)}</li>
+				<li style="${entity.statusStyle}">状态：${yzsTld:getNameByValue('cn.com.yuzhushui.movie.enums.SysBillsEnum$Status',entity.status)}</li>
+				<c:if test="${not empty entity.statusStyle}">
+					<li style="${entity.statusStyle}">不通过原因：${entity.reason}</li>
+				</c:if>
 				<li>交易类型：${yzsTld:getNameByCode('cn.com.yuzhushui.movie.enums.SysBillsEnum$TradeType',entity.tradeType)}</li>
 				<li>详情：${entity.content}</li>
 				<li>账单创建时间：<fmt:formatDate value='${entity.ctime}' type='date' pattern='yyyy-MM-dd HH:mm:ss'/></li>

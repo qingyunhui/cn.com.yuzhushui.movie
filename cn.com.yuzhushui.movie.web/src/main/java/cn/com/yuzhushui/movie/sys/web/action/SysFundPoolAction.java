@@ -14,6 +14,7 @@ import com.alibaba.fastjson.JSONObject;
 
 import cn.com.yuzhushui.movie.common.util.SessionUtil;
 import cn.com.yuzhushui.movie.constant.MovieConstant;
+import cn.com.yuzhushui.movie.enums.SysBillsEnum;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysAccount;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysBills;
 import cn.com.yuzhushui.movie.sys.biz.entity.SysFundPool;
@@ -58,9 +59,10 @@ public class SysFundPoolAction {
 			SysBills bills=new SysBills();
 			//查询-借款人or出借人的所有账单
 			bills.setDebtorId(account.getAccountId());
+			bills.setDeleted(0);
 			Map<String,Object>map=BeanUtil.pojoToMap(bills);
 			List<SysBills> sysBillsList=sysBillsService.query(map);
-			Long totalMoney=sysBillsService.getTotalMoneyByDebtorId(account.getAccountId());
+			Long totalMoney=sysBillsService.getTotalMoneyByDebtorIdWithStatus(account.getAccountId(),SysBillsEnum.Status.AUDIT_PASS.getValue());
 			totalMoney=null==totalMoney?0L:totalMoney;
 			modelAndView.addObject("totalMoney",totalMoney);//总支出总额。
 			modelAndView.addObject("sysBillsList", sysBillsList);

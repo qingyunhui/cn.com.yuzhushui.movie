@@ -104,6 +104,11 @@ public class SysBillsForm extends BaseForm<Integer> {
 	private Integer editorId;
 	
 	/**
+	 * 原因
+	 * */
+	private String reason;
+	
+	/**
 	 * @Fields comments:备注
 	 */
 	private String comments;
