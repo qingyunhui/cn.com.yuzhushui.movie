@@ -348,7 +348,7 @@ public class AppMainAction {
 	
 	/**登陆*/
 	@ActionAnno(action="提交登陆")
-	@RequestMapping(value="doLogin.json", method={RequestMethod.POST})
+	@RequestMapping(value="doLogin.jsonp", method={RequestMethod.POST,RequestMethod.GET})
 	@ResponseBody
 	public ResponseData doLogin(HttpServletRequest request,HttpServletResponse response, HttpSession session,LogParameter logParam,RedirectAttributes attributes) {
 		ResponseData rd=new ResponseData();

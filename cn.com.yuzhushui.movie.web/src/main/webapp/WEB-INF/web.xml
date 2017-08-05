@@ -90,6 +90,7 @@
     <servlet-name>springMvc</servlet-name>
     <url-pattern>*.htm</url-pattern>
     <url-pattern>*.json</url-pattern>
+    <url-pattern>*.jsonp</url-pattern>
   </servlet-mapping>
   <!-- 配置定时任务请求路径 -->
   <!-- job相关 -->
