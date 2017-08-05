@@ -25,8 +25,8 @@ $(document).ready(function(){
 		}
 		//发送ajax请求.
 		$.ajax({
-            type: "GET",
-            dataType:"jsonp",
+            type: "POST",
+            //dataType:"jsonp",
             url: "${path}app/appMain/doLogin.json",
 			  data: {accounts:accounts,passwords:passwords},
 			  beforeSend: function() {  },

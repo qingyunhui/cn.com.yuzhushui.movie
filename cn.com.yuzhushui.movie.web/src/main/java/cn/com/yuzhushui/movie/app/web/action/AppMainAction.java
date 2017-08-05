@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.alibaba.fastjson.JSONObject;
 
@@ -348,9 +347,9 @@ public class AppMainAction {
 	
 	/**登陆*/
 	@ActionAnno(action="提交登陆")
-	@RequestMapping(value="doLogin.jsonp", method={RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value="doLogin.json", method={RequestMethod.POST,RequestMethod.GET})
 	@ResponseBody
-	public ResponseData doLogin(HttpServletRequest request,HttpServletResponse response, HttpSession session,LogParameter logParam,RedirectAttributes attributes) {
+	public ResponseData doLogin(HttpServletRequest request,HttpServletResponse response,LogParameter logParam) {
 		ResponseData rd=new ResponseData();
 		Map<String, Object> map = new HashMap<String, Object>();
 		SysUser user=SessionUtil.getSysUser();
