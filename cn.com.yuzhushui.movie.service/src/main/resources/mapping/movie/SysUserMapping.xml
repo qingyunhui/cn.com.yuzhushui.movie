@@ -15,6 +15,9 @@
         <result property="microblog" column="microblog" javaType="String"/>
         <result property="email" column="email" javaType="String"/>
         <result property="officeAddr" column="office_addr" javaType="String"/>
+        <result property="state" column="state" javaType="Integer"/>
+        <result property="idcard" column="idcard" javaType="String"/>
+        <result property="area" column="area" javaType="String"/>
         <result property="ctime" column="ctime" javaType="Date"/>
         <result property="creater" column="creater" javaType="String"/>
         <result property="createrId" column="creater_id" javaType="Integer"/>
@@ -39,6 +42,9 @@
         t.microblog,
         t.email,
         t.office_addr,
+        t.state,
+        t.idcard,
+        t.area,
         t.ctime,
         t.creater,
         t.creater_id,
@@ -90,6 +96,15 @@
 		 <if test="@OGNL@isNotEmpty(officeAddr)">
             AND t.office_addr = #{officeAddr}
          </if>
+         <if test="@OGNL@isNotEmpty(state)">
+            AND t.state = #{state}
+         </if>
+         <if test="@OGNL@isNotEmpty(idcard)">
+            AND t.idcard = #{idcard}
+         </if>
+         <if test="@OGNL@isNotEmpty(area)">
+            AND t.area = #{area}
+         </if>
 		 <if test="@OGNL@isNotEmpty(ctime)">
             AND t.ctime = #{ctime}
          </if>
@@ -131,6 +146,9 @@
 	            microblog ,
 	            email ,
 	            office_addr ,
+	            state ,
+	            idcard ,
+	            area ,
 	            ctime ,
 	            creater ,
 	            creater_id ,
@@ -152,6 +170,9 @@
 	        	#{microblog},
 	        	#{email},
 	        	#{officeAddr},
+	        	0,
+	            #{idcard},
+	            #{area},
 	        	now(),
 	        	#{creater},
 	        	#{createrId},
@@ -182,6 +203,9 @@
 	            microblog ,
 	            email ,
 	            office_addr ,
+	            state ,
+	            idcard ,
+	            area ,
 	            ctime ,
 	            creater ,
 	            creater_id ,
@@ -205,6 +229,9 @@
 	        	#{microblog},
 	        	#{email},
 	        	#{officeAddr},
+	        	0,
+	            #{idcard},
+	            #{area},
 	        	now(),
 	        	#{creater},
 	        	#{createrId},
@@ -270,6 +297,15 @@
 	        </if>
         	<if test="@OGNL@isNotEmpty(officeAddr)">
 	            office_addr = #{officeAddr},
+	        </if>
+	        <if test="@OGNL@isNotEmpty(state)">
+	            state = #{state},
+	        </if>
+	        <if test="@OGNL@isNotEmpty(idcard)">
+	            idcard = #{idcard},
+	        </if>
+	        <if test="@OGNL@isNotEmpty(area)">
+	            area = #{area},
 	        </if>
         	<if test="@OGNL@isNotEmpty(ctime)">
 	            ctime = #{ctime},

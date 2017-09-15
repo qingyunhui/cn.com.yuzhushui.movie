@@ -88,6 +88,21 @@ public class SysUser extends BaseModel<Integer> implements CreaterInfo,EditorInf
 	private String officeAddr;
 	
 	/**
+	 * @Fields state 状态(0:未认证、1.认证中、2.认证失败、3.已认证)
+	 */
+	private Integer state;
+	
+	/**
+	 * @Fields idcard 身份证号
+	 */
+	private String idcard;
+	
+	/**
+	 * @Fields area 地区(用户居住地区、一般跟身份证上一致)
+	 */
+	private String area;
+	
+	/**
 	 * @Fields ctime:创建时间
 	 */
 	private Date ctime;
