@@ -12,7 +12,7 @@
     	<img src="${path}image/myMain/footer/3.png">
         <p>申请加盟</p>
     </div>
-	<div class="mune" data-menu3="${path}sys/sysIdentification/certification.htm">
+	<div class="mune" data-menu3="${path}sys/sysUser/certification.htm">
     	<img src="${path}image/myMain/footer/4.png">
         <p>个人中心</p>
     </div>    

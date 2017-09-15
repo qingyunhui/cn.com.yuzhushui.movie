@@ -39,7 +39,7 @@ public class SysIdentificationAction {
 	
 	Logger logger=LoggerFactory.getLogger(getClass());
 	
-	protected static final String ACTION_PATH="/sys/sysIdentification";
+	protected static final String ACTION_PATH="/sys/sysUser/";
 
 	@Autowired
 	ShardedJedisCached shardedJedisCached;
@@ -65,6 +65,13 @@ public class SysIdentificationAction {
 	@ResponseBody
 	public ResponseData doCertification(String IDCard,String name) {
 		ResponseData responseData=new ResponseData();
+		SysUser user=SessionUtil.getSysUser();
+		if(Integer.valueOf(SysUserEnum.State.SUCCESS_CERTIFICATION.getValue()).equals(user.getState())){
+			responseData.setMsg("认证成功.");
+			logger.info("---------------->用户已是认证成功的用户.无需再次认证.");
+			responseData.addData("url","app/appMain/myMain.htm");
+			return responseData;
+		}
 		if(StringUtil.isEmpty(IDCard,name)){
 			logger.error("==========>身份证:{}、姓名:{}，不能为空.",new Object[]{IDCard,name});
 			responseData.setMsg("邮箱不能为空。");
@@ -80,7 +87,7 @@ public class SysIdentificationAction {
 			responseData.setMsg("请输入正确姓名.");
 			return responseData;
 		}
-		Integer userId=SessionUtil.getSysUser().getUserId();
+		Integer userId=user.getUserId();
 		String key="ID_CARD_CERTIFICATION"+"_"+userId+"_"+IDCard;
 		String id_card_certification_key=shardedJedisCached.get(key);
 		if(!StringUtil.isEmpty(id_card_certification_key)){
@@ -89,6 +96,7 @@ public class SysIdentificationAction {
 			responseData.addData(MovieConstant.SUCCESS_CODE, 30);
 			return responseData;
 		}
+		shardedJedisCached.set(key, "YES",20);
 		IdCardResponse card= apiService.callIdCardResponse(IDCard);
 		if(null==card){
 			logger.info("您输入的身份证号{}有误,请重新输入.",new Object[]{IDCard});
@@ -106,7 +114,9 @@ public class SysIdentificationAction {
 		updateUser.setAge(getAge(card.getBirthday()));
 		sysUserService.update(updateUser);
 		logger.info("========>身份证认证成功啦.");
+		responseData.addData(MovieConstant.SUCCESS_CODE, 10000);
 		responseData.setMsg("认证成功.");
+		responseData.addData("url","app/appMain/myMain.htm");
 		return responseData;
 	}
 	
