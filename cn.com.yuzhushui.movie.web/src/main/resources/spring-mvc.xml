@@ -44,6 +44,7 @@ http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 				<property name="noInterceptors" value="app/appMain/introduce.htm,app/appMain/login.htm,app/appMain/doLogin.json,error/notfind.htm,app/appMain/register.htm,app/appMain/findPassword.htm,app/appMain/getCode.json,app/appMain/updatePassword.htm,app/appMain/doUpdatePassword.json,app/appMain/doRegister.json,app/appMain/getRegisterCode.json,robot/answers.htm,robot/robotAnswers.json,api/show.htm,api/idCard.htm,api/callerIdTelephone.htm,api/mobile.htm,api/getIdCard.json,api/getCallerIdTelephone.json,api/getMobile.json,api/busline.htm,api/getBusline.json,api/buslong.htm,api/getBuslong.json,api/weather.htm,api/getWeather.json,api/videoSearching.htm,api/getVideoSearching.json,api/todayTop.htm,api/getTodayTop.json,test/sendMqMsg.htm,test/getMqMsg.htm"/><!-- 不须要拦截的URL多个URL以逗号隔开。	 -->
 				<property name="registers" value="" /><!-- 须要注册的URL -->
 				<property name="logins" value=""/><!-- 须要登陆的URL -->
+				<property name="identifications" value="sys/sysBills/add.htm,sys/sysBills/detail.htm,sys/sysBills/doAudit.htm,sys/sysBills/doAdd.htm"/>
 			</bean>
 		</mvc:interceptor>
 		<!-- 表单重复提交拦截器 -->

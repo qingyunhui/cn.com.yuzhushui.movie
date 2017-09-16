@@ -4,21 +4,21 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import qing.yun.hui.common.constants.SymbolConstant;
-import qing.yun.hui.common.utils.CookieUtil;
-import qing.yun.hui.common.utils.StringUtil;
+import com.alibaba.fastjson.JSONObject;
+
 import cn.com.yuzhushui.movie.cache.ShardedJedisCached;
 import cn.com.yuzhushui.movie.common.bean.SessionInfo;
 import cn.com.yuzhushui.movie.constant.MovieConstant;
-
-import com.alibaba.fastjson.JSONObject;
+import cn.com.yuzhushui.movie.enums.SysUserEnum;
+import lombok.Getter;
+import lombok.Setter;
+import qing.yun.hui.common.constants.SymbolConstant;
+import qing.yun.hui.common.utils.CookieUtil;
+import qing.yun.hui.common.utils.StringUtil;
 
 /***
  ** @category 拦截器
@@ -35,6 +35,8 @@ public class SessionInterceptor extends HandlerInterceptorAdapter{
 	private String[] registers;		   //须要注册的url
 	
 	private String[] logins;		 //须要登陆的url
+	
+	private String[] identifications; //需要身份认证
 	
 	/*@Value("#{properties['loginPath']}")*/
 	private static final String loginPath="app/appMain/login.htm";
@@ -79,12 +81,36 @@ public class SessionInterceptor extends HandlerInterceptorAdapter{
 			//cookie 与 redis有效期保持一致性...
 			CookieUtil.setCookie(request, response, MovieConstant.SESSION_INFO, sessionId, MovieConstant.DOMAIN, MovieConstant.ROOT_PATH, MovieConstant.COOKIE_VALIDITY_TIME);
 			shardedJedisCached.set(sessionId, sessionInfo, MovieConstant.COOKIE_VALIDITY_TIME);
+			boolean identification=identification(curUrl, mySessionInfo.getSysUser().getState());
+			if(identification){
+				request.setAttribute("AUTHENTICATION_MSG","请先进行身份认证哦.");
+				request.setAttribute("AUTHENTICATION_URL", "sys/sysUser/certification.htm");
+			}
 			return super.preHandle(request, response, handler);
 		}
 		
 		return super.preHandle(request, response, handler);
 	}
 
+	/**
+	 * <p>根据给定url及用户状态、如果是已认证的则不需要拦截，否则拦截</p>
+	 * @param url
+	 * @param state
+	 * @return boolean
+	 * */
+	private boolean identification(String url,Integer state){
+		Boolean flag=false;
+		if(null!=state && state.intValue()==SysUserEnum.State.SUCCESS_CERTIFICATION.getValue()) return flag;
+		if(null!=identifications && identifications.length>0){
+			for(String sourceUrl:identifications){
+				if(!StringUtil.isEmpty(sourceUrl) && url.equals(sourceUrl)){
+					return Boolean.TRUE;
+				}
+			}
+		}
+		return flag;
+	}
+	
 	/**
 	 * <p>获取首页登陆url</p>
 	 *@param request

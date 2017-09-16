@@ -3,6 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<%@ include file="/WEB-INF/jsp/public/head.jsp"%>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>账单详情</title>
 <meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,maximum-scale=1.0,user-scalable=no;">
@@ -12,7 +13,18 @@
 <meta charset="utf-8">
 <link href="${path}css/sysBills/m.common.css" rel="stylesheet" type="text/css" />
 </head>
-
+<script type="text/javascript">
+	$(function(){
+		//认证 
+		var AUTHENTICATION_MSG="${AUTHENTICATION_MSG}";
+		var AUTHENTICATION_URL="${AUTHENTICATION_URL}";
+		if(''!=AUTHENTICATION_MSG){
+			layer.alert(AUTHENTICATION_MSG, {icon: 6});
+			location.href="${path}"+AUTHENTICATION_URL;
+			return;
+		}
+	})
+</script>
 </head>
 <body class="mWrap">
 	<header class="topHd"><a onClick="history.back();return false;" href="javascript:void(0);" class="back">返回</a><a href="${path}app/appMain/myMain.htm" class="home">首页</a><span>账单详情</span></header>

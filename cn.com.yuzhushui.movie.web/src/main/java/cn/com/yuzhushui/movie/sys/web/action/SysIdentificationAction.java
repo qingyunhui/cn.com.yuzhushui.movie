@@ -25,6 +25,7 @@ import cn.com.yuzhushui.movie.sys.biz.service.SysUserService;
 import qing.yun.hui.common.annotations.ActionAnno;
 import qing.yun.hui.common.enums.Sex;
 import qing.yun.hui.common.struct.juhe.idcard.IdCardResponse;
+import qing.yun.hui.common.utils.BeanUtil;
 import qing.yun.hui.common.utils.EnumUtil;
 import qing.yun.hui.common.utils.StringUtil;
 import qing.yun.hui.common.utils.ValidateUtil;
@@ -142,7 +143,7 @@ public class SysIdentificationAction {
 		responseData.addData("url","app/appMain/myMain.htm");
 		//认证成功后、实时更新redis缓存
 		SessionInfo sessionInfo= SessionUtil.getSessionInfo();
-		BeanUtils.copyProperties(updateUser,user);
+		BeanUtils.copyProperties(updateUser,user,BeanUtil.getNullPropertyNames(updateUser));
 		sessionInfo.setSysUser(user);
 		shardedJedisCached.set(SessionUtil.getSessionId(), sessionInfo, MovieConstant.COOKIE_VALIDITY_TIME);
 		return responseData;
