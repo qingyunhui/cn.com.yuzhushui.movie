@@ -52,7 +52,7 @@
 			var AUTHENTICATION_URL="${AUTHENTICATION_URL}";
 			if(''!=AUTHENTICATION_MSG){
 				layer.alert(AUTHENTICATION_MSG, {icon: 6});
-				location.href="${path}"+AUTHENTICATION_URL;
+				location.href="${path}sys/sysUser/certification.htm";
 				return;
 			}
 			var mesg = '${messages}';

@@ -59,7 +59,7 @@ public class SysIdentificationAction {
 		ModelAndView modelAndView=new ModelAndView();
 		SysUser user=SessionUtil.getSysUser();
 		//如果已经认证了，直接跳转到个人信息详情页面
-		if(SysUserEnum.State.SUCCESS_CERTIFICATION.getValue()==user.getState().intValue()){
+		if(null!=user.getState() && SysUserEnum.State.SUCCESS_CERTIFICATION.getValue()==user.getState().intValue()){
 			return certificationInfo();
 		}
 		modelAndView.addObject(MovieConstant.ENTITY, user);
@@ -73,7 +73,7 @@ public class SysIdentificationAction {
 	public ModelAndView certificationInfo() {
 		ModelAndView modelAndView=new ModelAndView();
 		SysUser user=SessionUtil.getSysUser();
-		if(SysUserEnum.State.SUCCESS_CERTIFICATION.getValue()!=user.getState().intValue()){
+		if(null!= user.getState() && SysUserEnum.State.SUCCESS_CERTIFICATION.getValue()!=user.getState().intValue()){
 			return certification();
 		}
 		//如果已经认证了，直接跳转到个人信息详情页面
