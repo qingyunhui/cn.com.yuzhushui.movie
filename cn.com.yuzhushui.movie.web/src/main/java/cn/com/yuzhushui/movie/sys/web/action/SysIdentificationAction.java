@@ -5,6 +5,7 @@ import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import cn.com.yuzhushui.movie.cache.ShardedJedisCached;
 import cn.com.yuzhushui.movie.common.base.APIService;
 import cn.com.yuzhushui.movie.common.base.ResponseData;
+import cn.com.yuzhushui.movie.common.bean.SessionInfo;
 import cn.com.yuzhushui.movie.common.util.SessionUtil;
 import cn.com.yuzhushui.movie.constant.MovieConstant;
 import cn.com.yuzhushui.movie.enums.SysUserEnum;
@@ -55,10 +57,30 @@ public class SysIdentificationAction {
 	public ModelAndView certification() {
 		ModelAndView modelAndView=new ModelAndView();
 		SysUser user=SessionUtil.getSysUser();
+		//如果已经认证了，直接跳转到个人信息详情页面
+		if(SysUserEnum.State.SUCCESS_CERTIFICATION.getValue()==user.getState().intValue()){
+			return certificationInfo();
+		}
 		modelAndView.addObject(MovieConstant.ENTITY, user);
 		modelAndView.setViewName(ACTION_PATH+"certification");
 		return modelAndView;
 	}
+	
+	
+	@RequestMapping(value = "certificationInfo", method = { RequestMethod.POST,RequestMethod.GET })
+	@ActionAnno(action="个人信息展示")
+	public ModelAndView certificationInfo() {
+		ModelAndView modelAndView=new ModelAndView();
+		SysUser user=SessionUtil.getSysUser();
+		if(SysUserEnum.State.SUCCESS_CERTIFICATION.getValue()!=user.getState().intValue()){
+			return certification();
+		}
+		//如果已经认证了，直接跳转到个人信息详情页面
+		modelAndView.addObject(MovieConstant.ENTITY, user);
+		modelAndView.setViewName(ACTION_PATH+"certificationInfo");
+		return modelAndView;
+	}
+	
 	
 	@RequestMapping(value = "doCertification.json", method = { RequestMethod.POST,RequestMethod.GET })
 	@ActionAnno(action="身份认证-提交")
@@ -69,6 +91,7 @@ public class SysIdentificationAction {
 		if(Integer.valueOf(SysUserEnum.State.SUCCESS_CERTIFICATION.getValue()).equals(user.getState())){
 			responseData.setMsg("认证成功.");
 			logger.info("---------------->用户已是认证成功的用户.无需再次认证.");
+			responseData.addData(MovieConstant.SUCCESS_CODE, 10000);
 			responseData.addData("url","app/appMain/myMain.htm");
 			return responseData;
 		}
@@ -117,6 +140,11 @@ public class SysIdentificationAction {
 		responseData.addData(MovieConstant.SUCCESS_CODE, 10000);
 		responseData.setMsg("认证成功.");
 		responseData.addData("url","app/appMain/myMain.htm");
+		//认证成功后、实时更新redis缓存
+		SessionInfo sessionInfo= SessionUtil.getSessionInfo();
+		BeanUtils.copyProperties(updateUser,user);
+		sessionInfo.setSysUser(user);
+		shardedJedisCached.set(SessionUtil.getSessionId(), sessionInfo, MovieConstant.COOKIE_VALIDITY_TIME);
 		return responseData;
 	}
 	

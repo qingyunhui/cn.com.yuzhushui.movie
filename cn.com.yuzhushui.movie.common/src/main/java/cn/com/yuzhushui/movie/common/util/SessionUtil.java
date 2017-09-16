@@ -57,6 +57,10 @@ public class SessionUtil {
 		return requestAttr.getResponse();
 	}
 	
+	public static String getSessionId(){
+		return CookieUtil.getCookieValueByName(getRequest(), MovieConstant.SESSION_INFO);
+	}
+	
 	public static SessionInfo getSessionInfo(){
 		String sessionId=CookieUtil.getCookieValueByName(getRequest(), MovieConstant.SESSION_INFO);
 		logger.info("===========>sessionId={}<===========",new Object[]{sessionId});

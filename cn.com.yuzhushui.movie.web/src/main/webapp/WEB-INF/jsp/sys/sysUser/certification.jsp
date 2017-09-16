@@ -41,7 +41,7 @@ $(window).load(function() {
   <!--页面加载 结束--> 
   <!--header 开始-->
   <header>
-    <div class="header"> <a class="new-a-back" href="javascript:history.back();"> <span><img src="${path}image/login/iconfont-fanhui.png"></span> </a>
+    <div class="header"> <a class="new-a-back" href="${path}app/appMain/myMain.htm"> <span><img src="${path}image/login/iconfont-fanhui.png"></span> </a>
       <h2>个人信息认证</h2>
       </div>
   </header>
@@ -49,7 +49,7 @@ $(window).load(function() {
   
   <div class="w main">
  		<div class="item item-username">
-         <input class="txt-input txt-username" type="text" value="${entity.mobilephone}" readonly="readonly">
+         <input class="txt-input txt-username" type="text" value="${empty entity.mobilephone?entity.name:entity.mobilephone}" readonly="readonly">
          <b class="input-close" style="display: none;"></b> 
        </div>
  		<div class="item item-username">
